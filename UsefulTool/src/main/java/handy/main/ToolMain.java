@@ -29,6 +29,7 @@ public class ToolMain {
 		//TestChkPoint tcp = new MathChkPoint();
 		
 		System.out.println("change class method logic");
+		System.out.println("change class method logic");
 		
 	//	ClassFactory.getInstance().insertAspect("handy.auto.test.aop.checkpoints.MathChkPoint", "smaller",
 									//			"{System.out.println(\"hello modifier\");}", "before");
