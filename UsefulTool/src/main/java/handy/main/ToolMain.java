@@ -14,9 +14,9 @@ public class ToolMain {
 		 * */
 		
 		
-		ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 
-				"newInstance","{List obj = new ArrayList<>();return obj;}"
-				, new String[]{}, "java.util.List");
+	//	ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 
+	//			"newInstance","{List obj = new ArrayList<>();return obj;}"
+	//			, new String[]{}, "java.util.List");
 		
 		
 		
@@ -30,8 +30,8 @@ public class ToolMain {
 		
 		System.out.println("change class method logic");
 		
-		ClassFactory.getInstance().insertAspect("handy.auto.test.aop.checkpoints.MathChkPoint", "smaller",
-												"{System.out.println(\"hello modifier\");}", "before");
+	//	ClassFactory.getInstance().insertAspect("handy.auto.test.aop.checkpoints.MathChkPoint", "smaller",
+									//			"{System.out.println(\"hello modifier\");}", "before");
 
 	}
 
