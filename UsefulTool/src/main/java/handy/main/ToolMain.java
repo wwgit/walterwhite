@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import handy.tools.db.DbHelper;
+import handy.tools.db.DbManager;
 import handy.tools.interfaces.ClassFactory;
+import handy.tools.interfaces.DbHelper;
 import handy.tools.interfaces.FileHelper;
+import handy.tools.interfaces.PathHelper;
 import handy.tools.io.NioHelper;
 
 public class ToolMain {
@@ -71,7 +73,9 @@ public class ToolMain {
 		}
 		
 		//DbHelper.prepareQuerySql("select * from", "table1", conds, and_or);
-		
+		System.out.println(System.getProperty("user.dir"));
+		System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
+		DbManager manager = new DbManager("config/db_config.properties");
 		long endTime = System.currentTimeMillis();
 		
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
