@@ -2,10 +2,11 @@ package handy.tools.interfaces;
 
 public abstract class BasicHelper {
 	
-	public static String UpperCaseFirstChar(String str, StringBuilder sb) {
+	public static String UpperCaseFirstChar(String str) {
 		
-		sb.append(str);
+		StringBuilder sb = new StringBuilder(str);
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+		
 		return sb.toString();
 		
 	}
@@ -17,5 +18,7 @@ public abstract class BasicHelper {
 		str = clazz.getName();
 		return str;
 	}
+	
+	//public static 
 
 }

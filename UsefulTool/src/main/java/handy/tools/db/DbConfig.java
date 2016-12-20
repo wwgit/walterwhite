@@ -29,6 +29,7 @@ public class DbConfig extends ConfigureHelper {
 		return url;
 	}
 	public void setUrl(String url) {
+		System.out.println("calling setUrl " + url);
 		this.url = url;
 	}
 
@@ -36,12 +37,15 @@ public class DbConfig extends ConfigureHelper {
 		return userName;
 	}
 	public void setUserName(String userName) {
+		System.out.println("calling setUserName " + userName);
 		this.userName = userName;
 	}
 	public String getPassword() {
+		
 		return password;
 	}
 	public void setPassword(String password) {
+		System.out.println("calling setPassword " + password);
 		this.password = password;
 	}
 
@@ -50,6 +54,7 @@ public class DbConfig extends ConfigureHelper {
 	}
 
 	public void setDbDriver(String dbDriver) {
+		System.out.println("calling setDbDriver " + dbDriver);
 		this.dbDriver = dbDriver;
 	}
 
@@ -58,16 +63,17 @@ public class DbConfig extends ConfigureHelper {
 	}
 
 	public void setDbSize(int dbSize) {
+		System.out.println("calling setDbSize " + dbSize);
 		this.dbSize = dbSize;
 	}
 
 	@Override
-	public void parseConfigure(String configPath) {
+	public void parseConfigure(String configPath, Object configObj) {
 		// TODO Auto-generated method stub
-		parseDBConfig(configPath);
+		parseDBConfig(configPath, configObj);
 	}
 	
-	private void parseDBConfig(String configPath) {
+	private void parseDBConfig(String configPath, Object configObj) {
 		
 		int flag = parseFileSuffix(configPath);
 		
@@ -75,7 +81,7 @@ public class DbConfig extends ConfigureHelper {
 			case CONFIG_SUFFIX_PROPERTY:
 			try {
 				System.out.println("start to parse properties\n" + configPath);
-				parsePropertyConf(configPath, this.getClass().getName());
+				parsePropertyConf(configPath, configObj);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

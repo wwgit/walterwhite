@@ -10,7 +10,7 @@ public class DbManager {
 	public DbManager(String configPath) {
 		DbConfig dcfg = new DbConfig();
 		System.out.println("Start to init db config !");
-		dcfg.parseConfigure(configPath);
+		dcfg.parseConfigure(configPath,dcfg);
 		//setConfig(DbHelper.parseConfigFrmProperties(configPath));
 		setConfig(dcfg);
 		//setPool(new DbPool(getConfig()));

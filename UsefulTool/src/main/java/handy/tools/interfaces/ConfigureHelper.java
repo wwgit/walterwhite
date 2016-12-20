@@ -27,27 +27,27 @@ public abstract class ConfigureHelper {
 		
 	}
 	
-	public abstract void parseConfigure(String configPath);
+	public abstract void parseConfigure(String configPath, Object configObj);
 	
-	public void parsePropertyConf(String configPath, String clazzName) throws IOException, ClassNotFoundException,
+	public void parsePropertyConf(String configPath, Object obj) throws IOException, ClassNotFoundException,
 																		InstantiationException, IllegalAccessException, 
 																		NoSuchMethodException, SecurityException, 
 																		IllegalArgumentException, InvocationTargetException {
 		
 		Properties prop = new Properties();
 		prop.load(PathHelper.resolveAbsoluteStream(configPath));
-		System.out.println(prop);
+		//System.out.println(prop);
 		
-		Class<?> clazz = Class.forName(clazzName);
+		Class<?> clazz = obj.getClass();
 		Field[] fields = clazz.getDeclaredFields();
 		Class<?>[] types = new Class[fields.length];
-		
-		Object obj = clazz.newInstance();
+
 		StringBuilder sb = new StringBuilder();
 		String propertyName = null;
 		String fullName = null;
 		String propertyValue = null;
 		Method method = null;
+		String setterName = null;
 		
 		for(int i = 0; i < fields.length; i++) {
 			
@@ -56,16 +56,18 @@ public abstract class ConfigureHelper {
 			//handy.tools.db.dbconfig.url
 			//System.out.println("property full name: " + clazzName + "." + propertyName.toLowerCase());
 			//propertyValue = prop.getProperty(clazzName + "." + propertyName.toLowerCase());
-			fullName = clazzName + "." + propertyName.toLowerCase();
-			//System.out.println("full Name: " + propertyName);
-			propertyValue = prop.getProperty(propertyName.toLowerCase());
+			fullName = obj.getClass().getName() + "." + propertyName.toLowerCase();
+			System.out.println("full Name: " + fullName + "  " + i);
+			propertyValue = prop.getProperty(fullName);
 			System.out.println("propertyValue: " + propertyValue + "  " + i);
 			types[i] = fields[i].getType();
 			System.out.println("property types: " + types[i].getName() + "  " + i);
-			propertyName = BasicHelper.UpperCaseFirstChar(propertyName, sb);
+			propertyName = BasicHelper.UpperCaseFirstChar(propertyName);
 			sb.delete(0, propertyName.length());
-
-			method = clazz.getDeclaredMethod("set" + propertyName, types[i]);
+			setterName = "set" + propertyName;
+			System.out.println("setterName: " + setterName + "  " + i);
+			System.out.println("real param type: " + propertyValue.getClass().getName() + "  " + i);
+			method = clazz.getDeclaredMethod(setterName, types[i]);
 			method.invoke(obj, propertyValue);
 			
 		}

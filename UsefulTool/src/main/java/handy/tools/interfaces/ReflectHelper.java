@@ -8,6 +8,18 @@ import java.util.Map;
 
 public abstract class ReflectHelper {
 	
+	
+	public static void callSetter(Object beanObj, String propertyName, String type, String propertyValue) {
+		
+		String fullName = beanObj.getClass().getName() + "." + propertyName.toLowerCase();
+		//String changedName = BasicHelper.UpperCaseFirstChar(propertyName, sb);
+		String setterName = "set" + BasicHelper.UpperCaseFirstChar(propertyName);
+		
+		int flag = DbHelper.parseType(propertyValue);
+		
+	}
+	
+	
 	public static Class getClassByName(String clazzName) throws ClassNotFoundException {
 		return Class.forName(clazzName);
 	}

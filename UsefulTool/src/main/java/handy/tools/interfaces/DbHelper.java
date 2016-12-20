@@ -59,19 +59,19 @@ protected static int[] getDataTypes(Map data) {
 	
 	public static int parseType(Object value) {
 		
-		String type = value.getClass().toString();
+		String type = value.getClass().getName();
 		
-		if(type.contains("java.lang.String")) {
+		if(type.equals("java.lang.String")) {
 			return DataTypes.JAVA_LANG_STRING;
-		} else if(type.contains("java.lang.Integer")) {
+		} else if(type.equals("java.lang.Integer")) {
 			return DataTypes.JAVA_LANG_INTEGER;
-		} else if(type.contains("java.lang.Long")) {
+		} else if(type.equals("java.lang.Long")) {
 			return DataTypes.JAVA_LANG_LONG;
-		} else if(type.contains("java.math.BigDecimal")) {
+		} else if(type.equals("java.math.BigDecimal")) {
 			return DataTypes.JAVA_MATH_BIGDECIMAL;
-		} else if(type.contains("JAVA_LANG_ARRAY")) {
+		} else if(type.equals("JAVA_LANG_ARRAY")) {
 			return DataTypes.JAVA_LANG_ARRAY;
-		} else if(type.contains("handy.tools.db.ComplexValue")) {
+		} else if(type.equals("handy.tools.db.ComplexValue")) {
 			ComplexValue cv = (ComplexValue)value;
 			return parseComplex(cv.flag);
 		}else {
@@ -150,74 +150,22 @@ protected static int[] getDataTypes(Map data) {
 	
 	public static String prepareInsertSql(String[] keys, String tableName) {
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO ");
-		sb.append(tableName);
-		sb.append(" (");
-		
-		for(int i = 0; i < keys.length-1; i++) {
-			sb.append(keys[i] + ",");
-		}
-		sb.append(keys[keys.length-1] + ") VALUES (");
-		
-		for(int j = 0; j < keys.length-1; j++) {
-			sb.append("?,");
-		}
-		sb.append("?)");
-		return sb.toString();
-}
-	
-	
-	
-	
-	
-	/*
-	 * db config related
-	 * 
-	 * */
-	public static DbConfig parseConfigFrmProperties(String configPath) {
-		
-		String[] propertyNames = getDbPropertyNames();
-		Properties prop = new Properties();
-		try {
-			prop.load(PathHelper.resolveAbsoluteStream(configPath));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//return new DbConfig(prop.getProperty("db.url"),prop.getProperty("db.driver"),
-		//		prop.getProperty("db.username"),prop.getProperty("db.password"));
-		return new DbConfig(prop.getProperty(propertyNames[0]),
-							prop.getProperty(propertyNames[1]),
-							prop.getProperty(propertyNames[2]),
-							prop.getProperty(propertyNames[3]),
-							Integer.parseInt(prop.getProperty(propertyNames[4])));
-		
-		
-	}
-		
-	public static String[] getDbPropertyNames() {
-		
-		Field[] fields = DbConfig.class.getDeclaredFields();
-		String[] names = new String[fields.length];
-		String clazz = DbConfig.class.toString().toLowerCase().replaceAll("class", "");
-		Method[] setMethods = new Method[fields.length];
-		//DbConfig.class.getDeclaredM
-		StringBuilder sb = new StringBuilder();
-		//String str = UpperCaseFirstChar();
-		
-		for(int i = 0; i < fields.length; i++) {
-			names[i] = clazz + "." + fields[i].getName().toLowerCase();
-			String str = UpperCaseFirstChar(fields[i].getName(),sb);
-			sb.delete(0, fields[i].getName().length());
-			//setMethods[i] = DbConfig.class.getDeclaredMethod(name, parameterTypes)
-			System.out.println(names[i]);
-			System.out.println(fields[i].getName());
-			System.out.println(str);
-		}
-		
-		return names;
-	}
+			StringBuilder sb = new StringBuilder();
+			sb.append("INSERT INTO ");
+			sb.append(tableName);
+			sb.append(" (");
+			
+			for(int i = 0; i < keys.length-1; i++) {
+				sb.append(keys[i] + ",");
+			}
+			sb.append(keys[keys.length-1] + ") VALUES (");
+			
+			for(int j = 0; j < keys.length-1; j++) {
+				sb.append("?,");
+			}
+			sb.append("?)");
+			return sb.toString();
+    }
 	
 	
 }
