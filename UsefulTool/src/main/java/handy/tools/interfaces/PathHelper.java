@@ -15,7 +15,7 @@ public abstract class PathHelper {
 		
 		System.out.println(path);
 		
-		String proRootPath = System.getProperty("user.dir");
+		//String proRootPath = System.getProperty("user.dir");
 		
 		//return proRootPath.replace("\\", "/") + relativePath.replace("\\", "/");
 		return path;

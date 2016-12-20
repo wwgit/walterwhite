@@ -97,6 +97,7 @@ public class ToolMain {
 		System.out.println(arr.getClass().toString());
 		System.out.println(is.getClass().toString());
 		System.out.println(cv.getClass().toString());
+		DbHelper.getDbPropertyNames();
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		//DbManager manager = new DbManager("config/db_config.properties");
 		long endTime = System.currentTimeMillis();

@@ -1,9 +1,6 @@
 package handy.tools.db;
 
-import handy.tools.interfaces.PathHelper;
-
-import java.io.IOException;
-import java.util.Properties;
+import handy.tools.interfaces.DbHelper;
 
 public class DbManager {
 	
@@ -11,17 +8,8 @@ public class DbManager {
 	private DbPool pool;
 	
 	public DbManager(String configPath) {
-		Properties prop = new Properties();
-		try {
-			System.out.println("Init DB Manager !");
-			prop.load(PathHelper.resolveAbsoluteStream(configPath));
-			setConfig(new DbConfig(prop.getProperty("db.url"),prop.getProperty("db.url"),
-					prop.getProperty("db.username"),prop.getProperty("db.password")));
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		setConfig(DbHelper.parseConfigFrmProperties(configPath));
+		setPool(new DbPool(getConfig()));
 	}
 	
 	public DbConfig getConfig() {

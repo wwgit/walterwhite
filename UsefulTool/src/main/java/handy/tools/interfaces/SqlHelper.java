@@ -85,7 +85,7 @@ public abstract class SqlHelper {
 				break;
 			case DataTypes.JAVA_LANG_ARRAY:
 				statement.setArray(index, (Array) value);
-			case 0:
+			default:
 				break;
 		}
 	}

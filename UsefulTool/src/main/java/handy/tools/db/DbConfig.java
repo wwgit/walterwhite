@@ -1,17 +1,25 @@
 package handy.tools.db;
 
-public class DbConfig {
+import handy.tools.interfaces.ConfigureHelper;
+
+public class DbConfig extends ConfigureHelper {
 
 	private String url;
-	private String dbClazz;
+	private String dbDriver;
 	private String userName;
 	private String password;
+	private int dbSize;
 	
-	public DbConfig(String dbUrl, String clazz, String user, String pwd) {
+	public DbConfig(String dbUrl, String driver, String user, String pwd, int size) {
 		setUrl(dbUrl);
-		setDbClazz(clazz);
+		setDbDriver(driver);
 		setUserName(user);
 		setPassword(pwd);
+		setDbSize(size);
+	}
+	
+	public DbConfig() {
+		
 	}
 	
 	public String getUrl() {
@@ -20,12 +28,7 @@ public class DbConfig {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getDbClazz() {
-		return dbClazz;
-	}
-	public void setDbClazz(String dbClazz) {
-		this.dbClazz = dbClazz;
-	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -38,5 +41,58 @@ public class DbConfig {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getDbDriver() {
+		return dbDriver;
+	}
+
+	public void setDbDriver(String dbDriver) {
+		this.dbDriver = dbDriver;
+	}
+
+	public int getDbSize() {
+		return dbSize;
+	}
+
+	public void setDbSize(int dbSize) {
+		this.dbSize = dbSize;
+	}
+
+	@Override
+	public void parseConfigure(String configPath) {
+		// TODO Auto-generated method stub
+		parseDBConfig(configPath);
+	}
+	
+	private void parseDBConfig(String configPath) {
+		
+		int flag = parseFileSuffix(configPath);
+		
+		switch(flag) {
+			case CONFIG_SUFFIX_PROPERTY:
+				parsePropertyConf(configPath);
+				break;
+			case CONFIG_SUFFIX_XML:
+				parseXmlConf(configPath);
+				break;
+			case CONFIG_SUFFIX_JSON:
+				parseJsonConf(configPath);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private void parsePropertyConf(String configPath) {
+		
+	}
+	
+	private void parseXmlConf(String configPath) {
+		
+	}
+	private void parseJsonConf(String configPath) {
+		
+	}
+	
 	
 }
