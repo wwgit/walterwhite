@@ -11,11 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.lang.model.element.Element;
 
-public abstract class DbHelper {
+public abstract class DbHelper extends SqlHelper {
 	
 	
 	public static Vector<Connection> initConnections(String url, String clazzName, String userName, String password, int size) throws ClassNotFoundException, SQLException {
@@ -78,32 +79,58 @@ public abstract class DbHelper {
 	}
 	
 	
-	public static List doQueryAll(String url, String clazzName, String userName, String password, String sql) throws ClassNotFoundException, SQLException {
+	public static Map doQuery(Vector<Connection> conns, String sql) throws ClassNotFoundException, SQLException {
 			
-		if(null == url) {
-			throw new SQLException("url is NUll !");
-		}
-		Class.forName(clazzName);
-		Connection conn = null;
-		if(null != userName && null != password) {
-			conn = DriverManager.getConnection(url, userName, password);
-			
-		} else {
-			conn = DriverManager.getConnection(url);
-		}
+		Connection conn = retrieveConnection(conns);
 		
 		PreparedStatement statement = conn.prepareStatement(sql);
-		List<String> result = new ArrayList<String>();
+		Map<Long,String> result = new TreeMap<Long,String>();
 		
 		ResultSet sqlRet = statement.executeQuery(sql);
 		
 		for(int i = 0; i < sqlRet.getFetchSize(); i++) {
-			result.set(i, sqlRet.getString(i));
+			//result.set(i, sqlRet.getString(i));
+			result.put(Long.valueOf(i), sqlRet.getString(i));
 		}
 		
+		returnConnection(conns,conn);
 		return result;
 		
 	}
 	
+	private static void doOneInsert(Connection conn, PreparedStatement statement, 
+									Map data, String[] keys, int[] dataTypes) throws SQLException {
+					
+		for(int i = 0; i < dataTypes.length; i++) {
+			setValue(statement,data.get(keys[i]),i,dataTypes[i]);
+		}
+		statement.addBatch();
+	}
+	
+	public static void doInserts(Vector<Connection> conns, String tableName, List<Map> batchData) {
+		
+		Connection conn = retrieveConnection(conns);
+		String[] keys = (String[]) batchData.get(0).keySet().toArray();
+		String sql =  prepareInsertSql(keys,tableName);
+		int cnt = batchData.size();
+		int[] dataTypes = getDataTypes(batchData.get(0));
+			
+		System.out.println(sql);
+		try {
+			conn.setAutoCommit(false);
+			PreparedStatement statement = conn.prepareStatement(sql);
+			for(int i = 0; i < cnt; i++) {
+				doOneInsert(conn, statement, batchData.get(i), keys, dataTypes);
+				if(i%2000 == 0) {
+					statement.executeBatch();
+				}
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			returnConnection(conns, conn);
+		}
+						
+	}
 
 }

@@ -5,6 +5,28 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Tool</name>
   <description>basic tools</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <build>
+      <plugins>
+         <plugin>
+             <artifactId>maven-assembly-plugin</artifactId>
+             <configuration>
+                  <archive>
+                     <manifest>
+                           <mainClass>handy.main.ToolMain</mainClass>
+                     </manifest>
+                   </archive>
+                   <descriptorRefs>
+                     <descriptorRef>jar-with-dependencies</descriptorRef>
+                   </descriptorRefs>
+               </configuration>
+  		 </plugin>      
+  	  </plugins>
+  </build>
+
+  
   <dependencies>
 	  	<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>

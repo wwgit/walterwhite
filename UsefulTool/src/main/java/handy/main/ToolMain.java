@@ -1,10 +1,16 @@
 package handy.main;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import handy.tools.db.ComplexValue;
 import handy.tools.db.DbManager;
 import handy.tools.interfaces.ClassFactory;
 import handy.tools.interfaces.DbHelper;
@@ -73,9 +79,26 @@ public class ToolMain {
 		}
 		
 		//DbHelper.prepareQuerySql("select * from", "table1", conds, and_or);
-		System.out.println(System.getProperty("user.dir"));
-		System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
-		DbManager manager = new DbManager("config/db_config.properties");
+		//System.out.println(System.getProperty("user.dir"));
+		String str = "123";
+		String[] arr = new String[2];
+		Long lng = Long.valueOf(str);
+		InputStream is = new FileInputStream("D:\\test2.json");
+		ComplexValue cv = new ComplexValue();
+		cv.flag = 0;
+		cv.data = is;
+		//lng.l
+		Integer inter = Integer.valueOf(str);
+		BigDecimal bd = new BigDecimal(1234567890);
+		System.out.println(str.getClass().toString());
+		System.out.println(lng.getClass().toString());
+		System.out.println(inter.getClass().toString());
+		System.out.println(bd.getClass().toString());
+		System.out.println(arr.getClass().toString());
+		System.out.println(is.getClass().toString());
+		System.out.println(cv.getClass().toString());
+		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
+		//DbManager manager = new DbManager("config/db_config.properties");
 		long endTime = System.currentTimeMillis();
 		
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
