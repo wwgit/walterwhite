@@ -1,5 +1,8 @@
 package handy.tools.db;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import handy.tools.interfaces.ConfigureHelper;
 
 public class DbConfig extends ConfigureHelper {
@@ -19,7 +22,7 @@ public class DbConfig extends ConfigureHelper {
 	}
 	
 	public DbConfig() {
-		
+		System.out.println(" new dbConfig object !");
 	}
 	
 	public String getUrl() {
@@ -70,7 +73,34 @@ public class DbConfig extends ConfigureHelper {
 		
 		switch(flag) {
 			case CONFIG_SUFFIX_PROPERTY:
-				parsePropertyConf(configPath);
+			try {
+				System.out.println("start to parse properties\n" + configPath);
+				parsePropertyConf(configPath, this.getClass().getName());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				break;
 			case CONFIG_SUFFIX_XML:
 				parseXmlConf(configPath);
@@ -81,10 +111,6 @@ public class DbConfig extends ConfigureHelper {
 			default:
 				break;
 		}
-	}
-	
-	private void parsePropertyConf(String configPath) {
-		
 	}
 	
 	private void parseXmlConf(String configPath) {

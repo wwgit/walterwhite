@@ -88,7 +88,7 @@ public class ToolMain {
 		cv.flag = 0;
 		cv.data = is;
 		//lng.l
-		Integer inter = Integer.valueOf(str);
+		/*Integer inter = Integer.valueOf(str);
 		BigDecimal bd = new BigDecimal(1234567890);
 		System.out.println(str.getClass().toString());
 		System.out.println(lng.getClass().toString());
@@ -97,9 +97,10 @@ public class ToolMain {
 		System.out.println(arr.getClass().toString());
 		System.out.println(is.getClass().toString());
 		System.out.println(cv.getClass().toString());
-		DbHelper.getDbPropertyNames();
-		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
-		//DbManager manager = new DbManager("config/db_config.properties");
+		System.out.println("name    " + cv.getClass().getName());
+		DbHelper.getDbPropertyNames();*/
+		System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
+		DbManager manager = new DbManager("config/db_config.properties");
 		long endTime = System.currentTimeMillis();
 		
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

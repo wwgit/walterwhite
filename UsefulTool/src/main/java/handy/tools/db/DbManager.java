@@ -8,8 +8,12 @@ public class DbManager {
 	private DbPool pool;
 	
 	public DbManager(String configPath) {
-		setConfig(DbHelper.parseConfigFrmProperties(configPath));
-		setPool(new DbPool(getConfig()));
+		DbConfig dcfg = new DbConfig();
+		System.out.println("Start to init db config !");
+		dcfg.parseConfigure(configPath);
+		//setConfig(DbHelper.parseConfigFrmProperties(configPath));
+		setConfig(dcfg);
+		//setPool(new DbPool(getConfig()));
 	}
 	
 	public DbConfig getConfig() {
