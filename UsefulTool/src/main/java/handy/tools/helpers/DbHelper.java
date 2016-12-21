@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.helpers;
 
 import handy.tools.constants.DataTypes;
 import handy.tools.db.ComplexValue;
@@ -30,56 +30,7 @@ import javax.lang.model.element.Element;
 public abstract class DbHelper extends BasicHelper {
 		
 	
-	/*
-	 * basics
-	 * 
-	 * */
-protected static int[] getDataTypes(Map data) {
-		
-		int[] types = new int[data.size()];
-		int i = 0;
-		Iterator it = null;
-		for(it = data.values().iterator(); it.hasNext();) {
-			types[i++] = parseType(it.next());
-		}
-		
-		return types;
-	}
-	
-	public static int parseComplex(int flag) {
-		
-		if(flag == 0) {
-			return DataTypes.JAVA_LANG_BINARY_STREAM;
-		} else if(flag == 1) {
-			return DataTypes.JAVA_LANG_ASCII_STREAM;
-		} else {
-			return 0;
-		}
-	}
-	
-	public static int parseType(Object value) {
-		
-		String type = value.getClass().getName();
-		
-		if(type.equals("java.lang.String")) {
-			return DataTypes.JAVA_LANG_STRING;
-		} else if(type.equals("java.lang.Integer")) {
-			return DataTypes.JAVA_LANG_INTEGER;
-		} else if(type.equals("java.lang.Long")) {
-			return DataTypes.JAVA_LANG_LONG;
-		} else if(type.equals("java.math.BigDecimal")) {
-			return DataTypes.JAVA_MATH_BIGDECIMAL;
-		} else if(type.equals("JAVA_LANG_ARRAY")) {
-			return DataTypes.JAVA_LANG_ARRAY;
-		} else if(type.equals("handy.tools.db.ComplexValue")) {
-			ComplexValue cv = (ComplexValue)value;
-			return parseComplex(cv.flag);
-		}else {
-			return 0;
-		}
-	}
-	
-	public static void setValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
+	private static void setValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
 		
 		switch(dataType) {
 			case DataTypes.JAVA_LANG_STRING:
@@ -113,7 +64,7 @@ protected static int[] getDataTypes(Map data) {
 	
 	
 	
-	protected Connection createConnection(String url, String userName, String password) throws SQLException {
+	public  static Connection createConnection(String url, String userName, String password) throws SQLException {
 		
 		Connection conn = null;
 		if(null != userName && null != password) {
@@ -127,7 +78,7 @@ protected static int[] getDataTypes(Map data) {
 		
 	}
 			
-	protected void closeConnection(Connection conn) {
+	public static void closeConnection(Connection conn) {
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -139,7 +90,7 @@ protected static int[] getDataTypes(Map data) {
 	/*
 	 * sql related
 	 * */
-	protected static void doOneInsert(Connection conn, PreparedStatement statement, 
+	public static void doOneInsert(Connection conn, PreparedStatement statement, 
 									Map data, String[] keys, int[] dataTypes) throws SQLException {
 					
 		for(int i = 0; i < dataTypes.length; i++) {

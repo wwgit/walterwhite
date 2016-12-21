@@ -1,6 +1,6 @@
 package handy.tools.db;
 
-import handy.tools.interfaces.DbHelper;
+import handy.tools.helpers.DbHelper;
 
 public class DbManager {
 	
@@ -8,12 +8,12 @@ public class DbManager {
 	private DbPool pool;
 	
 	public DbManager(String configPath) {
+		
 		DbConfig dcfg = new DbConfig();
 		System.out.println("Start to init db config !");
-		dcfg.parseConfigure(configPath,dcfg);
-		//setConfig(DbHelper.parseConfigFrmProperties(configPath));
+		dcfg.parseConfigure(configPath);
 		setConfig(dcfg);
-		//setPool(new DbPool(getConfig()));
+		
 	}
 	
 	public DbConfig getConfig() {

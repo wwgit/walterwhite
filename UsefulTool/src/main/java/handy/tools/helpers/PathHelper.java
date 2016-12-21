@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.helpers;
 
 import java.io.File;
 import java.io.InputStream;

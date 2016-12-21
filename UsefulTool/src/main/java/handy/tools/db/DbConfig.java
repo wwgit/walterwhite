@@ -3,9 +3,10 @@ package handy.tools.db;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import handy.tools.interfaces.ConfigureHelper;
+import handy.tools.helpers.ConfigureHelper;
+import handy.tools.interfaces.Config;
 
-public class DbConfig extends ConfigureHelper {
+public class DbConfig extends Config {
 
 	private String url;
 	private String dbDriver;
@@ -68,50 +69,28 @@ public class DbConfig extends ConfigureHelper {
 	}
 
 	@Override
-	public void parseConfigure(String configPath, Object configObj) {
+	public void parseConfigure(String configPath) {
 		// TODO Auto-generated method stub
-		parseDBConfig(configPath, configObj);
+		parseDBConfig(configPath, this);
 	}
 	
 	private void parseDBConfig(String configPath, Object configObj) {
 		
-		int flag = parseFileSuffix(configPath);
+		int flag = ConfigureHelper.parseFileSuffix(configPath);
 		
 		switch(flag) {
-			case CONFIG_SUFFIX_PROPERTY:
+			case ConfigureHelper.CONFIG_SUFFIX_PROPERTY:
 			try {
 				System.out.println("start to parse properties\n" + configPath);
-				parsePropertyConf(configPath, configObj);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ConfigureHelper.parsePropertyConf(configPath, configObj);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 				break;
-			case CONFIG_SUFFIX_XML:
+			case ConfigureHelper.CONFIG_SUFFIX_XML:
 				parseXmlConf(configPath);
 				break;
-			case CONFIG_SUFFIX_JSON:
+			case ConfigureHelper.CONFIG_SUFFIX_JSON:
 				parseJsonConf(configPath);
 				break;
 			default:

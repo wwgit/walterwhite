@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.helpers;
 
 import handy.tools.files.FileNioPack;
 import handy.tools.io.NioHelper;

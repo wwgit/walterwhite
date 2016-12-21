@@ -12,10 +12,10 @@ import java.util.Map;
 
 import handy.tools.db.ComplexValue;
 import handy.tools.db.DbManager;
+import handy.tools.helpers.DbHelper;
+import handy.tools.helpers.FileHelper;
+import handy.tools.helpers.PathHelper;
 import handy.tools.interfaces.ClassFactory;
-import handy.tools.interfaces.DbHelper;
-import handy.tools.interfaces.FileHelper;
-import handy.tools.interfaces.PathHelper;
 import handy.tools.io.NioHelper;
 
 public class ToolMain {

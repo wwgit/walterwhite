@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.helpers;
 
 public abstract class BasicHelper {
 	
@@ -19,6 +19,5 @@ public abstract class BasicHelper {
 		return str;
 	}
 	
-	//public static 
 
 }

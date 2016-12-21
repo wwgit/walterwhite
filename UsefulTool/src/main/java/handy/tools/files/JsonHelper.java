@@ -1,6 +1,6 @@
 package handy.tools.files;
 
-import handy.tools.interfaces.FileHelper;
+import handy.tools.helpers.FileHelper;
 
 import java.util.Map;
 import java.util.regex.Matcher;

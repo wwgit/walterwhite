@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import handy.tools.interfaces.DbHelper;
+import handy.tools.helpers.DbHelper;
+import handy.tools.helpers.TypeHelper;
 
-public class DbPool extends DbHelper {
+public class DbPool {
 	
 	private Vector<Connection> connetions;
 	
@@ -36,7 +37,7 @@ public class DbPool extends DbHelper {
 		try {
 			Class.forName(config.getDbDriver());
 			for(int i = 0; i < config.getDbSize(); i++) {
-				createConnection(config.getUrl(), config.getUserName(), config.getPassword());
+				DbHelper.createConnection(config.getUrl(), config.getUserName(), config.getPassword());
 				conns.add(i, conn);
 			}
 		} catch (ClassNotFoundException e) {
@@ -56,7 +57,7 @@ public class DbPool extends DbHelper {
 		Iterator it = null;
 		for(it = getConnetions().iterator(); it.hasNext();) {
 			Connection conn = (Connection) it.next();
-			closeConnection(conn);
+			DbHelper.closeConnection(conn);
 		}
 	}
 	
@@ -77,16 +78,16 @@ public class DbPool extends DbHelper {
 		
 		Connection conn = retrieveConnection();
 		String[] keys = (String[]) batchData.get(0).keySet().toArray();
-		String sql =  prepareInsertSql(keys,tableName);
+		String sql =  DbHelper.prepareInsertSql(keys,tableName);
 		int cnt = batchData.size();
-		int[] dataTypes = getDataTypes(batchData.get(0));
+		int[] dataTypes = TypeHelper.getDataTypes(batchData.get(0));
 			
 		System.out.println(sql);
 		try {
 			conn.setAutoCommit(false);
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
-				doOneInsert(conn, statement, batchData.get(i), keys, dataTypes);
+				DbHelper.doOneInsert(conn, statement, batchData.get(i), keys, dataTypes);
 				if(i%2000 == 0) {
 					statement.executeBatch();
 				}
