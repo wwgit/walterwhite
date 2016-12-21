@@ -9,11 +9,20 @@ public class DbManager {
 	
 	public DbManager(String configPath) {
 		
-		DbConfig dcfg = new DbConfig();
+		System.out.println("Start to init db manager !");		
+		setConfig(configPath);
+		setPool(getConfig());
+	}
+	
+	public DbManager() {
+		
+	}
+	
+	public void setConfig(String configPath) {
 		System.out.println("Start to init db config !");
+		DbConfig dcfg = new DbConfig();
 		dcfg.parseConfigure(configPath);
 		setConfig(dcfg);
-		setPool(new DbPool(getConfig()));
 	}
 	
 	public DbConfig getConfig() {
@@ -28,5 +37,10 @@ public class DbManager {
 	public void setPool(DbPool pool) {
 		this.pool = pool;
 	}
+	public void setPool(DbConfig config) {		
+		this.pool = new DbPool(config);
+	}
+	
+	
 
 }

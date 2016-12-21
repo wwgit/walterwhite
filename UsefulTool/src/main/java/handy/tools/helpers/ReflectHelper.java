@@ -35,7 +35,7 @@ public abstract class ReflectHelper {
 			int flag = 0;
 			for(int i = 0,j = 0; i < paramPairs.length; i+=2,j++) {
 				
-				System.out.println("required type: " + paramPairs[i]);
+				//System.out.println("required type: " + paramPairs[i]);
 				typeClazzes[i] = getRequireClass(paramPairs[i]);				
 				flag = TypeHelper.parseType(paramPairs[i]);
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);

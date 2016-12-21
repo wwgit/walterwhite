@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,12 +37,12 @@ public class DbPool {
 	
 	public Vector<Connection> initConnections(DbConfig config) {
 		
-		Vector<Connection> conns = null;
+		Vector<Connection> conns = new Vector<Connection>();
 		Connection conn = null;
 		try {
 			Class.forName(config.getDbDriver());
 			for(int i = 0; i < config.getDbSize(); i++) {
-				DbHelper.createConnection(config.getUrl(), config.getUserName(), config.getPassword());
+				conn = DbHelper.createConnection(config.getUrl(), config.getUserName(), config.getPassword());
 				conns.add(i, conn);
 			}
 		} catch (ClassNotFoundException e) {
@@ -70,6 +71,7 @@ public class DbPool {
 		if(!getConnetions().isEmpty()) {
 			conn = getConnetions().firstElement();
 			getConnetions().remove(0);
+			System.out.println("pool size: " + this.getConnetions().size());
 		}
 		return conn;
 	}
@@ -96,6 +98,7 @@ public class DbPool {
 					statement.executeBatch();
 				}
 		    }
+			statement.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -105,19 +108,25 @@ public class DbPool {
 	}
 
 	public Map doQuery(String sql) {
-	
+		System.out.println("do query start !");
 		Connection conn = retrieveConnection();
+		//Connection conn = null;
 		
+		//Statement statement = null;
 		PreparedStatement statement = null;
 		Map<Long,String> result = new TreeMap<Long,String>();
 		
-		ResultSet sqlRet;
+		ResultSet sqlRet = null;
 		try {
+			System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
-			sqlRet = statement.executeQuery(sql);
-			for(int i = 0; i < sqlRet.getFetchSize(); i++) {
-				//result.set(i, sqlRet.getString(i));
-				result.put(Long.valueOf(i), sqlRet.getString(i));
+			//statement = conn.createStatement();
+			sqlRet = statement.executeQuery();
+			System.out.println("do reading data start !   fetch size = " + sqlRet.getFetchSize());
+			while(sqlRet.next()) {
+				//sqlRet.getString("name");
+				System.out.println(sqlRet.getString("name"));
+				//result.put(Long.valueOf(i), sqlRet.getString(i));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -72,6 +72,8 @@ public abstract class DbHelper extends BasicHelper {
 			
 		} else {
 			conn = DriverManager.getConnection(url);
+			//Statement state = conn.createStatement();
+			
 			//DriverManager.registerDriver(driver);
 		}
 		return conn;
@@ -80,6 +82,7 @@ public abstract class DbHelper extends BasicHelper {
 			
 	public static void closeConnection(Connection conn) {
 		try {
+			System.out.println("closing connection");
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

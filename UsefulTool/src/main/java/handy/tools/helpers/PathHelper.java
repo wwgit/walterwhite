@@ -13,7 +13,7 @@ public abstract class PathHelper {
 		
 		//File file = new File(url.getPath()).getParent();
 		
-		System.out.println(path);
+		//System.out.println(path);
 		
 		//String proRootPath = System.getProperty("user.dir");
 		

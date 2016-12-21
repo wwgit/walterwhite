@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +102,14 @@ public class ToolMain {
 		DbHelper.getDbPropertyNames();*/
 		System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		DbManager manager = new DbManager("config/db_config.properties");
+		
+		String sql = "select * from city";
+		Map Data = manager.getPool().doQuery(sql);
+		Iterator it = Data.values().iterator();
+		while(it.hasNext()) {
+			System.out.println("query data: " + it.next());
+		}
+		manager.getPool().closeConnections();
 		long endTime = System.currentTimeMillis();
 		
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

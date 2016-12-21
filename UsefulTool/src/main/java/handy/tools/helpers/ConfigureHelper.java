@@ -45,9 +45,9 @@ public abstract class ConfigureHelper {
 			
 			propertyName = fields[i].getName();
 			fullName = obj.getClass().getName() + "." + propertyName.toLowerCase();
-			System.out.println("full Name: " + fullName + "  " + i);
+			//System.out.println("full Name: " + fullName + "  " + i);
 			propertyValue = prop.getProperty(fullName);
-			System.out.println("propertyValue: " + propertyValue + "  " + i);
+			//System.out.println("propertyValue: " + propertyValue + "  " + i);
 			ReflectHelper.callSetter(obj, fields[i].getName(), fields[i].getType().getName(), propertyValue);
 			
 		}
