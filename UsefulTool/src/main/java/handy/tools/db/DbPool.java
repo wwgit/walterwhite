@@ -21,6 +21,10 @@ public class DbPool {
 		setConnetions(initConnections(config));		
 	}
 	
+	public DbPool() {
+		
+	}
+	
 
 	public Vector<Connection> getConnetions() {
 		return connetions;

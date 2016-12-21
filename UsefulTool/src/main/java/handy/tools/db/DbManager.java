@@ -13,7 +13,7 @@ public class DbManager {
 		System.out.println("Start to init db config !");
 		dcfg.parseConfigure(configPath);
 		setConfig(dcfg);
-		
+		setPool(new DbPool(getConfig()));
 	}
 	
 	public DbConfig getConfig() {
