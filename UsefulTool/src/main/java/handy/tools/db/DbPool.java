@@ -109,6 +109,7 @@ public class DbPool {
 						
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map doQuery(String baseSql, String[] conditions, String[] andOr, Object[] values, String[] queryColumns) {
 		System.out.println("do query start !");
 		Connection conn = retrieveConnection();
@@ -116,7 +117,7 @@ public class DbPool {
 		
 		//Statement statement = null;
 		PreparedStatement statement = null;
-		Map<String, String> result = new HashMap<String,String>();
+		//Map<String, String> result = new HashMap<String,String>();
 		
 		String sql = baseSql;
 		String where_sql = DbHelper.prepareSimpleSqlConditions(conditions, andOr);
@@ -126,26 +127,18 @@ public class DbPool {
 		}	
 		
 		ResultSet sqlRet = null;
+		Map<String,List<List<Object>>> Result = null;
 		try {
-			System.out.println("do prepare statement start !");
+			//System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
 			DbHelper.setValuesForSql(statement, values);
-			//statement = conn.createStatement();
 			sqlRet = statement.executeQuery();
 			
 			int colCnt = sqlRet.getMetaData().getColumnCount();
-			System.out.println("do reading data start !   table column = " + colCnt);
+			//System.out.println("do reading data start !   table column = " + colCnt);
 			
-			while(sqlRet.next()) {
-				//sqlRet.getString("name");
-				//System.out.println(sqlRet.getString("name"));
-				for(int i = 1; i <= colCnt; i++) {
-					//System.out.println("column name: " + sqlRet.getMetaData().getColumnName(i));
-					//System.out.println("value: " + sqlRet.getString(i));
-					result.put(sqlRet.getMetaData().getColumnName(i), sqlRet.getString(i));
-				}
-				//result.put(Long.valueOf(i), sqlRet.getString(i));
-			}
+			 Result = DbHelper.parseQueryResult(sqlRet, null);
+			 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,7 +146,7 @@ public class DbPool {
 			returnConnection(conn);
 		}
 					
-		return result;
+		return Result;
 	
 	}
 	

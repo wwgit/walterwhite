@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -189,14 +190,37 @@ public abstract class DbHelper extends BasicHelper {
 	}
 
 	
-	public static Map parseQueryResult(ResultSet sqlRet, String[] requiredColumns, int[] columnTypes) throws SQLException {
+	public static Map parseQueryResult(ResultSet sqlRet, int[] columnTypes) throws SQLException {
 		
-		List<?> rowData = null;
-		Map result = null;
+		List<Object> rowData = null;
+		List<List<Object>> rows = null;
+		Map<String, List<List<Object>>> result = null;
+		String key = null;
 		
 		int colCnt = sqlRet.getMetaData().getColumnCount();
 		//sqlRet.getMetaData()
-		
+		rows = new LinkedList<List<Object>>();
+		result = new TreeMap<String, List<List<Object>>>();
+		while(sqlRet.next()) {
+			//first field value as key by default
+			key = sqlRet.getString(1);
+			//System.out.println("key = " + key);
+			rowData = new LinkedList<Object>();
+			for(int i = 1; i <= colCnt; i++) {
+				rowData.add(sqlRet.getString(i));
+				//System.out.println(rowData.get(i-1));
+			}
+			
+			if(result.containsKey(key)) {
+				//System.out.println("key found " + key);
+				result.get(key).add(rowData);
+			} else {
+				//System.out.println("key not found " + key);
+				rows = new LinkedList<List<Object>>();
+				rows.add(rowData);
+				result.put(key, rows);
+			}
+		}
 		
 		return result;		
 	}

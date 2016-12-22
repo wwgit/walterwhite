@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -105,16 +106,18 @@ public class ToolMain {
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		DbManager manager = new DbManager("config/db_config.properties");
 
-		String sql = "select * from city";
-		HashMap result = (HashMap) manager.getPool().doQuery(sql, null, null, null,null);
+		String sql = "select Name from city";
+		Map result = manager.getPool().doQuery(sql, null, null, null,null);
 		Iterator eit = result.entrySet().iterator();
-		
-		while(eit.hasNext()) {
-			//Set set = (Set) eit.next();
-			System.out.println(eit.next());
+
+		//System.out.println("value of key Rafah: " + result.get("Rafah"));
+		System.out.println(result.size());
+		LinkedList list = (LinkedList) result.get("Shanghai");
+		System.out.println(list.size());
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println("data in rows: " + list.get(i));
 		}
-		
-		Set keys = result.keySet();
+		//Set keys = result.keySet();
 
 		
 		//Map Data = manager.getPool().doQuery(sql);
