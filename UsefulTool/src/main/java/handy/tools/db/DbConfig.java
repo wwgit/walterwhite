@@ -30,7 +30,7 @@ public class DbConfig extends Config {
 		return url;
 	}
 	public void setUrl(String url) {
-		System.out.println("calling setUrl " + url);
+		//System.out.println("calling setUrl " + url);
 		this.url = url;
 	}
 
@@ -38,7 +38,7 @@ public class DbConfig extends Config {
 		return userName;
 	}
 	public void setUserName(String userName) {
-		System.out.println("calling setUserName " + userName);
+		//System.out.println("calling setUserName " + userName);
 		this.userName = userName;
 	}
 	public String getPassword() {
@@ -46,7 +46,7 @@ public class DbConfig extends Config {
 		return password;
 	}
 	public void setPassword(String password) {
-		System.out.println("calling setPassword " + password);
+		//System.out.println("calling setPassword " + password);
 		this.password = password;
 	}
 
@@ -55,7 +55,7 @@ public class DbConfig extends Config {
 	}
 
 	public void setDbDriver(String dbDriver) {
-		System.out.println("calling setDbDriver " + dbDriver);
+		//System.out.println("calling setDbDriver " + dbDriver);
 		this.dbDriver = dbDriver;
 	}
 
@@ -64,7 +64,7 @@ public class DbConfig extends Config {
 	}
 
 	public void setDbSize(int dbSize) {
-		System.out.println("calling setDbSize " + dbSize);
+		//System.out.println("calling setDbSize " + dbSize);
 		this.dbSize = dbSize;
 	}
 

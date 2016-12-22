@@ -23,6 +23,17 @@ public abstract class TypeHelper {
 		
 		return types;
 	}
+	public static int[] getDataTypes(Object[] data) {
+		
+		int[] types = new int[data.length];
+
+		for(int i = 0; i < data.length; i++) {
+			types[i] = parseType(data[i]);
+		}
+		
+		return types;
+	}
+	
 	
 	public static int parseComplex(int flag) {
 		
@@ -38,7 +49,8 @@ public abstract class TypeHelper {
 	public static int parseType(Object value) {
 		
 		String type = value.getClass().getName();
-		
+		int a = 1;
+				
 		int ret = parseType(type);
 		
 		if(ret == DataTypes.JAVA_HANDY_COMPLEX_VALUE) {

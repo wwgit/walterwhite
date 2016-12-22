@@ -6,10 +6,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import handy.tools.db.ComplexValue;
 import handy.tools.db.DbManager;
@@ -100,15 +102,26 @@ public class ToolMain {
 		System.out.println(cv.getClass().toString());
 		System.out.println("name    " + cv.getClass().getName());
 		DbHelper.getDbPropertyNames();*/
-		System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
+		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		DbManager manager = new DbManager("config/db_config.properties");
-		
+
 		String sql = "select * from city";
-		Map Data = manager.getPool().doQuery(sql);
-		Iterator it = Data.values().iterator();
-		while(it.hasNext()) {
-			System.out.println("query data: " + it.next());
+		HashMap result = (HashMap) manager.getPool().doQuery(sql, null, null, null);
+		Iterator eit = result.entrySet().iterator();
+		
+		while(eit.hasNext()) {
+			//Set set = (Set) eit.next();
+			System.out.println(eit.next());
 		}
+		
+		Set keys = result.keySet();
+
+		
+		//Map Data = manager.getPool().doQuery(sql);
+		//Iterator it = Data.values().iterator();
+		//while(it.hasNext()) {
+			//System.out.println("query data: " + it.next());
+		//}
 		manager.getPool().closeConnections();
 		long endTime = System.currentTimeMillis();
 		

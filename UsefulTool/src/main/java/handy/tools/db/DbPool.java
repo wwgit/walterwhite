@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,8 @@ public class DbPool {
 			conn.setAutoCommit(false);
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
-				DbHelper.doOneInsert(conn, statement, batchData.get(i), keys, dataTypes);
+				DbHelper.setValuesForSql(statement, batchData.get(i), keys, dataTypes);
+				statement.addBatch();
 				if(i%2000 == 0) {
 					statement.executeBatch();
 				}
@@ -107,25 +109,41 @@ public class DbPool {
 						
 	}
 
-	public Map doQuery(String sql) {
+	public Map doQuery(String baseSql, String[] conditions, String[] andOr, Object[] values, String[] queryColumns) {
 		System.out.println("do query start !");
 		Connection conn = retrieveConnection();
 		//Connection conn = null;
 		
 		//Statement statement = null;
 		PreparedStatement statement = null;
-		Map<Long,String> result = new TreeMap<Long,String>();
+		Map<String, String> result = new HashMap<String,String>();
+		
+		String sql = baseSql;
+		String where_sql = DbHelper.prepareSimpleSqlConditions(conditions, andOr);
+		
+		if(null != where_sql) {
+			sql = sql + where_sql;
+		}	
 		
 		ResultSet sqlRet = null;
 		try {
 			System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
+			DbHelper.setValuesForSql(statement, values);
 			//statement = conn.createStatement();
 			sqlRet = statement.executeQuery();
-			System.out.println("do reading data start !   fetch size = " + sqlRet.getFetchSize());
+			
+			int colCnt = sqlRet.getMetaData().getColumnCount();
+			System.out.println("do reading data start !   table column = " + colCnt);
+			
 			while(sqlRet.next()) {
 				//sqlRet.getString("name");
-				System.out.println(sqlRet.getString("name"));
+				//System.out.println(sqlRet.getString("name"));
+				for(int i = 1; i <= colCnt; i++) {
+					//System.out.println("column name: " + sqlRet.getMetaData().getColumnName(i));
+					//System.out.println("value: " + sqlRet.getString(i));
+					result.put(sqlRet.getMetaData().getColumnName(i), sqlRet.getString(i));
+				}
 				//result.put(Long.valueOf(i), sqlRet.getString(i));
 			}
 		} catch (SQLException e) {
