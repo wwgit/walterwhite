@@ -106,7 +106,7 @@ public class ToolMain {
 		DbManager manager = new DbManager("config/db_config.properties");
 
 		String sql = "select * from city";
-		HashMap result = (HashMap) manager.getPool().doQuery(sql, null, null, null);
+		HashMap result = (HashMap) manager.getPool().doQuery(sql, null, null, null,null);
 		Iterator eit = result.entrySet().iterator();
 		
 		while(eit.hasNext()) {
