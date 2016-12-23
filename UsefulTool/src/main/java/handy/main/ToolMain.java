@@ -64,7 +64,7 @@ public class ToolMain {
 		//char[] cBuf = NioHelper.byteArrToCharArr(buf,"utf-8");
 		//char[] charArr = new char[buf.length];
 		
-		long startTime = System.currentTimeMillis();
+		
 		
 		//charArr = NioHelper.byteArrToCharArr(buf,"utf-8");
 		//String str = FileHelper.readAllFrmDirectMem("D:\\test5.json", "utf-8", 20480);
@@ -74,60 +74,54 @@ public class ToolMain {
 		//FileHelper.FastFileCopy("D:\\test2.json", "D:\\test10.json", 20480,200);
 		//System.out.println("reading buff: " + str);
 		
-		Map conds = new HashMap();
-		//Map and_or = new HashMap();
-		List<String> and_or = new ArrayList<String>();
-		for(int i = 0 ; i < 100; i++) {
-			conds.put("cond_key"+i, "cond_value"+i);
-			and_or.add(i, "and"+i);
-		}
-		
-		//DbHelper.prepareQuerySql("select * from", "table1", conds, and_or);
-		//System.out.println(System.getProperty("user.dir"));
-		String str = "123";
-		String[] arr = new String[2];
-		Long lng = Long.valueOf(str);
-		InputStream is = new FileInputStream("D:\\test2.json");
-		ComplexValue cv = new ComplexValue();
-		cv.flag = 0;
-		cv.data = is;
-		//lng.l
-		/*Integer inter = Integer.valueOf(str);
-		BigDecimal bd = new BigDecimal(1234567890);
-		System.out.println(str.getClass().toString());
-		System.out.println(lng.getClass().toString());
-		System.out.println(inter.getClass().toString());
-		System.out.println(bd.getClass().toString());
-		System.out.println(arr.getClass().toString());
-		System.out.println(is.getClass().toString());
-		System.out.println(cv.getClass().toString());
-		System.out.println("name    " + cv.getClass().getName());
-		DbHelper.getDbPropertyNames();*/
+
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		DbManager manager = new DbManager("config/db_config.properties");
+		
+		/*Map<String, Object> mData = new HashMap<String,Object>();
+		//mData.put("Id", 4080);
+		mData.put("Name", "GuangZhou");
+		mData.put("CountryCode", "CHN");
+		mData.put("population", 35000000);
+		mData.put("District", "GuangZhou");
+		
+		
+		List<Map> data = new ArrayList<Map>();
+		//data.add(mData);
+		for(int i = 0; i < 2000000; i++) {
+			data.add(mData);
+		}*/
 
-		String sql = "select Name from city";
-		Map result = manager.getPool().doQuery(sql, null, null, null,null);
-		Iterator eit = result.entrySet().iterator();
+		long startTime = System.currentTimeMillis();
+		String sql = "select * from city where ";
+		Map result = manager.getPool().doQuery(manager.getPool().retrieveConnection(),
+												sql, 
+												new String[]{"name=","Id<="},
+												new String[]{"and"},
+												new Object[]{"GuangZhou",2000});
+		//Iterator eit = result.entrySet().iterator();
 
 		//System.out.println("value of key Rafah: " + result.get("Rafah"));
-		System.out.println(result.size());
-		LinkedList list = (LinkedList) result.get("Shanghai");
-		System.out.println(list.size());
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println("data in rows: " + list.get(i));
-		}
-		//Set keys = result.keySet();
+		
+		//LinkedList list = (LinkedList) result.get("Shanghai");
+		//System.out.println(list.size());
 
+		//Set keys = result.keySet();
+		//Iterator it = keys.iterator();
+		/*while(it.hasNext()) {
+			//System.out.println(it.next());
+			System.out.println("result: " + result.get(it.next()));
+		}*/
 		
 		//Map Data = manager.getPool().doQuery(sql);
 		//Iterator it = Data.values().iterator();
 		//while(it.hasNext()) {
 			//System.out.println("query data: " + it.next());
 		//}
-		manager.getPool().closeConnections();
-		long endTime = System.currentTimeMillis();
 		
+		long endTime = System.currentTimeMillis();
+		manager.getPool().closeConnections();
+		System.out.println("how many data returned: " + result.size());
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		

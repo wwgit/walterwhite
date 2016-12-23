@@ -32,7 +32,10 @@ import com.alibaba.fastjson.asm.Type;
 
 public abstract class DbHelper extends BasicHelper {
 		
-	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	private static void setValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
 		
 		switch(dataType) {
@@ -83,7 +86,10 @@ public abstract class DbHelper extends BasicHelper {
 	}
 	
 	
-	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	public  static Connection createConnection(String url, String userName, String password) throws SQLException {
 		
 		Connection conn = null;
@@ -99,7 +105,11 @@ public abstract class DbHelper extends BasicHelper {
 		return conn;
 		
 	}
-			
+	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	public static void closeConnection(Connection conn) {
 		try {
 			//System.out.println("closing connection");
@@ -110,8 +120,9 @@ public abstract class DbHelper extends BasicHelper {
 		}
 	}
 	
-	/*
-	 * sql related
+	/*Debug has been done
+	 * 
+	 * 
 	 * */
 	public static void setValuesForSql(PreparedStatement statement, 
 									Map data, String[] dbColumnNames, int[] dataTypes) throws SQLException {
@@ -124,6 +135,10 @@ public abstract class DbHelper extends BasicHelper {
 			setValue(statement,data.get(dbColumnNames[i]), i+1, dataTypes[i]);
 		}
 	}
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	public static void setValuesForSql(PreparedStatement statement, Object[] data) throws SQLException {
 		
 		if(null == data || data.length < 1) {
@@ -131,13 +146,16 @@ public abstract class DbHelper extends BasicHelper {
 		}
 		
 		int[] dataTypes = TypeHelper.getDataTypes(data);
+		System.out.println("data type length: " + dataTypes.length);
 		for(int i = 0; i < dataTypes.length; i++) {
 			setValue(statement,data[i], i+1, dataTypes[i]);
 		}
 	}
 	
-	
-	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	public static String prepareInsertSql(String[] dbColumns, String tableName) {
 		
 			StringBuilder sb = new StringBuilder();
@@ -161,7 +179,7 @@ public abstract class DbHelper extends BasicHelper {
 	/*does not support embedded conditions combinations like where (a and b) or c
 	 * does not support keywords like: 'like', 'is' etc 
 	 * returns only conditions like: a=b and d=e or m<>n and k<=y
-	 * 
+	 * Debug has been done
 	 * 
 	 * 
 	 * */
@@ -174,13 +192,13 @@ public abstract class DbHelper extends BasicHelper {
 		if(null != andOr) {
 
 			for(int i = 0; i < andOr.length; i++) {
-				sb.append(colPlusOper + " ? ");
-				sb.append(andOr + " ");
+				sb.append(colPlusOper[i] + "? ");
+				sb.append(andOr[i] + " ");
 			}
 		}
 		
 		if(null != colPlusOper && colPlusOper.length > 0) {
-			sb.append(colPlusOper[colPlusOper.length-1]);
+			sb.append(colPlusOper[colPlusOper.length-1] + "?");
 			return sb.toString();
 		} else {
 			return null;
@@ -189,7 +207,10 @@ public abstract class DbHelper extends BasicHelper {
 		
 	}
 
-	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
 	public static Map parseQueryResult(ResultSet sqlRet, int[] columnTypes) throws SQLException {
 		
 		List<Object> rowData = null;

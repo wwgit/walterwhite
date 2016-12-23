@@ -36,6 +36,10 @@ public class DbPool {
 		this.connetions = connetions;
 	}
 	
+	/*debug is done
+	 * 
+	 * 
+	 * */
 	public Vector<Connection> initConnections(DbConfig config) {
 		
 		Vector<Connection> conns = new Vector<Connection>();
@@ -57,6 +61,10 @@ public class DbPool {
 		return conns;		
 	}
 	
+	/*debug is done
+	 * 
+	 * 
+	 * */
 	public void closeConnections() {
 		
 		@SuppressWarnings("rawtypes")
@@ -67,6 +75,10 @@ public class DbPool {
 		}
 	}
 	
+	/*debug is done
+	 * 
+	 * 
+	 * */
 	public Connection retrieveConnection() {
 		Connection conn = null;
 		if(!getConnetions().isEmpty()) {
@@ -77,14 +89,26 @@ public class DbPool {
 		return conn;
 	}
 	
+	/*debug is done
+	 * 
+	 * 
+	 * */
 	public void returnConnection(Connection conn) {
 		getConnetions().add(conn);
 	}
 	
-	public void doInserts(String tableName, List<Map> batchData) {
+	/*debug is done
+	 * 
+	 * 
+	 * */
+	public void doInserts(Connection conn, String tableName, List<Map> batchData) {
 		
-		Connection conn = retrieveConnection();
-		String[] keys = (String[]) batchData.get(0).keySet().toArray();
+		//Connection conn = retrieveConnection();
+		Iterator it = batchData.get(0).keySet().iterator();
+		String[] keys = new String[batchData.get(0).size()];
+		for(int i = 0; it.hasNext(); i++) {
+			keys[i] = (String) it.next();
+		}
 		String sql =  DbHelper.prepareInsertSql(keys,tableName);
 		int cnt = batchData.size();
 		int[] dataTypes = TypeHelper.getDataTypes(batchData.get(0));
@@ -92,15 +116,22 @@ public class DbPool {
 		System.out.println(sql);
 		try {
 			conn.setAutoCommit(false);
+			
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
+				
 				DbHelper.setValuesForSql(statement, batchData.get(i), keys, dataTypes);
 				statement.addBatch();
+				//System.out.println(batchData.get(i));
 				if(i%2000 == 0) {
+					System.out.println("commiting data: " + batchData.get(i));
 					statement.executeBatch();
+					conn.commit();
 				}
 		    }
+			System.out.println("commiting rest of data");
 			statement.executeBatch();
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -109,16 +140,16 @@ public class DbPool {
 						
 	}
 
-	@SuppressWarnings("unchecked")
-	public Map doQuery(String baseSql, String[] conditions, String[] andOr, Object[] values, String[] queryColumns) {
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
+	public Map doQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] values) {
+		
 		System.out.println("do query start !");
-		Connection conn = retrieveConnection();
-		//Connection conn = null;
-		
-		//Statement statement = null;
-		PreparedStatement statement = null;
-		//Map<String, String> result = new HashMap<String,String>();
-		
+		//Connection conn = retrieveConnection();
+
+		PreparedStatement statement = null;		
 		String sql = baseSql;
 		String where_sql = DbHelper.prepareSimpleSqlConditions(conditions, andOr);
 		
@@ -126,21 +157,17 @@ public class DbPool {
 			sql = sql + where_sql;
 		}	
 		
+		System.out.println("sql string: " + sql);
 		ResultSet sqlRet = null;
 		Map<String,List<List<Object>>> Result = null;
 		try {
 			//System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
 			DbHelper.setValuesForSql(statement, values);
-			sqlRet = statement.executeQuery();
-			
-			int colCnt = sqlRet.getMetaData().getColumnCount();
-			//System.out.println("do reading data start !   table column = " + colCnt);
-			
-			 Result = DbHelper.parseQueryResult(sqlRet, null);
+			sqlRet = statement.executeQuery();		
+			Result = DbHelper.parseQueryResult(sqlRet, null);
 			 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			returnConnection(conn);
