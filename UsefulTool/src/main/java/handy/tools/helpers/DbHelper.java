@@ -175,6 +175,30 @@ public abstract class DbHelper extends BasicHelper {
 			return sb.toString();
     }
 	
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
+	public static String prepareUpdateSql(String[] dbColumns, String tableName) {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(tableName);
+		sb.append(" ");
+		
+		for(int i = 0; i < dbColumns.length-1; i++) {
+			if(i == 0) {
+				sb.append("SET " + dbColumns[i] + "=?,");
+			} else {
+				sb.append(dbColumns[i] + "=?,");
+			}
+			
+		}
+		sb.append(dbColumns[dbColumns.length-1] + "=?");
+		
+		return sb.toString();
+	}
+		
 	
 	/*does not support embedded conditions combinations like where (a and b) or c
 	 * does not support keywords like: 'like', 'is' etc 
@@ -211,7 +235,7 @@ public abstract class DbHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
-	public static Map parseQueryResult(ResultSet sqlRet, int[] columnTypes) throws SQLException {
+	public static Map parseQueryResult(ResultSet sqlRet) throws SQLException {
 		
 		List<Object> rowData = null;
 		List<List<Object>> rows = null;
@@ -219,6 +243,7 @@ public abstract class DbHelper extends BasicHelper {
 		String key = null;
 		
 		int colCnt = sqlRet.getMetaData().getColumnCount();
+		
 		//sqlRet.getMetaData()
 		rows = new LinkedList<List<Object>>();
 		result = new TreeMap<String, List<List<Object>>>();
@@ -228,6 +253,8 @@ public abstract class DbHelper extends BasicHelper {
 			//System.out.println("key = " + key);
 			rowData = new LinkedList<Object>();
 			for(int i = 1; i <= colCnt; i++) {
+				//System.out.println("column name:" + sqlRet.getMetaData().getColumnName(i));
+				//System.out.println("column type:" + sqlRet.getMetaData().getColumnTypeName(i));
 				rowData.add(sqlRet.getString(i));
 				//System.out.println(rowData.get(i-1));
 			}

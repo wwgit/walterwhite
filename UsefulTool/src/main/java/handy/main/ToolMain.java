@@ -76,29 +76,36 @@ public class ToolMain {
 		
 
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
-		DbManager manager = new DbManager("config/db_config.properties");
+		DbManager manager = DbManager.getInstance("config/db_config.properties");
 		
-		/*Map<String, Object> mData = new HashMap<String,Object>();
+		Map<String, Object> mData = new HashMap<String,Object>();
 		//mData.put("Id", 4080);
-		mData.put("Name", "GuangZhou");
+		mData.put("Name", "UPDATEdddd Shanghai");
 		mData.put("CountryCode", "CHN");
-		mData.put("population", 35000000);
-		mData.put("District", "GuangZhou");
+		mData.put("population", 15000000);
+		mData.put("District", "Updatedddd Shanghai");
 		
 		
 		List<Map> data = new ArrayList<Map>();
 		//data.add(mData);
-		for(int i = 0; i < 2000000; i++) {
+		for(int i = 0; i < 2; i++) {
 			data.add(mData);
-		}*/
+		}
+		manager.getPool().doUpdates(manager.getPool().retrieveConnection(), "city", data, "where Id=1890");
 
 		long startTime = System.currentTimeMillis();
 		String sql = "select * from city where ";
-		Map result = manager.getPool().doQuery(manager.getPool().retrieveConnection(),
+		Map result = manager.getPool().doBatchQuery(manager.getPool().retrieveConnection(),
 												sql, 
-												new String[]{"name=","Id<="},
+												new String[]{"Name=","Id="},
 												new String[]{"and"},
-												new Object[]{"GuangZhou",2000});
+												new Object[]{"Beijing",4083}
+		);
+		manager.getPool().doDelete(manager.getPool().retrieveConnection(), "delete from city where ",
+									new String[]{"Name=","Id="},
+									new String[]{"and"},
+									new Object[]{"Beijing",4083}
+		);
 		//Iterator eit = result.entrySet().iterator();
 
 		//System.out.println("value of key Rafah: " + result.get("Rafah"));

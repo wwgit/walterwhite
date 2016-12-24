@@ -115,8 +115,7 @@ public class DbPool {
 			
 		System.out.println(sql);
 		try {
-			conn.setAutoCommit(false);
-			
+			conn.setAutoCommit(false);		
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
 				
@@ -135,6 +134,49 @@ public class DbPool {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			returnConnection(conn);
+		}
+						
+	}
+	
+	public void doUpdates(Connection conn, String tableName, List<Map> batchData, String whereCondSql) {
+		
+
+		Iterator it = batchData.get(0).keySet().iterator();
+		String[] keys = new String[batchData.get(0).size()];
+		for(int i = 0; it.hasNext(); i++) {
+			keys[i] = (String) it.next();
+		}
+		String sql =  DbHelper.prepareUpdateSql(keys,tableName);
+		if(null != whereCondSql) {
+			sql = sql + " " + whereCondSql;
+		}
+		int cnt = batchData.size();
+		int[] dataTypes = TypeHelper.getDataTypes(batchData.get(0));
+			
+		System.out.println(sql);
+		try {
+			conn.setAutoCommit(true);
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			for(int i = 0; i < cnt; i++) {
+				
+				DbHelper.setValuesForSql(statement, batchData.get(i), keys, dataTypes);
+				
+				System.out.println("commiting data: " + batchData.get(i));
+				statement.executeUpdate();
+				//conn.commit();
+		    }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
 			returnConnection(conn);
 		}
 						
@@ -144,7 +186,7 @@ public class DbPool {
 	 * 
 	 * 
 	 * */
-	public Map doQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] values) {
+	public Map doQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] condValues) {
 		
 		System.out.println("do query start !");
 		//Connection conn = retrieveConnection();
@@ -163,9 +205,9 @@ public class DbPool {
 		try {
 			//System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
-			DbHelper.setValuesForSql(statement, values);
+			DbHelper.setValuesForSql(statement, condValues);
 			sqlRet = statement.executeQuery();		
-			Result = DbHelper.parseQueryResult(sqlRet, null);
+			Result = DbHelper.parseQueryResult(sqlRet);
 			 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,5 +219,69 @@ public class DbPool {
 	
 	}
 	
+	public Map doBatchQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] values) {
+		
+		System.out.println("do query start !");
+		//Connection conn = retrieveConnection();
+
+		PreparedStatement statement = null;		
+		String sql = baseSql;
+		String where_sql = DbHelper.prepareSimpleSqlConditions(conditions, andOr);
+		
+		if(null != where_sql) {
+			sql = sql + where_sql;
+		}	
+		
+		System.out.println("sql string: " + sql);
+		ResultSet sqlRet = null;
+		Map<String,List<List<Object>>> Result = null;
+		try {
+
+			//parepare statement for tons of data coming ~
+			statement = conn.prepareStatement(sql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
+			statement.setFetchSize(Integer.MIN_VALUE);
+			statement.setFetchDirection(ResultSet.FETCH_REVERSE);
+			
+			DbHelper.setValuesForSql(statement, values);
+			sqlRet = statement.executeQuery();		
+			Result = DbHelper.parseQueryResult(sqlRet);
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			returnConnection(conn);
+		}
+					
+		return Result;
+	
+	}
+	
+
+	public void doDelete(Connection conn, String delSql, String[] conditions, String[] andOr, Object[] condValues) {
+		
+		System.out.println("do query start !");
+
+		PreparedStatement statement = null;		
+		String sql = delSql;
+		String where_sql = DbHelper.prepareSimpleSqlConditions(conditions, andOr);
+		
+		if(null != where_sql) {
+			sql = sql + where_sql;
+		}	
+		
+		System.out.println("sql string: " + sql);
+		try {
+			//System.out.println("do prepare statement start !");
+			statement = conn.prepareStatement(sql);
+			DbHelper.setValuesForSql(statement, condValues);
+			statement.executeUpdate();		
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			returnConnection(conn);
+		}
+	
+	}
 
 }
