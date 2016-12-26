@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-public abstract class ConfigureHelper {
+public abstract class ConfigureHelper extends BasicHelper {
 	
 	public static final int CONFIG_SUFFIX_PROPERTY = 1;
 	public static final int CONFIG_SUFFIX_XML = 2;

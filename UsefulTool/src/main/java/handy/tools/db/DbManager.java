@@ -4,6 +4,8 @@ import handy.tools.helpers.DbHelper;
 
 public class DbManager {
 	
+	private static final String DEFAULT_DB_CONFIG = "config/db_config.properties";
+	
 	private DbConfig config;
 	private DbPool pool;
 	private static DbManager manager = null;
@@ -17,7 +19,7 @@ public class DbManager {
 	
 	private DbManager() {	
 		System.out.println("Start to init db manager !");
-		setConfig("config/db_config.properties");
+		setConfig(DEFAULT_DB_CONFIG);
 		setPool(getConfig());
 	}
 	
@@ -66,5 +68,8 @@ public class DbManager {
 		this.pool = new DbPool(config);
 	}	
 	
+	public Object readResolve() {
+		return manager;
+	}
 
 }

@@ -19,6 +19,7 @@ import handy.tools.db.DbManager;
 import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.FileHelper;
 import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.ClassFactory;
 import handy.tools.io.NioHelper;
 
@@ -78,57 +79,22 @@ public class ToolMain {
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
 		DbManager manager = DbManager.getInstance("config/db_config.properties");
 		
-		Map<String, Object> mData = new HashMap<String,Object>();
-		//mData.put("Id", 4080);
-		mData.put("Name", "UPDATEdddd Shanghai");
-		mData.put("CountryCode", "CHN");
-		mData.put("population", 15000000);
-		mData.put("District", "Updatedddd Shanghai");
+		Map<String, Object> data = new HashMap<String, Object>();
 		
+		data.put("element1", "value1");
+		data.put("element2", "value2");
+		data.put("element3", "value3");
+		data.put("element4", "value4");
+		//data.put("element3", "value3");
 		
-		List<Map> data = new ArrayList<Map>();
-		//data.add(mData);
-		for(int i = 0; i < 2; i++) {
-			data.add(mData);
-		}
-		manager.getPool().doUpdates(manager.getPool().retrieveConnection(), "city", data, "where Id=1890");
+		XmlHelper.createXmlDoc("d://example6.xml", "example", data);
+		//XmlHelper.addSubElements("config/example.xml", "example", data);
+		//XmlHelper.createEmptyXmlDoc("d://example.xml");
 
 		long startTime = System.currentTimeMillis();
-		String sql = "select * from city where ";
-		Map result = manager.getPool().doBatchQuery(manager.getPool().retrieveConnection(),
-												sql, 
-												new String[]{"Name=","Id="},
-												new String[]{"and"},
-												new Object[]{"Beijing",4083}
-		);
-		manager.getPool().doDelete(manager.getPool().retrieveConnection(), "delete from city where ",
-									new String[]{"Name=","Id="},
-									new String[]{"and"},
-									new Object[]{"Beijing",4083}
-		);
-		//Iterator eit = result.entrySet().iterator();
 
-		//System.out.println("value of key Rafah: " + result.get("Rafah"));
-		
-		//LinkedList list = (LinkedList) result.get("Shanghai");
-		//System.out.println(list.size());
 
-		//Set keys = result.keySet();
-		//Iterator it = keys.iterator();
-		/*while(it.hasNext()) {
-			//System.out.println(it.next());
-			System.out.println("result: " + result.get(it.next()));
-		}*/
-		
-		//Map Data = manager.getPool().doQuery(sql);
-		//Iterator it = Data.values().iterator();
-		//while(it.hasNext()) {
-			//System.out.println("query data: " + it.next());
-		//}
-		
 		long endTime = System.currentTimeMillis();
-		manager.getPool().closeConnections();
-		System.out.println("how many data returned: " + result.size());
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		

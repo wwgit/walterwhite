@@ -219,6 +219,9 @@ public class DbPool {
 	
 	}
 	
+	/*not finished yet
+	 * 
+	 * */
 	public Map doBatchQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] values) {
 		
 		System.out.println("do query start !");

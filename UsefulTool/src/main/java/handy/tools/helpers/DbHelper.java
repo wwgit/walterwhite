@@ -98,9 +98,6 @@ public abstract class DbHelper extends BasicHelper {
 			
 		} else {
 			conn = DriverManager.getConnection(url);
-			//Statement state = conn.createStatement();
-			
-			//DriverManager.registerDriver(driver);
 		}
 		return conn;
 		
@@ -146,7 +143,7 @@ public abstract class DbHelper extends BasicHelper {
 		}
 		
 		int[] dataTypes = TypeHelper.getDataTypes(data);
-		System.out.println("data type length: " + dataTypes.length);
+		//System.out.println("data type length: " + dataTypes.length);
 		for(int i = 0; i < dataTypes.length; i++) {
 			setValue(statement,data[i], i+1, dataTypes[i]);
 		}
@@ -243,20 +240,16 @@ public abstract class DbHelper extends BasicHelper {
 		String key = null;
 		
 		int colCnt = sqlRet.getMetaData().getColumnCount();
-		
-		//sqlRet.getMetaData()
 		rows = new LinkedList<List<Object>>();
 		result = new TreeMap<String, List<List<Object>>>();
+		
 		while(sqlRet.next()) {
 			//first field value as key by default
 			key = sqlRet.getString(1);
 			//System.out.println("key = " + key);
 			rowData = new LinkedList<Object>();
 			for(int i = 1; i <= colCnt; i++) {
-				//System.out.println("column name:" + sqlRet.getMetaData().getColumnName(i));
-				//System.out.println("column type:" + sqlRet.getMetaData().getColumnTypeName(i));
 				rowData.add(sqlRet.getString(i));
-				//System.out.println(rowData.get(i-1));
 			}
 			
 			if(result.containsKey(key)) {

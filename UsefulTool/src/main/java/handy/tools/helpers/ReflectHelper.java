@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ReflectHelper {
+public abstract class ReflectHelper extends BasicHelper {
 	
 	
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
@@ -47,43 +47,6 @@ public abstract class ReflectHelper {
 		}
 		
 	}
-	
-
-	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
-		
-		Class<?> requiredClz = null;
-		int dataType = TypeHelper.parseType(type);
-		
-		switch(dataType) {
-		case DataTypes.JAVA_BASIC_INT:
-			requiredClz = int.class;
-			break;
-		case DataTypes.JAVA_BASIC_DOUBLE:
-			requiredClz = double.class;
-			break;
-		case DataTypes.JAVA_BASIC_LONG:
-			requiredClz = long.class;
-			break;
-		case DataTypes.JAVA_LANG_INTEGER:
-			requiredClz = Integer.class;
-			break;
-		case DataTypes.JAVA_LANG_DOUBLE:
-			requiredClz = Double.class;
-			break;
-		case DataTypes.JAVA_LANG_LONG:
-			requiredClz = Long.class;
-			break;	
-		case DataTypes.JAVA_LANG_STRING:
-			requiredClz = String.class;
-			break;	
-		default:
-			requiredClz = Class.forName(type);
-			break;
-		}
-		
-		return requiredClz;
-	}
-	
 	
 	
 }
