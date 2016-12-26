@@ -1,6 +1,4 @@
-package handy.tools.files;
-
-import handy.tools.helpers.FileHelper;
+package handy.tools.helpers;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,7 +9,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONReader;
 
-public class JsonHelper extends FileHelper {
+public abstract class JsonHelper extends FileHelper {
 	
 	/*tested
 	 * 
