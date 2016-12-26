@@ -92,7 +92,7 @@ public class ToolMain {
 		//XmlHelper.addSubElements("example7.xml", "examples", data);
 		//XmlHelper.createEmptyXmlDoc("d://example.xml");
 		//XmlHelper.getAttributesOfElement(XmlHelper.readXmlFrmFile("example7.xml"), "good1");
-
+		XmlHelper.getBean("example7.xml", "DbConfig");
 		long startTime = System.currentTimeMillis();
 
 

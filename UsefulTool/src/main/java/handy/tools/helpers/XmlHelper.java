@@ -174,31 +174,82 @@ public abstract class XmlHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
+	public static Object getBean(String xmlPath, String beanId) {
+		
+		Object beanObj = null;
+		Document doc = readXmlFrmFile(xmlPath);
+		Element beanElement = null;
+		
+		try {
+			beanElement = getBeanById(doc,beanId);
+			beanObj = InitBean(beanElement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return beanObj;
+		
+	}
+	
 	public static Element getBeanById(Document doc, String beanId) throws Exception {
 		
 		Element root = doc.getRootElement();
-		
+		System.out.println("bean name: " + beanId);
 		if(!"beans".equals(root.getName())) {
 			throw new Exception("bean config format error: root element is not beans");
 		}
+		Element beanElement = null;
+		beanElement = root.elementByID(beanId);
 		
-		return root.elementByID(beanId);
+		if(null == beanElement) {
+			List<Element> beans = null;
+			beans = root.elements("bean");
+			for(int i = 0; i < beans.size(); i++ ) {
+				beanElement = beans.get(i);
+				System.out.println("bean id: " + beanElement.attribute("id").getValue());
+				if(beanElement.attribute("id").getValue().equals(beanId)) {
+					break;
+				}
+			}
+		}
+
+		return beanElement;
 	}
 	
-	public static void InitBeanProperties(Document doc, Element beanEle) {
+	public static Object InitBean(Element beanEle) {
 		
+		System.out.println("bean element: " + beanEle);
 		String beanClazName = beanEle.attributeValue("class");
+		System.out.println("bean name: " + beanClazName);
+		
 		List<Element> propertyElements = beanEle.elements("property");
+		Map<String, String> properties = null;
+		Class<?> beanClaz = null;
+		Object beanObj = null;
 		
-		
+		try {
+			beanClaz = TypeHelper.getRequireClass(beanClazName);
+			properties = ReflectHelper.retrieveBeanProperties(beanClaz);
+			beanObj = beanClaz.newInstance();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for(int i = 0; i < propertyElements.size(); i++) {
 			String propName = propertyElements.get(i).attribute("name").getValue();
 			String propValue = propertyElements.get(i).attribute("value").getValue();
-			//ReflectHelper.
+			String propType = properties.get(propName);
+			ReflectHelper.callSetter(beanObj, propName, propType, propValue);
 		}
 		
-		
+		return beanObj;
 	}
 	
 }

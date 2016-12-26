@@ -50,16 +50,9 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 	}
 	
-	public static Object retrieveInstance(String beanClazName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		
-		Class<?> beanClaz = TypeHelper.getRequireClass(beanClazName);
-				return beanClaz.newInstance();
-		
-	}
 	
-	public static List<String> retrieveBeanPropertyTypes(String beanClazName) throws ClassNotFoundException {
+	public static List<String> retrieveBeanPropertyTypes(Class<?> beanClaz) {
 		
-		Class<?> beanClaz = TypeHelper.getRequireClass(beanClazName);
 		Field[] fields = beanClaz.getDeclaredFields();
 		List<String> propertyTypes = new LinkedList<String>();
 		
@@ -69,9 +62,8 @@ public abstract class ReflectHelper extends BasicHelper {
 		return propertyTypes;
 	}
 	
-	public static List<String> retrieveBeanPropertyNames(String beanClazName) throws ClassNotFoundException {
+	public static List<String> retrieveBeanPropertyNames(Class<?> beanClaz) {
 		
-		Class<?> beanClaz = TypeHelper.getRequireClass(beanClazName);
 		Field[] fields = beanClaz.getDeclaredFields();
 		List<String> propertyNames = new LinkedList<String>();
 		
@@ -85,9 +77,8 @@ public abstract class ReflectHelper extends BasicHelper {
 	/*map structure of one bean property: key-value = property name(key) - property type(value)
 	 * 
 	 * */
-	public static Map<String, String> retrieveBeanProperties(String beanClazName) throws ClassNotFoundException {
+	public static Map<String, String> retrieveBeanProperties(Class<?> beanClaz) {
 		
-		Class<?> beanClaz = TypeHelper.getRequireClass(beanClazName);
 		Field[] fields = beanClaz.getDeclaredFields();
 		Map<String, String> properties = new HashMap<String,String>();
 		
