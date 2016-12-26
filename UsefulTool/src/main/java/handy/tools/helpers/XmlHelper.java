@@ -3,9 +3,12 @@ package handy.tools.helpers;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -16,6 +19,35 @@ import org.dom4j.io.XMLWriter;
 
 public abstract class XmlHelper extends BasicHelper {
 
+	public static void writeXMLFileUTF8(String writeToPath, Document doc) {
+		
+		XMLWriter xmlWriter = null;
+		OutputFormat format = OutputFormat.createPrettyPrint();
+		format.setEncoding(DATA_FORMAT_UTF8);
+		try {
+			String path = PathHelper.resolveAbsolutePath(writeToPath);
+			Writer fileWriter = new FileWriter(path);
+			xmlWriter = new XMLWriter(fileWriter, format);
+			xmlWriter.write(doc);
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				xmlWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	/*debug done
+	 * 
+	 * */
 	public static void createXmlDoc(String xmlPath, String rootName, Map<String, Object> subElements) {
 		
 		Document doc = DocumentHelper.createDocument();
@@ -24,68 +56,32 @@ public abstract class XmlHelper extends BasicHelper {
 		
 		for(int i = 0; it.hasNext(); i++) {
 			String key = (String) it.next();
-			System.out.println("key = " + key);
-			System.out.println("value = " + subElements.get(key));
+			//System.out.println("key = " + key);
+			//System.out.println("value = " + subElements.get(key));
 			Element ele = DocumentHelper.createElement(key);
 			ele.setText((String) subElements.get(key));
 			root.add(ele);
 		}
 		
 		doc.add(root);
-		XMLWriter xmlWriter = null;
-		OutputFormat format = OutputFormat.createPrettyPrint();
-		format.setEncoding(DATA_FORMAT_UTF8);
-		try {
-			
-			Writer fileWriter = new FileWriter(xmlPath);
-			xmlWriter = new XMLWriter(fileWriter, format);
-			xmlWriter.write(doc);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				xmlWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
+		writeXMLFileUTF8(xmlPath, doc);	
 		
 	}
 	
+	/*debug done
+	 * 
+	 * */
 	public static void createEmptyXmlDoc(String xmlPath, String rootName) {
 		
 		Document doc = DocumentHelper.createDocument();
 		Element root = DocumentHelper.createElement(rootName);
-		XMLWriter xmlWriter = null;
-		Writer fileWriter = null;
 		doc.add(root);
-		OutputFormat format = OutputFormat.createPrettyPrint();
-		format.setEncoding(DATA_FORMAT_UTF8);
-		try {
-			//System.out.println("get xml path: " + PathHelper.resolveAbsolutePath(xmlPath));
-			fileWriter = new FileWriter(xmlPath);
-			xmlWriter = new XMLWriter(fileWriter, format);
-			xmlWriter.write(doc);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				xmlWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		writeXMLFileUTF8(xmlPath, doc);
 	}
 
+	/*debug done
+	 * 
+	 * */
 	public static Document readXmlFrmFile(String xmlPath) {
 		
 		SAXReader reader = new SAXReader();
@@ -101,11 +97,14 @@ public abstract class XmlHelper extends BasicHelper {
 		return doc;
 	}
 	
-	public static Element findElement(Document doc, String eleName) {
+	/*debug done
+	 * 
+	 * */
+	private static Element findElement(Document doc, String eleName) {
 				
 		Element root = doc.getRootElement();
 		if(eleName.equals(root.getName())) {
-			System.out.println("get root element:" + root.getName());
+			//System.out.println("get root element:" + root.getName());
 			return root;
 		} 
 		
@@ -113,6 +112,36 @@ public abstract class XmlHelper extends BasicHelper {
 		return ele;
 	}
 	
+	public static List<?> findElements(Document doc, String eleName) {
+		
+		Element root = doc.getRootElement();
+		List<?> results = root.elements(eleName);
+		
+		return results;
+	}
+	
+	/*debug done
+	 * 
+	 * */
+	public static Map<String,String> getAttributesOfElement(Element ele) {
+		
+		Map<String,String> result = new HashMap<String,String>();
+		
+		for(int i = 0; i < ele.attributeCount(); i++) {
+			Attribute attr = ele.attribute(i);
+			
+			//System.out.println("attribute name: " + attr.getName());
+			//System.out.println("attribute value: " + attr.getValue());
+			result.put(attr.getName(), attr.getValue());
+		}
+		
+		return result;
+	}
+
+	
+	/*debug done
+	 * 
+	 * */
 	public static void addSubElements(String xmlPath, String eleName, Map<String, Object> subElements) {
 		
 		Document doc = readXmlFrmFile(xmlPath);
@@ -137,31 +166,39 @@ public abstract class XmlHelper extends BasicHelper {
 			ele.add(subEle);
 		}
 		
+		writeXMLFileUTF8(xmlPath, doc);		
+	}
+	
+	
+	/*simple spring like methods
+	 * 
+	 * 
+	 * */
+	public static Element getBeanById(Document doc, String beanId) throws Exception {
 		
-		XMLWriter xmlWriter = null;
-		Writer fileWriter = null;
-		OutputFormat format = OutputFormat.createPrettyPrint();
-		format.setEncoding(DATA_FORMAT_UTF8);
-		try {
-			//System.out.println("get xml path: " + PathHelper.resolveAbsolutePath(xmlPath));
-			fileWriter = new FileWriter(PathHelper.resolveAbsolutePath(xmlPath));
-			xmlWriter = new XMLWriter(fileWriter, format);
-			xmlWriter.write(doc);			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				xmlWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Element root = doc.getRootElement();
+		
+		if(!"beans".equals(root.getName())) {
+			throw new Exception("bean config format error: root element is not beans");
+		}
+		
+		return root.elementByID(beanId);
+	}
+	
+	public static void InitBeanProperties(Document doc, Element beanEle) {
+		
+		String beanClazName = beanEle.attributeValue("class");
+		List<Element> propertyElements = beanEle.elements("property");
+		
+		
+		
+		for(int i = 0; i < propertyElements.size(); i++) {
+			String propName = propertyElements.get(i).attribute("name").getValue();
+			String propValue = propertyElements.get(i).attribute("value").getValue();
+			//ReflectHelper.
 		}
 		
 		
 	}
-	
 	
 }

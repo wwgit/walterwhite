@@ -87,9 +87,11 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		//XmlHelper.createXmlDoc("d://example6.xml", "example", data);
-		XmlHelper.addSubElements("config/example.xml", "examples", data);
+		//XmlHelper.createXmlDoc("config/example7.xml", "example", data);
+		//XmlHelper.createEmptyXmlDoc("example7.xml", "examples");
+		//XmlHelper.addSubElements("example7.xml", "examples", data);
 		//XmlHelper.createEmptyXmlDoc("d://example.xml");
+		//XmlHelper.getAttributesOfElement(XmlHelper.readXmlFrmFile("example7.xml"), "good1");
 
 		long startTime = System.currentTimeMillis();
 
