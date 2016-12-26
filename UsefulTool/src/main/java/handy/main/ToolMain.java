@@ -81,14 +81,14 @@ public class ToolMain {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
-		data.put("element1", "value1");
-		data.put("element2", "value2");
-		data.put("element3", "value3");
-		data.put("element4", "value4");
+		data.put("good1", "value1");
+		data.put("good2", "value2");
+		data.put("good3", "value3");
+		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		XmlHelper.createXmlDoc("d://example6.xml", "example", data);
-		//XmlHelper.addSubElements("config/example.xml", "example", data);
+		//XmlHelper.createXmlDoc("d://example6.xml", "example", data);
+		XmlHelper.addSubElements("config/example.xml", "examples", data);
 		//XmlHelper.createEmptyXmlDoc("d://example.xml");
 
 		long startTime = System.currentTimeMillis();

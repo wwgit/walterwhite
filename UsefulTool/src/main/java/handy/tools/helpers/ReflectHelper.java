@@ -14,13 +14,13 @@ public abstract class ReflectHelper extends BasicHelper {
 	
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
 		
-		String setterName = "set" + BasicHelper.UpperCaseFirstChar(propertyName);
-		doOneMethodCall(beanObj, setterName, new String[]{requiredType, propertyValue});
+		String setterName = "set" + UpperCaseFirstChar(propertyName);
+		doOneDeclareMethodCall(beanObj, setterName, requiredType, propertyValue);
 		
 	}
 	
 	
-	public static void doOneMethodCall(Object obj, String methodName, String ... paramPairs) {
+	public static void doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
 		
 		Class<?>[] typeClazzes = null;
 		Object[] values = null;

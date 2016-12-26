@@ -101,35 +101,43 @@ public abstract class XmlHelper extends BasicHelper {
 		return doc;
 	}
 	
-	public static Element findElement(String xmlPath, String eleName) {
+	public static Element findElement(Document doc, String eleName) {
 				
-		Document doc = readXmlFrmFile(xmlPath);
 		Element root = doc.getRootElement();
-		Element ele = root.element(eleName);
-		
 		if(eleName.equals(root.getName())) {
+			System.out.println("get root element:" + root.getName());
 			return root;
 		} 
+		
+		Element ele = root.element(eleName);
 		return ele;
 	}
 	
 	public static void addSubElements(String xmlPath, String eleName, Map<String, Object> subElements) {
 		
-		Element ele = findElement(xmlPath, eleName);
+		Document doc = readXmlFrmFile(xmlPath);
+		if(null == doc) {
+			return;
+		}
 		
-		Document doc = DocumentHelper.createDocument();
+		Element ele = findElement(doc, eleName);
+		if(null == ele) {
+			return;
+		}
+		
 		Iterator<String> it = subElements.keySet().iterator();
+		Element subEle = null;
 		
 		for(int i = 0; it.hasNext(); i++) {
 			String key = (String) it.next();
 			System.out.println("key = " + key);
 			System.out.println("value = " + subElements.get(key));
-			Element subEle = DocumentHelper.createElement(key);
+			subEle = DocumentHelper.createElement(key);
 			subEle.setText((String) subElements.get(key));
 			ele.add(subEle);
 		}
 		
-		doc.add(ele);
+		
 		XMLWriter xmlWriter = null;
 		Writer fileWriter = null;
 		OutputFormat format = OutputFormat.createPrettyPrint();
@@ -138,8 +146,7 @@ public abstract class XmlHelper extends BasicHelper {
 			//System.out.println("get xml path: " + PathHelper.resolveAbsolutePath(xmlPath));
 			fileWriter = new FileWriter(PathHelper.resolveAbsolutePath(xmlPath));
 			xmlWriter = new XMLWriter(fileWriter, format);
-			xmlWriter.write(doc);
-			
+			xmlWriter.write(doc);			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

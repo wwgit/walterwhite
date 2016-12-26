@@ -1,11 +1,40 @@
 package handy.tools.helpers;
 
+import java.io.File;
+import java.io.IOException;
+
 import handy.tools.constants.DataTypes;
 
 public abstract class BasicHelper {
 	
 	public static final String DATA_FORMAT_UTF8 = "utf-8";
 	public static final String DATA_FORMAT_GB2312 = "gb2312";
+	
+	public static String GetAbsoluteFilePath(String filePath) {
+		
+		String path = null;
+		System.out.println("file path:" + filePath);
+		File file = new File(filePath);
+		if(!file.exists()) {
+			try {
+				System.out.println("file not exist \\".replaceAll("\\\\", ""));
+				System.out.println(System.getProperty("user.dir").replaceAll("\\\\", "/") + "/" + filePath);
+				file = new File(System.getProperty("user.dir").replaceAll("\\\\", "/") + "/" + filePath);
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			path = file.getCanonicalPath();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return path;
+	}
 	
 	public static String UpperCaseFirstChar(String str) {
 		
