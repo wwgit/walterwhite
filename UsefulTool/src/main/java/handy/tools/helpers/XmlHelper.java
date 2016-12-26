@@ -194,7 +194,6 @@ public abstract class XmlHelper extends BasicHelper {
 	public static Element getBeanById(Document doc, String beanId) throws Exception {
 		
 		Element root = doc.getRootElement();
-		System.out.println("bean name: " + beanId);
 		if(!"beans".equals(root.getName())) {
 			throw new Exception("bean config format error: root element is not beans");
 		}
@@ -206,7 +205,6 @@ public abstract class XmlHelper extends BasicHelper {
 			beans = root.elements("bean");
 			for(int i = 0; i < beans.size(); i++ ) {
 				beanElement = beans.get(i);
-				System.out.println("bean id: " + beanElement.attribute("id").getValue());
 				if(beanElement.attribute("id").getValue().equals(beanId)) {
 					break;
 				}
@@ -218,9 +216,7 @@ public abstract class XmlHelper extends BasicHelper {
 	
 	public static Object InitBean(Element beanEle) {
 		
-		System.out.println("bean element: " + beanEle);
 		String beanClazName = beanEle.attributeValue("class");
-		System.out.println("bean name: " + beanClazName);
 		
 		List<Element> propertyElements = beanEle.elements("property");
 		Map<String, String> properties = null;
