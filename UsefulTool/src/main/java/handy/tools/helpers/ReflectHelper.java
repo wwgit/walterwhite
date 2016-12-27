@@ -21,7 +21,18 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 	}
 	
+	public static void callSetter(Object beanObj, String propertyName, Map<Object, String> values) {
+		
+		String setterName = "set" + UpperCaseFirstChar(propertyName);
+		//Map<Object, String> values = new HashMap<Object, String>();
+		//values.put(propertyValue, requiredType);
+		doOneDeclareMethodCall(beanObj, setterName, values);
+		
+	}
 	
+	/*type,value,type,value,type.value....
+	 * 
+	 * */
 	public static void doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
 		
 		Class<?>[] typeClazzes = null;
@@ -34,12 +45,33 @@ public abstract class ReflectHelper extends BasicHelper {
 			
 		try {
 			
-			int flag = 0;
 			for(int i = 0,j = 0; i < paramPairs.length; i+=2,j++) {
 				
 				typeClazzes[i] = getRequireClass(paramPairs[i]);				
-				flag = TypeHelper.parseType(paramPairs[i]);
+				//flag = TypeHelper.parseType(paramPairs[i]);
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);
+			}
+			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
+			method.invoke(obj, values);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void doOneDeclareMethodCall(Object obj, String methodName, Map<Object, String> values_types) {
+		
+		Class<?>[] typeClazzes = null;
+		Object[] values = null;
+		
+		typeClazzes = new Class<?>[values_types.size()];
+		values = values_types.keySet().toArray();
+		
+		try {
+						
+			for(int i = 0; i < values.length; i++) {
+				typeClazzes[i] = getRequireClass(values_types.get(values[i]));				
 			}
 			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
 			method.invoke(obj, values);

@@ -11,6 +11,7 @@ public abstract class DataTypes {
 	public static final int JAVA_BASIC_LONG = 7;
 	public static final int JAVA_BASIC_DOUBLE = 8;
 	public static final int JAVA_LANG_DOUBLE = 9;
+	public static final int JAVA_LANG_OBJECT = 10;
 	public static final int JAVA_LANG_ASCII_STREAM = 20;
 	public static final int JAVA_LANG_BINARY_STREAM = 21;
 	public static final int JAVA_HANDY_COMPLEX_VALUE = 22;

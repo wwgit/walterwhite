@@ -67,6 +67,10 @@ public abstract class TypeHelper extends BasicHelper {
 			
 			return DataTypes.JAVA_LANG_STRING;
 			
+		} else if(type.equals("java.lang.Object")) {
+			
+			return DataTypes.JAVA_LANG_OBJECT;
+			
 		} else if(type.equals("java.lang.Integer")) {
 			
 			return DataTypes.JAVA_LANG_INTEGER;
@@ -112,6 +116,9 @@ public abstract class TypeHelper extends BasicHelper {
 		switch(require_flag) {
 		case DataTypes.JAVA_BASIC_INT:
 			value = Integer.parseInt(origin_value);
+			break;
+		case DataTypes.JAVA_LANG_OBJECT:
+			value = origin_value;
 			break;
 		case DataTypes.JAVA_BASIC_DOUBLE:
 			value = Double.parseDouble(origin_value);
@@ -166,6 +173,9 @@ public abstract class TypeHelper extends BasicHelper {
 			break;
 		case DataTypes.JAVA_LANG_STRING:
 			value = String.valueOf(origin_value);
+			break;
+		case DataTypes.JAVA_LANG_OBJECT:
+			value = origin_value;
 			break;
 		case DataTypes.JAVA_MATH_BIGDECIMAL:
 			value = new BigDecimal(origin_value);

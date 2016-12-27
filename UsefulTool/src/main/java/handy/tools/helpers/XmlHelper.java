@@ -120,6 +120,47 @@ public abstract class XmlHelper extends BasicHelper {
 		return results;
 	}
 	
+	public static Map<String, Class<?>> getBeansInfo(String xmlPath) {
+		
+		Document doc = readXmlFrmFile(xmlPath);
+		Element beans = null;
+		List<Element> beanElements = null;
+		Map<String, Class<?>> beansInfo = null;
+		
+		beans = findElement(doc, "beans");
+		if(null == beans) {
+			throw new NullPointerException("beans element cannot be found !");
+		}
+		
+		beanElements = beans.elements("bean");
+		if(null == beanElements) {
+			throw new NullPointerException("there is no bean element under beans element !");
+		}
+		
+		try {
+			beansInfo = new HashMap<String, Class<?>>();
+			for(int i = 0; i < beanElements.size(); i++) {
+				Element e = beanElements.get(i);
+				beansInfo.put(e.attributeValue("id"), getRequireClass(e.attributeValue("class")));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return beansInfo;
+	}
+	
+	public static Map<String,Map> getPropertyValues(String xmlPath, Map<String,Class<?>> beanClazzes) {
+		
+		Document doc = readXmlFrmFile(xmlPath);
+		Element beans = null;
+		List<Element> beanElements = null;
+		
+		
+		return null;
+	}
+	
 	/*debug done
 	 * 
 	 * */
@@ -182,7 +223,7 @@ public abstract class XmlHelper extends BasicHelper {
 		
 		try {
 			beanElement = getBeanById(doc,beanId);
-			beanObj = InitBean(beanElement);
+			beanObj = InitBean(doc, beanElement);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -193,16 +234,16 @@ public abstract class XmlHelper extends BasicHelper {
 	
 	public static Element getBeanById(Document doc, String beanId) throws Exception {
 		
-		Element root = doc.getRootElement();
-		if(!"beans".equals(root.getName())) {
-			throw new Exception("bean config format error: root element is not beans");
-		}
+		Element beansElement = findElement(doc, "beans");
 		Element beanElement = null;
-		beanElement = root.elementByID(beanId);
+		beanElement = beansElement.elementByID(beanId);
 		
 		if(null == beanElement) {
 			List<Element> beans = null;
-			beans = root.elements("bean");
+			beans = beansElement.elements("bean");
+			if(null == beans) {
+				throw new NullPointerException("there is no bean resources under beans !");
+			}
 			for(int i = 0; i < beans.size(); i++ ) {
 				beanElement = beans.get(i);
 				if(beanElement.attribute("id").getValue().equals(beanId)) {
@@ -211,10 +252,13 @@ public abstract class XmlHelper extends BasicHelper {
 			}
 		}
 
+		if(null == beanElement) {
+			throw new NullPointerException("bean cannot be found, beanId is: " + beanId);
+		}
 		return beanElement;
 	}
 	
-	public static Object InitBean(Element beanEle) {
+	public static Object InitBean(Document doc, Element beanEle) {
 		
 		String beanClazName = beanEle.attributeValue("class");
 		
@@ -237,15 +281,53 @@ public abstract class XmlHelper extends BasicHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		String propValue = null;
+		String propName = null;
 		for(int i = 0; i < propertyElements.size(); i++) {
-			String propName = propertyElements.get(i).attribute("name").getValue();
-			String propValue = propertyElements.get(i).attribute("value").getValue();
+			propName = propertyElements.get(i).attribute("name").getValue();
+			if(null == propName) {
+				return null;
+			}
+			propValue = propertyElements.get(i).attribute("value").getValue();
+			if(propValue == null) {
+				propValue = propertyElements.get(i).attribute("ref bean").getValue();
+				if(propValue == null) {
+					
+				}
+				Object value = getBean(doc,propValue);
+			}
 			String propType = properties.get(propName);
 			ReflectHelper.callSetter(beanObj, propName, propType, propValue);
 		}
 		
 		return beanObj;
 	}
+	
+	public static void InitProperties(Document doc, List<Element> properties) {
+		
+	}
+	
+	public static void InitProperty(Document doc, Element property) {
+		
+	}
+	
+	public static Object getBean(Document doc, String beanId) {
+		
+		Object beanObj = null;
+		Element beanElement = null;
+		
+		try {
+			beanElement = getBeanById(doc, beanId);
+			beanObj = InitBean(doc, beanElement);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return beanObj;
+		
+	}
+	
+	
 	
 }

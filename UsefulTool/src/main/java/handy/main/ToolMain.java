@@ -77,7 +77,7 @@ public class ToolMain {
 		
 
 		//System.out.println(PathHelper.resolveAbsolutePath("config/db_config.properties"));
-		DbManager manager = DbManager.getInstance("config/db_config.properties");
+		//DbManager manager = DbManager.getInstance("config/db_config.properties");
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
@@ -92,9 +92,16 @@ public class ToolMain {
 		//XmlHelper.addSubElements("example7.xml", "examples", data);
 		//XmlHelper.createEmptyXmlDoc("d://example.xml");
 		//XmlHelper.getAttributesOfElement(XmlHelper.readXmlFrmFile("example7.xml"), "good1");
-		XmlHelper.getBean("example7.xml", "DbConfig");
+		
 		long startTime = System.currentTimeMillis();
-
+		
+		XmlHelper.getBean("example7.xml", "DbConfig");
+		XmlHelper.getBean("example7.xml", "SMSConfig");
+		XmlHelper.getBean("example7.xml", "SMSConfig2");
+		XmlHelper.getBean("example7.xml", "SMSConfig3");
+		XmlHelper.getBean("example7.xml", "SMSConfig4");
+		XmlHelper.getBean("example7.xml", "SMSConfig5");
+		XmlHelper.getBean("example7.xml", "SMSConfig6");
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
