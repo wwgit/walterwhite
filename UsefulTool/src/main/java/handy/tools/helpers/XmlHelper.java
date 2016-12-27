@@ -172,38 +172,39 @@ public abstract class XmlHelper extends BasicHelper {
 		return null;
 	}
 	
-	public static void getProperties(Document doc, List<Element> properties, Map<String,Class<?>> beanClazzes) {
+	public static Map<String, Object> getPropertyValues(List<Element> properties, Map<String,Class<?>> beanClazzes) {
 		
+		Map<String, Object> propertyValues = null;
 		
+		propertyValues = new HashMap<String, Object>();
 		
+		for(int i = 0; i < properties.size(); i++) {
+			Object value = getPropertyValue(properties.get(i), beanClazzes);
+			if(null == value) {
+				throw new NullPointerException("Cannot init property, property value is null ! "
+												+ properties.get(i).attributeValue("name"));
+			}
+			propertyValues.put(properties.get(i).attributeValue("name"), value);
+		}
+		
+		return propertyValues;
 	}
 	
-	public static void getProperty(Element property, Map<String,Class<?>> beanClazzes) {
-		
-		
-		
-	}
-	
-	public static Object getPropertyValueFrmAttr(Element property, Map<String,Class<?>> beanClazzes) {
+	public static Object getPropertyValue(Element property, Map<String,Class<?>> beanClazzes) {
 		
 		Object value = null;
 		
 		value = property.attributeValue("value");
+		
 		if(null == value) {
-			String clazName = property.attributeValue("ref bean");
-			try {
-				value = beanClazzes.get(clazName).newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			value = getPropertyValueFrmElement(property, beanClazzes);
 		}
 		
+		
 		return value;
+		
 	}
+	
 	
 	public static Object getPropertyValueFrmElement(Element property, Map<String,Class<?>> beanClazzes) {
 		
@@ -216,6 +217,40 @@ public abstract class XmlHelper extends BasicHelper {
 		}
 		value = valueElement.getText();
 		return value;
+	}
+	
+	public static Object getRefBeanObj(Element refBean, Map<String,Class<?>> beanClazzes) {
+		
+		Object refBeanObj = null;
+		List<Element> propertyElements = null;
+		
+		propertyElements = refBean.elements("property");
+		Class<?> refBeanClaz = beanClazzes.get(refBean.attributeValue("id"));
+		Map<String, Object> propertyValues = getPropertyValues(propertyElements, beanClazzes);
+		Map<String, String> propertyTypes = ReflectHelper.retrieveBeanPropertyTypes(refBeanClaz);
+		
+		try {
+			
+			refBeanObj = refBeanClaz.newInstance();
+			
+			for(int i = 0; i < propertyValues.size(); i++) {
+				
+				//ReflectHelper.
+				
+			}
+			
+			
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return refBeanObj;
+		
 	}
 	
 	/*debug done
@@ -326,7 +361,7 @@ public abstract class XmlHelper extends BasicHelper {
 		
 		try {
 			beanClaz = TypeHelper.getRequireClass(beanClazName);
-			properties = ReflectHelper.retrieveBeanProperties(beanClaz);
+			properties = ReflectHelper.retrieveBeanPropertyTypes(beanClaz);
 			beanObj = beanClaz.newInstance();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
