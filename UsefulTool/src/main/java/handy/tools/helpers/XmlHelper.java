@@ -157,8 +157,65 @@ public abstract class XmlHelper extends BasicHelper {
 		Element beans = null;
 		List<Element> beanElements = null;
 		
+		beans = findElement(doc, "beans");
+		if(null == beans) {
+			throw new NullPointerException("beans element cannot be found !");
+		}
+		
+		beanElements = beans.elements("bean");
+		if(null == beanElements) {
+			throw new NullPointerException("there is no bean element under beans element !");
+		}
+		
+		
 		
 		return null;
+	}
+	
+	public static void getProperties(Document doc, List<Element> properties, Map<String,Class<?>> beanClazzes) {
+		
+		
+		
+	}
+	
+	public static void getProperty(Element property, Map<String,Class<?>> beanClazzes) {
+		
+		
+		
+	}
+	
+	public static Object getPropertyValueFrmAttr(Element property, Map<String,Class<?>> beanClazzes) {
+		
+		Object value = null;
+		
+		value = property.attributeValue("value");
+		if(null == value) {
+			String clazName = property.attributeValue("ref bean");
+			try {
+				value = beanClazzes.get(clazName).newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return value;
+	}
+	
+	public static Object getPropertyValueFrmElement(Element property, Map<String,Class<?>> beanClazzes) {
+		
+		Object value = null;
+		Element valueElement = null;
+		
+		valueElement = property.element("value");
+		if(null == valueElement) {
+			
+		}
+		value = valueElement.getText();
+		return value;
 	}
 	
 	/*debug done
@@ -303,13 +360,7 @@ public abstract class XmlHelper extends BasicHelper {
 		return beanObj;
 	}
 	
-	public static void InitProperties(Document doc, List<Element> properties) {
-		
-	}
-	
-	public static void InitProperty(Document doc, Element property) {
-		
-	}
+
 	
 	public static Object getBean(Document doc, String beanId) {
 		
