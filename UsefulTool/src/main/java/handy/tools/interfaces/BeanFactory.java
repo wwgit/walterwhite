@@ -23,9 +23,6 @@ public abstract class BeanFactory {
 	//For the same object, property name(alias as attributeName) must be unique 
 	private Map<String, Map> beanPropertyClazz;
 	
-	
-	protected abstract Map<String,Map> BeansPropertiesTypes();
-	
 	protected abstract void setBeanPropertyClazz();
 	protected abstract void setBeanPropertyValues();
 	protected abstract void setBeanObjects();
@@ -37,9 +34,8 @@ public abstract class BeanFactory {
 	public Map<String, Class<?>> getBeansClazz() {
 		return beansClazz;
 	}
-
-	protected void setBeansClazz(Map<String, Class<?>> beansClazz) {
-		this.beansClazz = beansClazz;
+	protected void setBeansClazz(Map<String, Class<?>> theBeansClazz) {
+		this.beansClazz = theBeansClazz;
 	}
 
 	public Map<String, Object> getBeanObjects() {

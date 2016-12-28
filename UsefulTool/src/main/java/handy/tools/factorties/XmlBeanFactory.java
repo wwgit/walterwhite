@@ -17,7 +17,6 @@ public class XmlBeanFactory extends BeanFactory {
 		parser = new XmlConfigureParser(xmlPath);
 	}
 
-	@Override
 	protected Map<String, Map> BeansPropertiesTypes() {
 		
 		Map<String, Map> beanPropTypes = null;
