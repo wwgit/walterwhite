@@ -100,7 +100,7 @@ public abstract class XmlHelper extends BasicHelper {
 	/*debug done
 	 * 
 	 * */
-	private static Element findElement(Document doc, String eleName) {
+	public static Element findElement(Document doc, String eleName) {
 				
 		Element root = doc.getRootElement();
 		if(eleName.equals(root.getName())) {
@@ -120,57 +120,6 @@ public abstract class XmlHelper extends BasicHelper {
 		return results;
 	}
 	
-	public static Map<String, Class<?>> getBeansInfo(String xmlPath) {
-		
-		Document doc = readXmlFrmFile(xmlPath);
-		Element beans = null;
-		List<Element> beanElements = null;
-		Map<String, Class<?>> beansInfo = null;
-		
-		beans = findElement(doc, "beans");
-		if(null == beans) {
-			throw new NullPointerException("beans element cannot be found !");
-		}
-		
-		beanElements = beans.elements("bean");
-		if(null == beanElements) {
-			throw new NullPointerException("there is no bean element under beans element !");
-		}
-		
-		try {
-			beansInfo = new HashMap<String, Class<?>>();
-			for(int i = 0; i < beanElements.size(); i++) {
-				Element e = beanElements.get(i);
-				beansInfo.put(e.attributeValue("id"), getRequireClass(e.attributeValue("class")));
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		return beansInfo;
-	}
-	
-	public static Map<String,Map> getPropertyValues(String xmlPath, Map<String,Class<?>> beanClazzes) {
-		
-		Document doc = readXmlFrmFile(xmlPath);
-		Element beans = null;
-		List<Element> beanElements = null;
-		
-		beans = findElement(doc, "beans");
-		if(null == beans) {
-			throw new NullPointerException("beans element cannot be found !");
-		}
-		
-		beanElements = beans.elements("bean");
-		if(null == beanElements) {
-			throw new NullPointerException("there is no bean element under beans element !");
-		}
-		
-		
-		
-		return null;
-	}
 	
 	public static Map<String, Object> getPropertyValues(List<Element> properties, Map<String,Class<?>> beanClazzes) {
 		

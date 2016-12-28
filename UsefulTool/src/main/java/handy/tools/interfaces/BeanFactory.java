@@ -1,14 +1,19 @@
-package handy.tools.factorties;
+package handy.tools.interfaces;
 
 import handy.tools.helpers.XmlHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeanFactory {
+public abstract class BeanFactory {
 	
-	//beanInfo: Map<beanId, bean Class> - beanId should be unique
+	//beansClazz: Map<beanId, bean Class> - beanId should be unique
 	private Map<String, Class<?>> beansClazz;
+	
+	//beanObjects: Map<beanId, bean Object> - beanId should be unique
+	private Map<String, Object> beanObjects;
+	
+	
 	
 	//beanPropertyValues: Map<beanId, propertyInfo> -  beanId should be unique
 	//propertyInfo: Map<attributeName, attributeValue> - attribute name should be unique
@@ -21,17 +26,16 @@ public class BeanFactory {
 	private Map<String, Map> beanPropertyClazz;
 	
 	
-	public Map<String, Class<?>> setBeansInfoFrmXml(String xmlPath) {
-		
-		Map<String, Class<?>> beansClazz = null;	
-		try {
-			beansClazz = XmlHelper.getBeansInfo(xmlPath);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return beansClazz;
-	}
+	
+	
+	public abstract void loadBeans(String xmlPath);
+	
+	public abstract void lazyLoadBeans(String xmlPath);
+	
+	
+	
+	
+
 	
 
 }
