@@ -24,21 +24,21 @@ public abstract class BeanFactory {
 	private Map<String, Map> beanPropertyClazz;
 	
 	
+	protected abstract Map<String,Map> BeansPropertiesTypes();
 	
-	
-	public abstract void loadBeans(String xmlPath);
-	
-	public abstract void lazyLoadBeans(String xmlPath);
-	
-	public abstract Map<String,Map> BeansPropertiesTypes();
-	
+	protected abstract void setBeanPropertyClazz();
+	protected abstract void setBeanPropertyValues();
+	protected abstract void setBeanObjects();
+	protected abstract void setBeansClazz();
+	protected abstract ConfigureParser getParser();
+	protected abstract void setParser(String configPath);
 	
 
 	public Map<String, Class<?>> getBeansClazz() {
 		return beansClazz;
 	}
 
-	public void setBeansClazz(Map<String, Class<?>> beansClazz) {
+	protected void setBeansClazz(Map<String, Class<?>> beansClazz) {
 		this.beansClazz = beansClazz;
 	}
 
@@ -46,7 +46,7 @@ public abstract class BeanFactory {
 		return beanObjects;
 	}
 
-	public void setBeanObjects(Map<String, Object> beanObjects) {
+	protected void setBeanObjects(Map<String, Object> beanObjects) {
 		this.beanObjects = beanObjects;
 	}
 
@@ -54,7 +54,7 @@ public abstract class BeanFactory {
 		return beanPropertyValues;
 	}
 
-	public void setBeanPropertyValues(Map<String, Map> beanPropertyValues) {
+	protected void setBeanPropertyValues(Map<String, Map> beanPropertyValues) {
 		this.beanPropertyValues = beanPropertyValues;
 	}
 
@@ -62,12 +62,26 @@ public abstract class BeanFactory {
 		return beanPropertyClazz;
 	}
 
-	public void setBeanPropertyClazz(Map<String, Map> beanPropertyClazz) {
+	protected void setBeanPropertyClazz(Map<String, Map> beanPropertyClazz) {
 		this.beanPropertyClazz = beanPropertyClazz;
 	}
 	
-	
 
-	
+	public void loadBeans(String configPath) {
+		this.setParser(configPath);
+		this.setBeansClazz();
+		this.setBeanPropertyValues();
+		this.setBeanPropertyClazz();
+		this.setBeanObjects();
+	}
+
+
+	public void lazyLoadBeans(String configPath) {
+		this.setParser(configPath);
+		this.setBeansClazz();
+		this.setBeanPropertyValues();
+		this.setBeanPropertyClazz();
+		
+	}	
 
 }

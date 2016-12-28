@@ -16,33 +16,9 @@ public class XmlBeanFactory extends BeanFactory {
 	public XmlBeanFactory(String xmlPath) {		
 		parser = new XmlConfigureParser(xmlPath);
 	}
-	
-	public Map<String, Class<?>> setBeansClazzFrmXml(String xmlPath) {
-		
-		Map<String, Class<?>> beansClazz = null;	
-		try {
-			beansClazz = parser.getBeanClazzes();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return beansClazz;
-	}
 
 	@Override
-	public void loadBeans(String xmlPath) {
-		
-		
-	}
-
-	@Override
-	public void lazyLoadBeans(String xmlPath) {
-		
-		
-	}
-
-	@Override
-	public Map<String, Map> BeansPropertiesTypes() {
+	protected Map<String, Map> BeansPropertiesTypes() {
 		
 		Map<String, Map> beanPropTypes = null;
 		Map<String, Class<?>> beanClazzes = getBeansClazz();
@@ -59,6 +35,36 @@ public class XmlBeanFactory extends BeanFactory {
 		}
 		
 		return beanPropTypes;
+	}
+
+	@Override
+	protected void setBeanPropertyClazz() {
+		setBeanPropertyClazz(BeansPropertiesTypes());
+	}
+
+	@Override
+	protected void setBeanPropertyValues() {
+		this.setBeanPropertyValues(this.getParser().BeansPropertiesValues());
+	}
+
+	@Override
+	protected void setBeanObjects() {
+		
+	}
+
+	@Override
+	protected void setBeansClazz() {
+		setBeansClazz(this.getParser().getBeanClazzes());
+	}
+
+	@Override
+	protected ConfigureParser getParser() {
+		return this.parser;
+	}
+
+	@Override
+	protected void setParser(String xmlPath) {
+		this.parser = new XmlConfigureParser(xmlPath);
 	}
 	
 	
