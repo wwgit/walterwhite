@@ -75,20 +75,19 @@ public class XmlConfigureParser extends ConfigureParser {
 	}
 	
 	@Override
-	public Map<String, Map> BeansProperties(Map<String, Class<?>> beanClazzes) {
+	public Map<String, Map> BeansPropertiesValues() {
 		
 		List<Element> beanElements = this.getBeanElements();
 		Map<String, Map> beansProperties = new HashMap<String, Map>();
 		for(int i = 0 ; i < beanElements.size(); i++) {
 			Element bean = beanElements.get(i);
-			beansProperties.put(bean.attributeValue("id"), getPropertyValues(bean, beanClazzes));
+			beansProperties.put(bean.attributeValue("id"), getPropertyValues(bean));
 		}
 		
 		return beansProperties;
 	}
 	
-	
-	public Map<String,Object> getPropertyValues(Element beanElement, Map<String,Class<?>> beanClazzes) {
+	public Map<String,Object> getPropertyValues(Element beanElement) {
 
 		Map<String,Object> propertyValues = null;
 		List<Element> propertyElements = null;
@@ -98,15 +97,23 @@ public class XmlConfigureParser extends ConfigureParser {
 		}
 		
 		propertyValues = new HashMap<String, Object>();
-		for(int i = 0; i < propertyElements.size(); i++) {
-			String propertyName = propertyElements.get(i).attributeValue("name");
-			Object value = getPropertyValue(propertyElements.get(i), beanClazzes);
+		String propertyName = null;
+		Object value = null;
+		try {
+			for(int i = 0; i < propertyElements.size(); i++) {
+				propertyName = propertyElements.get(i).attributeValue("name");
+				value = getPropertyValue(propertyElements.get(i));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			
 		}
 		
 		return propertyValues;
 	}
 	
-	public Object getPropertyValue(Element property, Map<String,Class<?>> beanClazzes) {
+	
+	public Object getPropertyValue(Element property) {
 		
 		Object value = null;
 		value = property.attributeValue("value");
@@ -122,27 +129,32 @@ public class XmlConfigureParser extends ConfigureParser {
 				return value;
 			}
 			
-			value = getRefObject(property, beanClazzes);
+			value = getRefObject(property);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+			
 		return value;
 	}
 
 
-	public Object getRefObject(Element property, Map<String,Class<?>> beanClazzes) {
+	public Object getRefObject(Element reference) {
 		
-		Object value = null;
+		String refBeanId = null;
+		Object result = null;
 		
+		refBeanId = reference.attributeValue("local");
+		if(null != refBeanId) {
+			result = REF_LOCAL_NOT_INIT;
+		}
+		refBeanId = reference.attributeValue("bean");
+		if(null != refBeanId) {
+			result = REF_BEAN_NOT_INIT;
+		}
 		
-		
-		return value;
+		return result;
 	}
-
-
 
 	
 	

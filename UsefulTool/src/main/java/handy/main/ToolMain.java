@@ -95,13 +95,16 @@ public class ToolMain {
 		
 		long startTime = System.currentTimeMillis();
 		
-		XmlHelper.getBean("example7.xml", "DbConfig");
+		System.out.println("ref_local_null".hashCode());
+		System.out.println("ref_local_null".hashCode());
+		System.out.println("ref_local_null".hashCode());
+		/*XmlHelper.getBean("example7.xml", "DbConfig");
 		XmlHelper.getBean("example7.xml", "SMSConfig");
 		XmlHelper.getBean("example7.xml", "SMSConfig2");
 		XmlHelper.getBean("example7.xml", "SMSConfig3");
 		XmlHelper.getBean("example7.xml", "SMSConfig4");
 		XmlHelper.getBean("example7.xml", "SMSConfig5");
-		XmlHelper.getBean("example7.xml", "SMSConfig6");
+		XmlHelper.getBean("example7.xml", "SMSConfig6");*/
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

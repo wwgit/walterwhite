@@ -24,6 +24,7 @@ public class DbConfig extends Config {
 	
 	public DbConfig() {
 		System.out.println(" new dbConfig object !");
+		System.out.println("ref_local_null".hashCode());
 	}
 	
 	public String getUrl() {

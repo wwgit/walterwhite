@@ -86,13 +86,13 @@ public abstract class ReflectHelper extends BasicHelper {
 	/*map structure of one bean property: key-value = property name(key) - property type(value)
 	 * 
 	 * */
-	public static Map<String, String> retrieveBeanPropertyTypes(Class<?> beanClaz) {
+	public static Map<String, Class<?>> retrieveBeanPropertyTypes(Class<?> beanClaz) {
 		
 		Field[] fields = beanClaz.getDeclaredFields();
-		Map<String, String> properties = new HashMap<String,String>();
+		Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
 		
 		for(int i = 0; i < fields.length; i++) {
-			properties.put(fields[i].getName(), fields[i].getType().getName());
+			properties.put(fields[i].getName(), fields[i].getType());
 		}
 		
 		return properties;
