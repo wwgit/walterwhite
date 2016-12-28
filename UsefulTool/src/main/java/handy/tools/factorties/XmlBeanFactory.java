@@ -6,6 +6,7 @@ import handy.tools.interfaces.BeanFactory;
 import handy.tools.interfaces.ConfigureParser;
 import handy.tools.parser.XmlConfigureParser;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ public class XmlBeanFactory extends BeanFactory {
 		parser = new XmlConfigureParser(xmlPath);
 	}
 
+	protected void InitBean(Class<?> BeanClazz) {
+		
+	}
+	
 	protected Map<String, Map> BeansPropertiesTypes() {
 		
 		Map<String, Map> beanPropTypes = null;
@@ -48,6 +53,11 @@ public class XmlBeanFactory extends BeanFactory {
 
 	@Override
 	protected void setBeanObjects() {
+		Map<String, Object> beansObjects = this.getBeanObjects();
+		if(null == beansObjects) {
+			beansObjects = new HashMap<String, Object>();
+		}
+		
 		
 	}
 
