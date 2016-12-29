@@ -17,7 +17,7 @@ public abstract class ConfigureParser {
 	
 	public abstract Map<String, Class<?>> getBeanClazzes();
 	public abstract Map<String,Map> BeansPropertiesValues();
-	//public abstract Map<String,Map> BeansPropertiesTypes();
+	public abstract Map<String,Map> BeansPropertiesRefBeanIds();
 	
 	public static int parseFileSuffix(String configPath) {
 		

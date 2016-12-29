@@ -42,7 +42,7 @@ public class XmlConfigureParser extends ConfigureParser {
 	}
 	public void setBeanElements() {
 		List<Element> myBeanElements = getBeans().elements("bean");
-		if(null == myBeanElements) {
+		if(null == myBeanElements || myBeanElements.size() <1) {
 			throw new NullPointerException("there is no bean element under beans element !");
 		}
 		this.beanElements = myBeanElements;
@@ -92,7 +92,7 @@ public class XmlConfigureParser extends ConfigureParser {
 		Map<String,Object> propertyValues = null;
 		List<Element> propertyElements = null;
 		propertyElements = beanElement.elements("property");
-		if(null == propertyElements) {
+		if(null == propertyElements || propertyElements.size() <1) {
 			return null;
 		}
 		
@@ -129,7 +129,7 @@ public class XmlConfigureParser extends ConfigureParser {
 				return value;
 			}
 			
-			value = getRefObject(property);
+			value = getRefObject(property.element("ref"));
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -155,8 +155,80 @@ public class XmlConfigureParser extends ConfigureParser {
 		
 		return result;
 	}
+	
+	
+	@Override
+	public Map<String, Map> BeansPropertiesRefBeanIds() {
+		
+		List<Element> beanElements = this.getBeanElements();
+		Map<String, Map> beansPropertiesRefBeanIds = new HashMap<String, Map>();
+		Element bean = null;
+		Map<String,String> propertyRefBeanIds = null;
+		for(int i = 0; i < beanElements.size(); i++) {
+			bean = beanElements.get(i);
+			propertyRefBeanIds = getPropertyRefBeanIds(bean);
+			if(null == propertyRefBeanIds || propertyRefBeanIds.size() < 1) {
+				continue;
+			}
+			beansPropertiesRefBeanIds.put(bean.attributeValue("name"), propertyRefBeanIds);
+		}
+		
+		return beansPropertiesRefBeanIds;
+	}
 
+	public Map<String,String> getPropertyRefBeanIds(Element beanElement) {
+
+		Map<String,String> propertyRefBeanId = null;
+		List<Element> propertyElements = null;
+		propertyElements = beanElement.elements("property");
+		if(null == propertyElements) {
+			return null;
+		}
+				
+		String propertyName = null;
+		String refBeanId = null;
+		Element refBean = null;
+		try {		
+			for(int i = 0; i < propertyElements.size(); i++) {
+				refBean = propertyElements.get(i).element("ref");
+				if(null == refBean) {
+					continue;
+				}			
+				refBeanId = getPropertyBeanId(refBean);
+				if(null == refBeanId) {
+					throw new Exception("ref format error !");
+				}
+				propertyRefBeanId = new HashMap<String, String>();
+				propertyName = propertyElements.get(i).attributeValue("name");
+				propertyRefBeanId.put(propertyName, refBeanId);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();		
+		}
+		
+		return propertyRefBeanId;
+	}
 	
-	
+	public String getPropertyBeanId(Element refBean) {
+		
+		String refBeanId = null;
+		
+		try {
+
+			refBeanId = refBean.attributeValue("local");
+			if(null != refBeanId) {
+				return refBeanId;
+			}
+			refBeanId = refBean.attributeValue("bean");
+			if(null != refBeanId) {
+				return refBeanId;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return refBeanId;
+	}
 
 }

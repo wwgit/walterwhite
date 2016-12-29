@@ -45,15 +45,20 @@ public class DbPool {
 		Vector<Connection> conns = new Vector<Connection>();
 		Connection conn = null;
 		try {
-			Class.forName(config.getDbDriver());
+			
+			Class.forName(config.getDbDriver());		
 			for(int i = 0; i < config.getDbSize(); i++) {
 				conn = DbHelper.createConnection(config.getUrl(), config.getUserName(), config.getPassword());
 				conns.add(i, conn);
 			}
+
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	

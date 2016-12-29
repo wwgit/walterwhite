@@ -14,21 +14,31 @@ public abstract class BeanFactory {
 	private Map<String, Object> beanObjects;
 	
 	//beanPropertyValues: Map<beanId, propertyInfo> -  beanId should be unique
-	//propertyInfo: Map<attributeName, attributeValue> - attribute name should be unique
-	//For the same object, property name(alias as attributeName) must be unique 
+	//PropertyValues: Map<propertyName, propertyValue> - property name should be unique for one bean
+	//For the same bean, property name must be unique 
+	//PropertyValues:HashMap<String,Object>
 	private Map<String, Map> beanPropertyValues;
 	
-	//beanPropertyClazz: Map<beanId, propertyClazz> -  beanId should be unique
-	//propertyClazz: Map<attributeName, attributeTypeClazz> - attribute name should be unique
-	//For the same object, property name(alias as attributeName) must be unique 
+	//beanPropertyClazz: Map<beanId, propertyClazzes> -  beanId should be unique
+	//propertyClazzes: Map<propertyName, propertyClazz> - property name should be unique for one bean
+	//For the same bean, property name must be unique
+	//propertyClazzes:HashMap<String,Class<?>>
 	private Map<String, Map> beanPropertyClazz;
+	
+	//beanPropertyRefBeanId: Map<beanId, propertyRefBeanId> -  beanId should be unique
+	//propertyRefBeanId: Map<propertyName, refBeanId> - property name should be unique for one bean
+	//For the same bean, property name must be unique
+	//propertyRefBeanId:HashMap<String,String>
+	private Map<String, Map> beanPropertyRefBeanId;
 	
 	protected abstract void setBeanPropertyClazz();
 	protected abstract void setBeanPropertyValues();
 	protected abstract void setBeanObjects();
 	protected abstract void setBeansClazz();
+	protected abstract void setBeanPropertyRefBeanId();
 	protected abstract ConfigureParser getParser();
 	protected abstract void setParser(String configPath);
+	public abstract Object getBean(String beanId);
 	
 
 	public Map<String, Class<?>> getBeansClazz() {
@@ -61,11 +71,18 @@ public abstract class BeanFactory {
 	protected void setBeanPropertyClazz(Map<String, Map> beanPropertyClazz) {
 		this.beanPropertyClazz = beanPropertyClazz;
 	}
+	public Map<String, Map> getBeanPropertyRefBeanId() {
+		return beanPropertyRefBeanId;
+	}
+	protected void setBeanPropertyRefBeanId(Map<String, Map> beanPropertyRefBeanId) {
+		this.beanPropertyRefBeanId = beanPropertyRefBeanId;
+	}
 	
 
 	public void loadBeans(String configPath) {
 		this.setParser(configPath);
 		this.setBeansClazz();
+		this.setBeanPropertyRefBeanId();
 		this.setBeanPropertyValues();
 		this.setBeanPropertyClazz();
 		this.setBeanObjects();
@@ -75,9 +92,12 @@ public abstract class BeanFactory {
 	public void lazyLoadBeans(String configPath) {
 		this.setParser(configPath);
 		this.setBeansClazz();
+		this.setBeanPropertyRefBeanId();
 		this.setBeanPropertyValues();
 		this.setBeanPropertyClazz();
 		
-	}	
+	}
+
+	
 
 }

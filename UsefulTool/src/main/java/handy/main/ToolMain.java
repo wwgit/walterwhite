@@ -16,10 +16,12 @@ import java.util.Set;
 
 import handy.tools.db.ComplexValue;
 import handy.tools.db.DbManager;
+import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.FileHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
+import handy.tools.interfaces.BeanFactory;
 import handy.tools.interfaces.ClassFactory;
 import handy.tools.io.NioHelper;
 
@@ -95,9 +97,9 @@ public class ToolMain {
 		
 		long startTime = System.currentTimeMillis();
 		
-		System.out.println("ref_local_null".hashCode());
-		System.out.println("ref_local_null".hashCode());
-		System.out.println("ref_local_null".hashCode());
+		//System.out.println("ref_local_null".hashCode());
+		//System.out.println("ref_local_null".hashCode());
+		//System.out.println("ref_local_null".hashCode());
 		/*XmlHelper.getBean("example7.xml", "DbConfig");
 		XmlHelper.getBean("example7.xml", "SMSConfig");
 		XmlHelper.getBean("example7.xml", "SMSConfig2");
@@ -105,6 +107,9 @@ public class ToolMain {
 		XmlHelper.getBean("example7.xml", "SMSConfig4");
 		XmlHelper.getBean("example7.xml", "SMSConfig5");
 		XmlHelper.getBean("example7.xml", "SMSConfig6");*/
+		
+		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
+		Object DbConfig = xmlBeanCreator.getBean("DbConfig");
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

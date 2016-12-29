@@ -21,7 +21,7 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 	}
 	
-	public static void callSetter(Object beanObj, String propertyName, Map<Object, String> values) {
+	public static void callSetter(Object beanObj, String propertyName, Map<Object, Class<?>> values) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
 		//Map<Object, String> values = new HashMap<Object, String>();
@@ -60,21 +60,18 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 	}
 	
-	public static void doOneDeclareMethodCall(Object obj, String methodName, Map<Object, String> values_types) {
+	public static void doOneDeclareMethodCall(Object obj, String methodName, Map<Object, Class<?>> values_clazz) {
 		
-		Class<?>[] typeClazzes = null;
-		Object[] values = null;
+		Class<?>[] paramClazzes = null;
+		Object[] paramvalues = null;
 		
-		typeClazzes = new Class<?>[values_types.size()];
-		values = values_types.keySet().toArray();
+		paramClazzes = (Class<?>[]) values_clazz.values().toArray();
+		paramvalues = values_clazz.keySet().toArray();
 		
 		try {
 						
-			for(int i = 0; i < values.length; i++) {
-				typeClazzes[i] = getRequireClass(values_types.get(values[i]));				
-			}
-			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
-			method.invoke(obj, values);
+			Method method = obj.getClass().getDeclaredMethod(methodName, paramClazzes);
+			method.invoke(obj, paramvalues);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
