@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import handy.tools.db.ComplexValue;
+import handy.tools.db.DbConfig;
 import handy.tools.db.DbManager;
 import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.DbHelper;
@@ -109,8 +110,11 @@ public class ToolMain {
 		XmlHelper.getBean("example7.xml", "SMSConfig6");*/
 		
 		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
-		Object DbConfig = xmlBeanCreator.getBean("DbConfig");
-
+		DbConfig attriChk = (DbConfig) xmlBeanCreator.getBean("DbConfig");
+		System.out.println("attriChk:" + attriChk.getUrl());
+		DbConfig eleValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig");
+		System.out.println("attriChk:" + eleValChk.getUrl());
+		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

@@ -26,8 +26,8 @@ public class XmlBeanFactory extends BeanFactory {
 		Map<String,Object> propertyValues = null;
 		Map<String, Class<?>> propertyTypes = null;
 		
-		propertyValues = this.getBeanPropertyValues().get(beanId);
-		propertyTypes = this.getBeanPropertyClazz().get(beanId);
+		propertyValues = getBeanPropertyValues().get(beanId);
+		propertyTypes = getBeanPropertyClazz().get(beanId);
 		beanObj = initBeanProperties(beanClazz, beanId, propertyValues, propertyTypes);				
 		
 		return beanObj;
@@ -44,7 +44,15 @@ public class XmlBeanFactory extends BeanFactory {
 		Object value = null;
 		Class<?> propertyClazz = null;
 		Object beanObj = null;
+		
 		try {
+			
+			if(null == propertyValues || null == propertyTypes) {
+				if(null == beanClazz) {
+					throw new Exception("some input paramters is null !");
+				}
+				return beanClazz.newInstance();
+			}
 		
 			for(Iterator key_it = propertyValues.keySet().iterator(); key_it.hasNext();) {
 				
@@ -60,7 +68,7 @@ public class XmlBeanFactory extends BeanFactory {
 					if(ConfigureParser.REF_LOCAL_NOT_INIT == chk || 
 					    ConfigureParser.REF_BEAN_NOT_INIT == chk) {
 						
-							Map<String, String> propertyRefBeanIds = this.getBeanPropertyRefBeanId().get(beanId);
+							Map<String, String> propertyRefBeanIds = getBeanPropertyRefBeanId().get(beanId);
 							String refBeanId = propertyRefBeanIds.get(propertyName);
 							value = getBean(refBeanId);					
 					}
