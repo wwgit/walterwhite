@@ -186,5 +186,13 @@ public abstract class TypeHelper extends BasicHelper {
 		
 		return value;
 	}
+	
+	public static Object getRequiredValue(Object origin_value, String requiredType) {
+		
+		String str = String.valueOf(origin_value);
+		
+		Object value = getRequiredValue(str, requiredType);		
+		return value;
+	}
 
 }

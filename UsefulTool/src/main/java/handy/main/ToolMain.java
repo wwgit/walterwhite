@@ -113,7 +113,11 @@ public class ToolMain {
 		DbConfig attriChk = (DbConfig) xmlBeanCreator.getBean("DbConfig");
 		System.out.println("attriChk:" + attriChk.getUrl());
 		DbConfig eleValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig");
-		System.out.println("attriChk:" + eleValChk.getUrl());
+		System.out.println("eleValChk:" + eleValChk.getUrl());
+		
+		DbConfig multValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig2");
+		System.out.println("multValChk:" + multValChk.getUrl());
+		System.out.println("multValChk:" + multValChk.getDbSize());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

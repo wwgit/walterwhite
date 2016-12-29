@@ -57,6 +57,7 @@ public class XmlBeanFactory extends BeanFactory {
 			for(Iterator key_it = propertyValues.keySet().iterator(); key_it.hasNext();) {
 				
 				propertyName = (String) key_it.next();
+				propertyClazz = propertyTypes.get(propertyName);
 				value = propertyValues.get(propertyName);
 				int type = TypeHelper.parseType(value);
 				
@@ -70,11 +71,11 @@ public class XmlBeanFactory extends BeanFactory {
 						
 							Map<String, String> propertyRefBeanIds = getBeanPropertyRefBeanId().get(beanId);
 							String refBeanId = propertyRefBeanIds.get(propertyName);
-							value = getBean(refBeanId);					
+							value = getBean(refBeanId);						
 					}
 				}
 				
-				propertyClazz = propertyTypes.get(propertyName);
+				value = TypeHelper.getRequiredValue(value, propertyClazz.getName());			
 				
 				//init property by calling setter
 				value_type = new HashMap<Object, Class<?>>();

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javassist.bytecode.Descriptor.Iterator;
 
 public abstract class ReflectHelper extends BasicHelper {
 	
@@ -17,6 +20,7 @@ public abstract class ReflectHelper extends BasicHelper {
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
+		System.out.println("calling setter: " + setterName);
 		doOneDeclareMethodCall(beanObj, setterName, requiredType, propertyValue);
 		
 	}
@@ -25,7 +29,7 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
 		//Map<Object, String> values = new HashMap<Object, String>();
-		//values.put(propertyValue, requiredType);
+		System.out.println("calling setter: " + setterName);
 		doOneDeclareMethodCall(beanObj, setterName, values);
 		
 	}
@@ -63,15 +67,24 @@ public abstract class ReflectHelper extends BasicHelper {
 	public static void doOneDeclareMethodCall(Object obj, String methodName, Map<Object, Class<?>> values_clazz) {
 		
 		Class<?>[] paramClazzes = null;
-		Object[] paramvalues = null;
+		Object[] paramValues = null;
+		if(values_clazz.keySet().isEmpty()) {
+			return;
+		}
 		
-		paramClazzes = (Class<?>[]) values_clazz.values().toArray();
-		paramvalues = values_clazz.keySet().toArray();
+		paramClazzes = new Class<?>[values_clazz.size()];
+		paramValues = new Object[values_clazz.size()];
+		
+		int i = 0;
+		for(Map.Entry<Object, Class<?>> entry : values_clazz.entrySet()) {
+			paramClazzes[i] = entry.getValue();
+			paramValues[i] = entry.getKey();
+		}
 		
 		try {
 						
 			Method method = obj.getClass().getDeclaredMethod(methodName, paramClazzes);
-			method.invoke(obj, paramvalues);
+			method.invoke(obj, paramValues);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

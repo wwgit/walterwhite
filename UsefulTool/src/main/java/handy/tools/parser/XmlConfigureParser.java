@@ -125,7 +125,7 @@ public class XmlConfigureParser extends ConfigureParser {
 		
 		try {
 			
-			value = property.element("value");
+			value = property.element("value").getText();
 			if(null != value) {
 				return value;
 			}
