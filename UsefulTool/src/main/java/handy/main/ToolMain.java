@@ -117,6 +117,7 @@ public class ToolMain {
 		
 		DbConfig multValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig2");
 		System.out.println("multValChk:" + multValChk.getUrl());
+		System.out.println("multValChk:" + multValChk.getPassword());
 		System.out.println("multValChk:" + multValChk.getDbSize());
 		
 		long endTime = System.currentTimeMillis();

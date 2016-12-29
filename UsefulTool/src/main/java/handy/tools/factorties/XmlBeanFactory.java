@@ -17,7 +17,8 @@ public class XmlBeanFactory extends BeanFactory {
 	
 	public XmlBeanFactory(String xmlPath) {		
 		//parser = new XmlConfigureParser(xmlPath);
-		this.loadBeans(xmlPath);
+		//this.loadBeans(xmlPath);
+		this.lazyLoadBeans(xmlPath);
 	}
 
 	protected Object initBean(String beanId, Class<?> beanClazz) {
@@ -54,6 +55,7 @@ public class XmlBeanFactory extends BeanFactory {
 				return beanClazz.newInstance();
 			}
 		
+			beanObj = beanClazz.newInstance();
 			for(Iterator key_it = propertyValues.keySet().iterator(); key_it.hasNext();) {
 				
 				propertyName = (String) key_it.next();
@@ -72,17 +74,9 @@ public class XmlBeanFactory extends BeanFactory {
 							Map<String, String> propertyRefBeanIds = getBeanPropertyRefBeanId().get(beanId);
 							String refBeanId = propertyRefBeanIds.get(propertyName);
 							value = getBean(refBeanId);						
-					}
+					}					
 				}
-				
-				value = TypeHelper.getRequiredValue(value, propertyClazz.getName());			
-				
-				//init property by calling setter
-				value_type = new HashMap<Object, Class<?>>();
-				value_type.put(value, propertyClazz);
-				beanObj = beanClazz.newInstance();
-				ReflectHelper.callSetter(beanObj, propertyName, value_type);
-				
+				initBeanProperty(beanObj, propertyName, propertyClazz, value);	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +86,15 @@ public class XmlBeanFactory extends BeanFactory {
 		
 	}
 	
-	
+	protected void initBeanProperty(Object beanObj, String propertyName, 
+									Class<?> propertyClazz, Object org_value) {
+		
+		Object value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
+		Map<Object, Class<?>> value_type = new HashMap<Object, Class<?>>();
+		value_type.put(value, propertyClazz);
+		ReflectHelper.callSetter(beanObj, propertyName, value_type);
+		
+	}
 	
 	protected Map<String, Map> BeansPropertiesTypes() {
 		
