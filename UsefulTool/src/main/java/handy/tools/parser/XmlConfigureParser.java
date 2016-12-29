@@ -103,6 +103,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			for(int i = 0; i < propertyElements.size(); i++) {
 				propertyName = propertyElements.get(i).attributeValue("name");
 				value = getPropertyValue(propertyElements.get(i));
+				propertyValues.put(propertyName, value);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
