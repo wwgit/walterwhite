@@ -61,21 +61,13 @@ public class XmlBeanFactory extends BeanFactory {
 				propertyName = (String) key_it.next();
 				propertyClazz = propertyTypes.get(propertyName);
 				value = propertyValues.get(propertyName);
-				int type = TypeHelper.parseType(value);
 				
-				//handle if value is an reference bean object
-				if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
-					
-					int chk = ((Integer)value).intValue();				
-					
-					if(ConfigureParser.REF_LOCAL_NOT_INIT == chk || 
-					    ConfigureParser.REF_BEAN_NOT_INIT == chk) {
-						
-							Map<String, String> propertyRefBeanIds = getBeanPropertyRefBeanId().get(beanId);
-							String refBeanId = propertyRefBeanIds.get(propertyName);
-							value = getBean(refBeanId);						
-					}					
+				if(this.parser.isRefBean(value)) {
+					Map<String, String> propertyRefBeanIds = getBeanPropertyRefBeanId().get(beanId);
+					String refBeanId = propertyRefBeanIds.get(propertyName);
+					value = getBean(refBeanId);
 				}
+		
 				initBeanProperty(beanObj, propertyName, propertyClazz, value);	
 			}
 		} catch (Exception e) {
@@ -142,8 +134,7 @@ public class XmlBeanFactory extends BeanFactory {
 				return beanObj;
 			}
 
-			beanObj = initBean(beanId, getBeansClazz().get(beanId));
-			
+			beanObj = initBean(beanId, getBeansClazz().get(beanId));			
 		}
 		catch (Exception e) {			
 			e.printStackTrace();

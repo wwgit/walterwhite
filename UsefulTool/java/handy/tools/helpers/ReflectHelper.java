@@ -20,7 +20,7 @@ public abstract class ReflectHelper extends BasicHelper {
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
-		System.out.println("calling setter: " + setterName);
+		//System.out.println("calling setter: " + setterName);
 		doOneDeclareMethodCall(beanObj, setterName, requiredType, propertyValue);
 		
 	}
@@ -29,7 +29,7 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
 		//Map<Object, String> values = new HashMap<Object, String>();
-		System.out.println("calling setter: " + setterName);
+		//System.out.println("calling setter: " + setterName);
 		doOneDeclareMethodCall(beanObj, setterName, values);
 		
 	}

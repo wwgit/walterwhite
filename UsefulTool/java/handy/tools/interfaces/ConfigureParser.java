@@ -1,5 +1,8 @@
 package handy.tools.interfaces;
 
+import handy.tools.constants.DataTypes;
+import handy.tools.helpers.TypeHelper;
+
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -19,7 +22,7 @@ public abstract class ConfigureParser {
 	public abstract Map<String,Map> BeansPropertiesValues();
 	public abstract Map<String,Map> BeansPropertiesRefBeanIds();
 	
-	public static int parseFileSuffix(String configPath) {
+	public int parseFileSuffix(String configPath) {
 		
 		if(configPath.endsWith("properties")) {
 			return CONFIG_SUFFIX_PROPERTY;
@@ -31,6 +34,23 @@ public abstract class ConfigureParser {
 			return 0;
 		}
 		
+	}
+	
+	public boolean isRefBean(Object propertyValue) {
+		
+		int type = TypeHelper.parseType(propertyValue);
+		
+		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
+			
+			int chk = ((Integer)propertyValue).intValue();				
+			
+			if(ConfigureParser.REF_LOCAL_NOT_INIT == chk || 
+			    ConfigureParser.REF_BEAN_NOT_INIT == chk) {
+				return true;			
+			}					
+		}
+		
+		return false;
 	}
 
 }
