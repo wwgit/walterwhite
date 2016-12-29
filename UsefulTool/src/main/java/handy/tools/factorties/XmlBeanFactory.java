@@ -123,7 +123,13 @@ public class XmlBeanFactory extends BeanFactory {
 	public Object getBean(String beanId) {
 		
 		Object beanObj = null;
+
 		try {
+			
+			if(null == this.getBeanObjects()) {
+				this.setBeanObjects(new HashMap<String, Object>());
+			}
+			
 			if(false == getBeanObjects().containsKey(beanId)) {
 				if(false == getBeansClazz().containsKey(beanId)) {
 					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);

@@ -52,7 +52,7 @@ public abstract class BeanFactory {
 		return beanObjects;
 	}
 
-	protected void setBeanObjects(Map<String, Object> beanObjects) {
+	public void setBeanObjects(Map<String, Object> beanObjects) {
 		this.beanObjects = beanObjects;
 	}
 
