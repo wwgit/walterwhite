@@ -4,7 +4,6 @@ import handy.tools.aop.BasicClazDesc;
 import handy.tools.aop.BasicMethodDesc;
 import handy.tools.aop.ConstructDesc;
 
-import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.List;
 

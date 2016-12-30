@@ -1,6 +1,6 @@
 package handy.tools.factorties;
 
-import handy.tools.constants.DataTypes;
+import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.BeanFactory;
@@ -11,14 +11,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
+/*e.g
+ * <beans>
+ * 	<bean id="id" class="handy.tools.parser">
+ * 		<property name="url" value="value"/>
+ * 	</bean>
+ *  <bean id="id" class="handy.tools.parser">
+ * 		<property name="url"><value>value</value></property>
+ * 	</bean>
+ *  <bean id="id" class="handy.tools.parser">
+ * 		<property name="url"><ref local=beanId /></property>
+ * 	</bean>
+ * </beans>
+ * 
+ * */
 public class XmlBeanFactory extends BeanFactory {
 
 	private ConfigureParser parser;
 	
 	public XmlBeanFactory(String xmlPath) {		
-		//parser = new XmlConfigureParser(xmlPath);
 		this.loadBeans(xmlPath);
-		//this.lazyLoadBeans(xmlPath);
 	}
 	
 	public XmlBeanFactory() {
@@ -38,8 +51,7 @@ public class XmlBeanFactory extends BeanFactory {
 		return beanObj;
 	}
 	
-	
-	
+		
 	protected Object initBeanProperties(Class<?> beanClazz, String beanId, 
 									  Map<String,Object> propertyValues, 
 									  Map<String, Class<?>> propertyTypes) {
@@ -97,7 +109,7 @@ public class XmlBeanFactory extends BeanFactory {
 	protected Map<String, Map> BeansPropertiesTypes() {
 		
 		Map<String, Map> beanPropTypes = null;
-		Map<String, Class<?>> beanClazzes = getBeansClazz();
+		Map<String, Class<?>> beanClazzes = this.getBeansClazz();
 		
 		if(null == beanClazzes || beanClazzes.size() < 1) {
 			return null;
@@ -118,29 +130,29 @@ public class XmlBeanFactory extends BeanFactory {
 	}
 	
 	@Override
-	public Object getBean(String beanId) {
+	public synchronized Object getBean(String beanId) {
 		
 		Object beanObj = null;
-
+		
 		try {
-			
+			String realBeanId = beanId + this.getDefaultConfigHashCode();
 			if(null == this.getBeanObjects()) {
 				this.setBeanObjects(new HashMap<String, Object>());
 			}
 			
-			if(false == getBeanObjects().containsKey(beanId)) {
-				if(false == getBeansClazz().containsKey(beanId)) {
+			if(false == getBeanObjects().containsKey(realBeanId)) {
+				if(false == getBeansClazz().containsKey(realBeanId)) {
 					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
 				}
 			} else {
-				beanObj = getBeanObjects().get(beanId);
+				beanObj = getBeanObjects().get(realBeanId);
 			}
 			
 			if(null != beanObj) {
 				return beanObj;
 			}
 
-			beanObj = initBean(beanId, getBeansClazz().get(beanId));			
+			beanObj = initBean(beanId, getBeansClazz().get(realBeanId));			
 		}
 		catch (Exception e) {			
 			e.printStackTrace();
@@ -150,21 +162,20 @@ public class XmlBeanFactory extends BeanFactory {
 	}
 
 	@Override
-	protected void setBeanPropertyClazz() {
+	protected void setBeanPropertyClazz() {		
 		setBeanPropertyClazz(BeansPropertiesTypes());
 	}
 
 	@Override
-	protected void setBeanPropertyValues() {
-		this.setBeanPropertyValues(this.getParser().BeansPropertiesValues());
+	protected void setBeanPropertyValues(String configPathHashCode) {
+		this.setBeanPropertyValues(this.getParser().BeansPropertiesValues(configPathHashCode));
 	}
 
 	@Override
 	protected void setBeanObjects() {
 		
-		Map<String, Object> beansObjects = this.getBeanObjects();
-		if(null == beansObjects) {
-			beansObjects = new HashMap<String, Object>();
+		if(null == this.getBeanObjects()) {
+			this.setBeanObjects(new HashMap<String, Object>());
 		}
 		
 		Iterator beanIdIt = this.getBeansClazz().keySet().iterator();
@@ -173,22 +184,21 @@ public class XmlBeanFactory extends BeanFactory {
 		Class<?> beanClazz = null;
 		
 		while(beanIdIt.hasNext()) {
-			beanId = (String) beanIdIt.next();
+			beanId = ((String) beanIdIt.next());
 			beanClazz = this.getBeansClazz().get(beanId);
 			beanObj = initBean(beanId, beanClazz);
 			if(null == beanObj) {
 				continue;
 			}
-			beansObjects.put(beanId, beanObj);
+			this.getBeanObjects().put(beanId, beanObj);
 			beanId = null; beanObj = null;
 		}
-		this.setBeanObjects(beansObjects);
 		
 	}
 
 	@Override
-	protected void setBeansClazz() {
-		setBeansClazz(this.getParser().getBeanClazzes());
+	protected void setBeansClazz(String configPathHashCode) {
+		setBeansClazz(this.getParser().getBeanClazzes(configPathHashCode));
 	}
 
 	@Override
@@ -200,12 +210,46 @@ public class XmlBeanFactory extends BeanFactory {
 	protected void setParser(String xmlPath) {
 		if(null == this.parser) {
 			this.parser = new XmlConfigureParser(xmlPath);	
-		}	
+		} else {
+			this.parser.loadConfig(xmlPath);
+		}
 	}
 
 	@Override
-	protected void setBeanPropertyRefBeanId() {
-		this.setBeanPropertyRefBeanId(this.parser.BeansPropertiesRefBeanIds());		
+	protected void setBeanPropertyRefBeanId(String configPathHashCode) {
+		this.setBeanPropertyRefBeanId(this.parser.BeansPropertiesRefBeanIds(configPathHashCode));		
+	}
+
+	@Override
+	public Object getBean(String beanId, String configPath) {
+		
+		Object beanObj = null;
+		
+		try {
+			String realBeanId = beanId + PathHelper.resolveAbsolutePath(configPath).hashCode();
+			if(null == this.getBeanObjects()) {
+				this.setBeanObjects(new HashMap<String, Object>());
+			}
+			
+			if(false == getBeanObjects().containsKey(realBeanId)) {
+				if(false == getBeansClazz().containsKey(realBeanId)) {
+					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
+				}
+			} else {
+				beanObj = getBeanObjects().get(realBeanId);
+			}
+			
+			if(null != beanObj) {
+				return beanObj;
+			}
+
+			beanObj = initBean(realBeanId, getBeansClazz().get(realBeanId));			
+		}
+		catch (Exception e) {			
+			e.printStackTrace();
+		}		
+		
+		return beanObj;
 	}
 		
 	

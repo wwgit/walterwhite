@@ -10,6 +10,21 @@ import org.dom4j.Element;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.ConfigureParser;
 
+
+/*e.g
+ * <beans>
+ * 	<bean id="id" class="handy.tools.parser">
+ * 		<property name="url" value="value"/>
+ * 	</bean>
+ *  <bean id="id" class="handy.tools.parser">
+ * 		<property name="url"><value>value</value></property>
+ * 	</bean>
+ *  <bean id="id" class="handy.tools.parser">
+ * 		<property name="url"><ref local=beanId /></property>
+ * 	</bean>
+ * </beans>
+ * 
+ * */
 public class XmlConfigureParser extends ConfigureParser {
 	
 	private Document doc;
@@ -51,12 +66,13 @@ public class XmlConfigureParser extends ConfigureParser {
 	
 	public XmlConfigureParser(String xmlPath) {
 		setDoc(xmlPath);
-		this.setBeans();
-		this.setBeanElements();
+		setBeans();
+		setBeanElements();
 	}
+	
 		
 	@Override
-	public Map<String, Class<?>> getBeanClazzes() {
+	public Map<String, Class<?>> getBeanClazzes(String configHashCode) {
 		
 		Map<String, Class<?>> beansClazzes = null;
 		
@@ -65,7 +81,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			List<Element> myBeanElements = this.getBeanElements();
 			for(int i = 0; i < myBeanElements.size(); i++) {
 				Element e = myBeanElements.get(i);
-				beansClazzes.put(e.attributeValue("id"), XmlHelper.getRequireClass(e.attributeValue("class")));
+				beansClazzes.put(e.attributeValue("id") + configHashCode, XmlHelper.getRequireClass(e.attributeValue("class")));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -75,13 +91,13 @@ public class XmlConfigureParser extends ConfigureParser {
 	}
 	
 	@Override
-	public Map<String, Map> BeansPropertiesValues() {
+	public Map<String, Map> BeansPropertiesValues(String configHashCode) {
 		
 		List<Element> beanElements = this.getBeanElements();
 		Map<String, Map> beansProperties = new HashMap<String, Map>();
 		for(int i = 0 ; i < beanElements.size(); i++) {
 			Element bean = beanElements.get(i);
-			beansProperties.put(bean.attributeValue("id"), getPropertyValues(bean));
+			beansProperties.put(bean.attributeValue("id") + configHashCode, getPropertyValues(bean));
 		}
 		
 		return beansProperties;
@@ -163,7 +179,7 @@ public class XmlConfigureParser extends ConfigureParser {
 	
 	
 	@Override
-	public Map<String, Map> BeansPropertiesRefBeanIds() {
+	public Map<String, Map> BeansPropertiesRefBeanIds(String configHashCode) {
 		
 		List<Element> beanElements = this.getBeanElements();
 		Map<String, Map> beansPropertiesRefBeanIds = new HashMap<String, Map>();
@@ -175,7 +191,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			if(null == propertyRefBeanIds || propertyRefBeanIds.size() < 1) {
 				continue;
 			}
-			beansPropertiesRefBeanIds.put(bean.attributeValue("id"), propertyRefBeanIds);
+			beansPropertiesRefBeanIds.put(bean.attributeValue("id") + configHashCode, propertyRefBeanIds);
 		}
 		
 		return beansPropertiesRefBeanIds;
@@ -234,6 +250,13 @@ public class XmlConfigureParser extends ConfigureParser {
 		}
 		
 		return refBeanId;
+	}
+	@Override
+	public void loadConfig(String configPath) {
+		this.setDoc(configPath);
+		this.setBeans();
+		this.setBeanElements();
+		
 	}
 
 }

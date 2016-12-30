@@ -18,9 +18,10 @@ public abstract class ConfigureParser {
 	
 	
 	
-	public abstract Map<String, Class<?>> getBeanClazzes();
-	public abstract Map<String,Map> BeansPropertiesValues();
-	public abstract Map<String,Map> BeansPropertiesRefBeanIds();
+	public abstract Map<String, Class<?>> getBeanClazzes(String configHashCode);
+	public abstract Map<String,Map> BeansPropertiesValues(String configHashCode);
+	public abstract Map<String,Map> BeansPropertiesRefBeanIds(String configHashCode);
+	public abstract void loadConfig(String configPath);
 	
 	public int parseFileSuffix(String configPath) {
 		

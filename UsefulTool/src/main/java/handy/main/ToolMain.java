@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import handy.tools.db.ComplexValue;
 import handy.tools.db.DbConfig;
@@ -93,7 +94,7 @@ public class ToolMain {
 		
 		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
 		long startTime = System.currentTimeMillis();		
-		
+		xmlBeanCreator.lazyLoadBeans("example8.xml");
 		DbConfig attriChk = (DbConfig) xmlBeanCreator.getBean("DbConfig");
 		//System.out.println("attriChk:" + attriChk.getUrl());
 		DbConfig eleValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig");
@@ -106,9 +107,21 @@ public class ToolMain {
 		TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
 		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
+		
+		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+		//long data_l = Long.parseLong("9233372036854477807");
+		long data_l2 = 923372036854477809L;
+		int data_i = Integer.parseInt("1147483647");
+		//System.out.println(Integer.toBinaryString(data_i));
+		System.out.println(Long.toBinaryString(data_l2));
+		System.out.println(UUID.randomUUID());
+		System.out.println(UUID.randomUUID());
+		//System.out.println(Long.toBinaryString((data_i<<20)));
 		
 		
 	}

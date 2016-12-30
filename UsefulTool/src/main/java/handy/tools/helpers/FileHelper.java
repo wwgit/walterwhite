@@ -120,8 +120,6 @@ public abstract class FileHelper extends NioHelper {
 				e.printStackTrace();
 			}
 		}
-	
-		
 		
 		return sb.toString();
 	}
@@ -241,7 +239,7 @@ public abstract class FileHelper extends NioHelper {
 			
 			long position = 0;
 			int remainder = 0;
-			int cnt = (int) (fInChan.size()/buffSize);;
+			int cnt = (int) (fInChan.size()/buffSize);
 			
 			if(fInChan.size() >= buffSize) {
 				remainder = (int) (fInChan.size()%buffSize);				
