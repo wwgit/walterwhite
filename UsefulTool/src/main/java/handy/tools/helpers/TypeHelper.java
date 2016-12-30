@@ -111,7 +111,7 @@ public abstract class TypeHelper extends BasicHelper {
 	
 	public static Object getRequiredValue(String origin_value, String requiredType) {
 		int require_flag = parseType(requiredType);
-		Object value = null;
+		Object value = origin_value;
 		
 		switch(require_flag) {
 		case DataTypes.JAVA_BASIC_INT:
@@ -142,6 +142,7 @@ public abstract class TypeHelper extends BasicHelper {
 			value = new BigDecimalStringConverter().fromString(origin_value);
 			break;
 		default:
+			value = origin_value;
 			break;	
 		}
 		
@@ -181,6 +182,7 @@ public abstract class TypeHelper extends BasicHelper {
 			value = new BigDecimal(origin_value);
 			break;
 		default:
+			value = String.valueOf(origin_value);
 			break;	
 		}
 		
@@ -190,6 +192,7 @@ public abstract class TypeHelper extends BasicHelper {
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
 		
 		String str = String.valueOf(origin_value);
+		System.out.println("get required value for " + str);
 		
 		Object value = getRequiredValue(str, requiredType);		
 		return value;

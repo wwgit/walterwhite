@@ -17,6 +17,7 @@ import java.util.Set;
 import handy.tools.db.ComplexValue;
 import handy.tools.db.DbConfig;
 import handy.tools.db.DbManager;
+import handy.tools.db.TestBean;
 import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.FileHelper;
@@ -102,6 +103,8 @@ public class ToolMain {
 		//System.out.println("multValChk:" + multValChk.getUrl());
 		//System.out.println("multValChk:" + multValChk.getPassword());
 		//System.out.println("multValChk:" + multValChk.getDbSize());
+		TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
+		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

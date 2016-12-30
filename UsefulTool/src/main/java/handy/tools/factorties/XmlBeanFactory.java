@@ -17,8 +17,12 @@ public class XmlBeanFactory extends BeanFactory {
 	
 	public XmlBeanFactory(String xmlPath) {		
 		//parser = new XmlConfigureParser(xmlPath);
-		//this.loadBeans(xmlPath);
-		this.lazyLoadBeans(xmlPath);
+		this.loadBeans(xmlPath);
+		//this.lazyLoadBeans(xmlPath);
+	}
+	
+	public XmlBeanFactory() {
+		
 	}
 
 	protected Object initBean(String beanId, Class<?> beanClazz) {
@@ -80,8 +84,10 @@ public class XmlBeanFactory extends BeanFactory {
 	
 	protected void initBeanProperty(Object beanObj, String propertyName, 
 									Class<?> propertyClazz, Object org_value) {
-		
-		Object value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
+		Object value = org_value;
+		if(false == value.getClass().equals(propertyClazz)) {
+			value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
+		}
 		Map<Object, Class<?>> value_type = new HashMap<Object, Class<?>>();
 		value_type.put(value, propertyClazz);
 		ReflectHelper.callSetter(beanObj, propertyName, value_type);
@@ -174,6 +180,7 @@ public class XmlBeanFactory extends BeanFactory {
 				continue;
 			}
 			beansObjects.put(beanId, beanObj);
+			beanId = null; beanObj = null;
 		}
 		this.setBeanObjects(beansObjects);
 		
@@ -200,7 +207,6 @@ public class XmlBeanFactory extends BeanFactory {
 	protected void setBeanPropertyRefBeanId() {
 		this.setBeanPropertyRefBeanId(this.parser.BeansPropertiesRefBeanIds());		
 	}
-	
-	
+		
 	
 }

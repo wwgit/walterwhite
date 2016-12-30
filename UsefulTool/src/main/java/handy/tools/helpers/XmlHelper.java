@@ -160,8 +160,8 @@ public abstract class XmlHelper extends BasicHelper {
 		
 		for(int i = 0; it.hasNext(); i++) {
 			String key = (String) it.next();
-			System.out.println("key = " + key);
-			System.out.println("value = " + subElements.get(key));
+			//System.out.println("key = " + key);
+			//System.out.println("value = " + subElements.get(key));
 			subEle = DocumentHelper.createElement(key);
 			subEle.setText((String) subElements.get(key));
 			ele.add(subEle);

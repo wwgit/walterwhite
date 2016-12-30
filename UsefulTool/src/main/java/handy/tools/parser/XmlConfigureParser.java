@@ -124,8 +124,11 @@ public class XmlConfigureParser extends ConfigureParser {
 		}
 		
 		try {
+			Element ele = property.element("value");
+			if(null != ele) {
+				value = ele.getText();
+			}
 			
-			value = property.element("value").getText();
 			if(null != value) {
 				return value;
 			}
@@ -148,6 +151,7 @@ public class XmlConfigureParser extends ConfigureParser {
 		refBeanId = reference.attributeValue("local");
 		if(null != refBeanId) {
 			result = REF_LOCAL_NOT_INIT;
+			return result;
 		}
 		refBeanId = reference.attributeValue("bean");
 		if(null != refBeanId) {
@@ -171,7 +175,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			if(null == propertyRefBeanIds || propertyRefBeanIds.size() < 1) {
 				continue;
 			}
-			beansPropertiesRefBeanIds.put(bean.attributeValue("name"), propertyRefBeanIds);
+			beansPropertiesRefBeanIds.put(bean.attributeValue("id"), propertyRefBeanIds);
 		}
 		
 		return beansPropertiesRefBeanIds;
