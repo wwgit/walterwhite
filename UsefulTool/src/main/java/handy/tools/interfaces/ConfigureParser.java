@@ -49,6 +49,7 @@ public abstract class ConfigureParser {
 	public abstract void BeansPropertiesValues(String configHashCode);
 	public abstract void BeansPropertiesRefBeanIds(String configHashCode);
 	public abstract void loadConfig(String configPath);
+	public abstract void loadTemplate();
 	
 	public void loadBeansInfo(String configPath) {
 		String hashCode = loadConfigHashCode(configPath);

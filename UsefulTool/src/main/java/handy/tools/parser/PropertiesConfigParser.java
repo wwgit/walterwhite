@@ -119,6 +119,11 @@ public class PropertiesConfigParser extends ConfigureParser {
 		setProp(propPath);
 		loadBeansInfo(propPath);
 	}
+
+	@Override
+	public void loadTemplate() {
+		
+	}
 	
 
 }
