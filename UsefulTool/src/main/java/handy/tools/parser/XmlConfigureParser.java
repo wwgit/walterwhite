@@ -7,6 +7,7 @@ import java.util.Map;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.ConfigureParser;
 
@@ -65,14 +66,12 @@ public class XmlConfigureParser extends ConfigureParser {
 
 	
 	public XmlConfigureParser(String xmlPath) {
-		setDoc(xmlPath);
-		setBeans();
-		setBeanElements();
+		loadConfig(xmlPath);
 	}
 	
 		
 	@Override
-	public Map<String, Class<?>> getBeanClazzes(String configHashCode) {
+	public void setBeansClazz(String configHashCode) {
 		
 		Map<String, Class<?>> beansClazzes = null;
 		
@@ -85,13 +84,12 @@ public class XmlConfigureParser extends ConfigureParser {
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-		}		
-		
-		return beansClazzes;
+		}				
+		this.setBeansClazz(beansClazzes);
 	}
 	
 	@Override
-	public Map<String, Map> BeansPropertiesValues(String configHashCode) {
+	public void BeansPropertiesValues(String configHashCode) {
 		
 		List<Element> beanElements = this.getBeanElements();
 		Map<String, Map> beansProperties = new HashMap<String, Map>();
@@ -99,8 +97,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			Element bean = beanElements.get(i);
 			beansProperties.put(bean.attributeValue("id") + configHashCode, getPropertyValues(bean));
 		}
-		
-		return beansProperties;
+		this.setBeanPropertyValues(beansProperties);
 	}
 	
 	public Map<String,Object> getPropertyValues(Element beanElement) {
@@ -179,7 +176,7 @@ public class XmlConfigureParser extends ConfigureParser {
 	
 	
 	@Override
-	public Map<String, Map> BeansPropertiesRefBeanIds(String configHashCode) {
+	public void BeansPropertiesRefBeanIds(String configHashCode) {
 		
 		List<Element> beanElements = this.getBeanElements();
 		Map<String, Map> beansPropertiesRefBeanIds = new HashMap<String, Map>();
@@ -194,7 +191,7 @@ public class XmlConfigureParser extends ConfigureParser {
 			beansPropertiesRefBeanIds.put(bean.attributeValue("id") + configHashCode, propertyRefBeanIds);
 		}
 		
-		return beansPropertiesRefBeanIds;
+		this.setBeanPropertyRefBeanId(beansPropertiesRefBeanIds);
 	}
 
 	public Map<String,String> getPropertyRefBeanIds(Element beanElement) {
@@ -251,12 +248,14 @@ public class XmlConfigureParser extends ConfigureParser {
 		
 		return refBeanId;
 	}
+	
 	@Override
-	public void loadConfig(String configPath) {
-		this.setDoc(configPath);
-		this.setBeans();
-		this.setBeanElements();
-		
+	public void loadConfig(String xmlPath) {
+		setDoc(xmlPath);
+		setBeans();
+		setBeanElements();
+		loadBeansInfo(xmlPath);		
 	}
+
 
 }

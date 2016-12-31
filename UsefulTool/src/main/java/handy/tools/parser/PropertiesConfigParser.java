@@ -9,51 +9,70 @@ import java.util.Properties;
 import java.util.Set;
 
 import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.ConfigureParser;
 
 
 /*e.g
- * beanId=beanClazzName
- * beanId.beanClazzName.propertyName=value
- * beanId must be unique
+ * beanId_realBeanId=beanClazzName
+ * realBeanId.beanClazzName.propertyName=value
+ * realBeanId must be unique
  * 
- * user1=Test.User
+ * beanId_user1=Test.User
  * user1.Test.User.name=example
  * */
 public class PropertiesConfigParser extends ConfigureParser {
 
+	public static final String beanHeader = "beanId";
+	
 	private Properties prop;
 	
 	public PropertiesConfigParser(String propPath) {
-		this.setProp(propPath);
+		loadConfig(propPath);
 	}
-	
 
 	@Override
-	public Map<String, Class<?>> getBeanClazzes(String configHashCode) {
+	public void setBeansClazz(String configHashCode) {
 	
 		Map<String, Class<?>> beanClazzes = null;
 		
 		beanClazzes = new HashMap<String, Class<?>>();
 		String beanId = null;
 		for(Entry<Object, Object> property : this.getProp().entrySet()) {
-			beanId = (String) property.getKey();
-			
-		}
+			String beanIdStr = (String) property.getKey();
+			beanId = beanIdStr.contains(beanHeader) 
+					? beanIdStr.replaceFirst(beanHeader,"") + configHashCode
+					: null;
+			if(null != beanId) { 
+				try {
+					beanClazzes.put(beanId, TypeHelper.getRequireClass((String) property.getValue()));
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}			
+		}		
+		this.setBeansClazz(beanClazzes);
+	}
+
+	@Override
+	public void BeansPropertiesValues(String configHashCode) {
+
+		return;
+	}
+	
+	public Map<String, Object> getPropertyValues(String beanId, Class<?> beanClazz) {
 		
-		return beanClazzes;
+		Map<String,Object> propertyValues = null;
+		
+		
+		
+		return propertyValues;
 	}
 
 	@Override
-	public Map<String, Map> BeansPropertiesValues(String configHashCode) {
+	public void BeansPropertiesRefBeanIds(String configHashCode) {
 
-		return null;
-	}
-
-	@Override
-	public Map<String, Map> BeansPropertiesRefBeanIds(String configHashCode) {
-
-		return null;
+		return;
 	}
 
 	public Properties getProp() {
@@ -78,13 +97,11 @@ public class PropertiesConfigParser extends ConfigureParser {
 		}
 	}
 
-
 	@Override
-	public void loadConfig(String configPath) {
-		
+	public void loadConfig(String propPath) {
+		setProp(propPath);
+		loadBeansInfo(propPath);
 	}
-	
-	
 	
 
 }
