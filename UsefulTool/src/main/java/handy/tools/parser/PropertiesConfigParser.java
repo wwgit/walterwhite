@@ -23,7 +23,7 @@ import handy.tools.interfaces.ConfigureParser;
  * */
 public class PropertiesConfigParser extends ConfigureParser {
 
-	public static final String beanHeader = "beanId";
+	public static final String beanHeader = "beanId_";
 	
 	private Properties prop;
 	
@@ -56,15 +56,29 @@ public class PropertiesConfigParser extends ConfigureParser {
 
 	@Override
 	public void BeansPropertiesValues(String configHashCode) {
+		
+		String beanId = null; Map<String,Object> propertyValues = null;
+		Map<String,Map> beanPropertiesValues = new HashMap<String,Map>();
+		for(Entry<String, Class<?>> beanClazzes : this.getBeansClazz().entrySet()) {
+			beanId = beanClazzes.getKey().replaceAll(configHashCode, "");
+			propertyValues = getPropertyValues(beanId, beanClazzes.getValue(),
+							 this.getBeanPropertyClazz().get(beanClazzes.getKey()));
+			beanPropertiesValues.put(beanClazzes.getKey(), propertyValues);
+		}
+		this.setBeanPropertyValues(beanPropertiesValues);
 
-		return;
 	}
 	
-	public Map<String, Object> getPropertyValues(String beanId, Class<?> beanClazz) {
+	public Map<String, Object> getPropertyValues(String beanId, Class<?> beanClazz, 
+												Map<String,Class<?>> propertyClazzes) {
 		
-		Map<String,Object> propertyValues = null;
+		Map<String,Object> propertyValues = new HashMap<String,Object>();
 		
-		
+		for(Entry<String, Class<?>> property : propertyClazzes.entrySet()) {
+			String propName = beanId +"." + beanClazz.getName() + "." + property.getKey().toLowerCase();
+			Object value = this.getProp().get(propName);
+			propertyValues.put(property.getKey(), value);
+		}
 		
 		return propertyValues;
 	}
@@ -88,12 +102,15 @@ public class PropertiesConfigParser extends ConfigureParser {
 		if(null != this.getProp()) {
 			return;
 		}
-		Properties prop = new Properties();
+		Properties theProp = new Properties();
 		try {
-			prop.load(PathHelper.resolveAbsoluteStream(propPath));
+			theProp.load(PathHelper.resolveAbsoluteStream(propPath));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			this.prop = theProp;
 		}
 	}
 

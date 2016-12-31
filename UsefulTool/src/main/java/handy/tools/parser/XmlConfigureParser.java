@@ -7,7 +7,6 @@ import java.util.Map;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.ConfigureParser;
 

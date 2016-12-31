@@ -20,13 +20,13 @@ public abstract class BeanFactory {
 	protected abstract void initParser(String configPath);
 	
 	public synchronized void loadBeans(String configPath) {			
-		this.setParser(configPath);
-		this.setBeanObjects();
+		initParser(configPath);
+		setBeanObjects();
 	}
 
 
 	public synchronized void lazyLoadBeans(String configPath) {		
-		this.setParser(configPath);		
+		initParser(configPath);		
 	}
 	
 	protected ConfigureParser getParser() {
@@ -35,9 +35,6 @@ public abstract class BeanFactory {
 
 	protected void setParser(ConfigureParser myParser) {
 		this.parser = myParser;
-	}
-	protected void setParser(String configPath) {
-		initParser(configPath);
 	}
 	
 	public Map<String, Object> getBeanObjects() {
@@ -167,7 +164,7 @@ public abstract class BeanFactory {
 				return beanObj;
 			}
 
-			beanObj = initBean(beanId, this.getParser().getBeansClazz().get(realBeanId));			
+			beanObj = initBean(realBeanId, this.getParser().getBeansClazz().get(realBeanId));			
 		}
 		catch (Exception e) {			
 			e.printStackTrace();
@@ -180,8 +177,9 @@ public abstract class BeanFactory {
 		
 		Object beanObj = null;
 		
+		
 		try {
-			String realBeanId = beanId + PathHelper.resolveAbsolutePath(configPath).hashCode();
+			String realBeanId = beanId + String.valueOf(PathHelper.resolveAbsolutePath(configPath).hashCode());
 			if(null == this.getBeanObjects()) {
 				this.setBeanObjects(new HashMap<String, Object>());
 			}

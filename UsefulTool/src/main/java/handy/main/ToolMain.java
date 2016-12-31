@@ -19,6 +19,7 @@ import handy.tools.db.ComplexValue;
 import handy.tools.db.DbConfig;
 import handy.tools.db.DbManager;
 import handy.tools.db.TestBean;
+import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.FileHelper;
@@ -26,7 +27,9 @@ import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.BeanFactory;
 import handy.tools.interfaces.ClassFactory;
+import handy.tools.interfaces.ConfigureParser;
 import handy.tools.io.NioHelper;
+import handy.tools.parser.PropertiesConfigParser;
 
 public class ToolMain {
 
@@ -92,35 +95,41 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
-		long startTime = System.currentTimeMillis();		
-		xmlBeanCreator.lazyLoadBeans("example8.xml");
-		DbConfig attriChk = (DbConfig) xmlBeanCreator.getBean("DbConfig");
-		//System.out.println("attriChk:" + attriChk.getUrl());
-		DbConfig eleValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig");
+		//BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
+		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
+		BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
+		long startTime = System.currentTimeMillis();
+		//xmlBeanCreator.lazyLoadBeans("example8.xml");
+		//xmlBeanCreator.loadBeans("example8.xml");
+		DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
+		System.out.println("propChk:" + propChk.getPassword());
+		
+		DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("third");
+		System.out.println("propChk2:" + propChk2.getPassword());
+		//DbConfig eleValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig");
 		//System.out.println("eleValChk:" + eleValChk.getUrl());
 		
-		DbConfig multValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig2");
+		//DbConfig multValChk = (DbConfig) xmlBeanCreator.getBean("SMSConfig2");
 		//System.out.println("multValChk:" + multValChk.getUrl());
 		//System.out.println("multValChk:" + multValChk.getPassword());
 		//System.out.println("multValChk:" + multValChk.getDbSize());
-		TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
-		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
+		//TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
+		//System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		
-		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
-		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		//TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+		//System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//long data_l = Long.parseLong("9233372036854477807");
-		long data_l2 = 923372036854477809L;
-		int data_i = Integer.parseInt("1147483647");
+		//long data_l2 = 923372036854477809L;
+		//int data_i = Integer.parseInt("1147483647");
 		//System.out.println(Integer.toBinaryString(data_i));
-		System.out.println(Long.toBinaryString(data_l2));
-		System.out.println(UUID.randomUUID());
-		System.out.println(UUID.randomUUID());
+		//System.out.println(Long.toBinaryString(data_l2));
+		//System.out.println(UUID.randomUUID());
+		//System.out.println(UUID.randomUUID());
 		//System.out.println(Long.toBinaryString((data_i<<20)));
 		
 		

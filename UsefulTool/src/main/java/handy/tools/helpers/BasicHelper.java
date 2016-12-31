@@ -13,7 +13,7 @@ public abstract class BasicHelper {
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;
-		System.out.println("file path:" + filePath);
+		System.out.println("GetAbsoluteFilePath: " + filePath);
 		File file = new File(filePath);
 		if(!file.exists()) {
 			try {
