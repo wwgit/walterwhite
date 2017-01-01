@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import handy.tools.constants.DataTypes;
+import handy.tools.constants.FileFormat;
 import handy.tools.constants.TxTFile;
 
-public abstract class BasicHelper implements TxTFile {
+public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 	
 
-	
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;

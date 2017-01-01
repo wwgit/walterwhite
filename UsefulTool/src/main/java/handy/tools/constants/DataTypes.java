@@ -1,6 +1,6 @@
 package handy.tools.constants;
 
-public abstract class DataTypes {
+public interface DataTypes {
 	
 	public static final int JAVA_LANG_STRING = 1;
 	public static final int JAVA_LANG_INTEGER = 2;

@@ -1,6 +1,5 @@
 package handy.tools.helpers;
 
-import handy.tools.constants.DataTypes;
 import handy.tools.db.ComplexValue;
 
 import java.math.BigDecimal;
@@ -38,9 +37,9 @@ public abstract class TypeHelper extends BasicHelper {
 	public static int parseComplex(int flag) {
 		
 		if(flag == 0) {
-			return DataTypes.JAVA_LANG_BINARY_STREAM;
+			return JAVA_LANG_BINARY_STREAM;
 		} else if(flag == 1) {
-			return DataTypes.JAVA_LANG_ASCII_STREAM;
+			return JAVA_LANG_ASCII_STREAM;
 		} else {
 			return 0;
 		}
@@ -53,7 +52,7 @@ public abstract class TypeHelper extends BasicHelper {
 				
 		int ret = parseType(type);
 		
-		if(ret == DataTypes.JAVA_HANDY_COMPLEX_VALUE) {
+		if(ret == JAVA_HANDY_COMPLEX_VALUE) {
 			ComplexValue cv = (ComplexValue) value;
 			return parseComplex(cv.flag);
 		}
@@ -65,43 +64,43 @@ public abstract class TypeHelper extends BasicHelper {
 		
 		if(type.equals("java.lang.String")) {
 			
-			return DataTypes.JAVA_LANG_STRING;
+			return JAVA_LANG_STRING;
 			
 		} else if(type.equals("java.lang.Object")) {
 			
-			return DataTypes.JAVA_LANG_OBJECT;
+			return JAVA_LANG_OBJECT;
 			
 		} else if(type.equals("java.lang.Integer")) {
 			
-			return DataTypes.JAVA_LANG_INTEGER;
+			return JAVA_LANG_INTEGER;
 			
 		} else if(type.equals("java.lang.Long")) {
 			
-			return DataTypes.JAVA_LANG_LONG;
+			return JAVA_LANG_LONG;
 			
 		} else if(type.equals("java.math.BigDecimal")) {
 			
-			return DataTypes.JAVA_MATH_BIGDECIMAL;
+			return JAVA_MATH_BIGDECIMAL;
 			
 		} else if(type.equals("JAVA_LANG_ARRAY")) {
 			
-			return DataTypes.JAVA_LANG_ARRAY;
+			return JAVA_LANG_ARRAY;
 			
 		} else if(type.equals("int")) {
 			
-			return DataTypes.JAVA_BASIC_INT;
+			return JAVA_BASIC_INT;
 			
 		} else if(type.equals("long")) {
 			
-			return DataTypes.JAVA_BASIC_LONG;
+			return JAVA_BASIC_LONG;
 			
 		} else if(type.equals("double")) {
 			
-			return DataTypes.JAVA_BASIC_DOUBLE;
+			return JAVA_BASIC_DOUBLE;
 			
 		} else if(type.equals("handy.tools.db.ComplexValue")) {
 			
-			return DataTypes.JAVA_HANDY_COMPLEX_VALUE;
+			return JAVA_HANDY_COMPLEX_VALUE;
 			
 		}else {
 			
@@ -114,31 +113,31 @@ public abstract class TypeHelper extends BasicHelper {
 		Object value = origin_value;
 		
 		switch(require_flag) {
-		case DataTypes.JAVA_BASIC_INT:
+		case JAVA_BASIC_INT:
 			value = Integer.parseInt(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_OBJECT:
+		case JAVA_LANG_OBJECT:
 			value = origin_value;
 			break;
-		case DataTypes.JAVA_BASIC_DOUBLE:
+		case JAVA_BASIC_DOUBLE:
 			value = Double.parseDouble(origin_value);
 			break;
-		case DataTypes.JAVA_BASIC_LONG:
+		case JAVA_BASIC_LONG:
 			value = Long.parseLong(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_INTEGER:
+		case JAVA_LANG_INTEGER:
 			value = Integer.valueOf(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_LONG:
+		case JAVA_LANG_LONG:
 			value = Long.valueOf(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_DOUBLE:
+		case JAVA_LANG_DOUBLE:
 			value = Double.valueOf(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_STRING:
+		case JAVA_LANG_STRING:
 			value = origin_value;
 			break;
-		case DataTypes.JAVA_MATH_BIGDECIMAL:
+		case JAVA_MATH_BIGDECIMAL:
 			value = new BigDecimalStringConverter().fromString(origin_value);
 			break;
 		default:
@@ -154,31 +153,31 @@ public abstract class TypeHelper extends BasicHelper {
 		Object value = null;
 		
 		switch(require_flag) {
-		case DataTypes.JAVA_BASIC_INT:
+		case JAVA_BASIC_INT:
 			value = origin_value;
 			break;
-		case DataTypes.JAVA_BASIC_DOUBLE:
+		case JAVA_BASIC_DOUBLE:
 			value = (double)origin_value;
 			break;
-		case DataTypes.JAVA_BASIC_LONG:
+		case JAVA_BASIC_LONG:
 			value = (long)origin_value;;
 			break;
-		case DataTypes.JAVA_LANG_INTEGER:
+		case JAVA_LANG_INTEGER:
 			value = Integer.valueOf(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_LONG:
+		case JAVA_LANG_LONG:
 			value = Long.valueOf((long)origin_value);
 			break;
-		case DataTypes.JAVA_LANG_DOUBLE:
+		case JAVA_LANG_DOUBLE:
 			value = Double.valueOf((double)origin_value);
 			break;
-		case DataTypes.JAVA_LANG_STRING:
+		case JAVA_LANG_STRING:
 			value = String.valueOf(origin_value);
 			break;
-		case DataTypes.JAVA_LANG_OBJECT:
+		case JAVA_LANG_OBJECT:
 			value = origin_value;
 			break;
-		case DataTypes.JAVA_MATH_BIGDECIMAL:
+		case JAVA_MATH_BIGDECIMAL:
 			value = new BigDecimal(origin_value);
 			break;
 		default:
@@ -192,7 +191,7 @@ public abstract class TypeHelper extends BasicHelper {
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
 		
 		String str = String.valueOf(origin_value);
-		System.out.println("get required value for " + str);
+		//System.out.println("get required value for " + str);
 		
 		Object value = getRequiredValue(str, requiredType);		
 		return value;

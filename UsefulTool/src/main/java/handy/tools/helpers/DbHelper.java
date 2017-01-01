@@ -1,13 +1,6 @@
 package handy.tools.helpers;
 
-import handy.tools.constants.DataTypes;
 import handy.tools.db.ComplexValue;
-import handy.tools.db.DbConfig;
-import handy.tools.db.DbPool;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Connection;
@@ -15,20 +8,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.Vector;
-
-import javax.lang.model.element.Element;
-
-import com.alibaba.fastjson.asm.Type;
 
 public abstract class DbHelper extends BasicHelper {
 		
@@ -39,44 +22,44 @@ public abstract class DbHelper extends BasicHelper {
 	private static void setValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
 		
 		switch(dataType) {
-			case DataTypes.JAVA_LANG_STRING:
+			case JAVA_LANG_STRING:
 				statement.setString(index, (String) value);
 				break;
-			case DataTypes.JAVA_LANG_INTEGER:
+			case JAVA_LANG_INTEGER:
 				int i_val = ((Integer) value).intValue();
 				statement.setInt(index, i_val);
 				break;
-			case DataTypes.JAVA_LANG_LONG:
+			case JAVA_LANG_LONG:
 				long l_val = ((Long) value).longValue();
 				statement.setLong(index, l_val);
 				break;
-			case DataTypes.JAVA_LANG_DOUBLE:
+			case JAVA_LANG_DOUBLE:
 				double d_val = ((Double)value).doubleValue();
 				statement.setDouble(index, d_val);
 				break;
-			case DataTypes.JAVA_MATH_BIGDECIMAL:
+			case JAVA_MATH_BIGDECIMAL:
 				statement.setBigDecimal(index, (BigDecimal) value);
 				break;
-			case DataTypes.JAVA_LANG_ASCII_STREAM:
+			case JAVA_LANG_ASCII_STREAM:
 				ComplexValue cv_ascii = (ComplexValue)value;
 				statement.setAsciiStream(index, cv_ascii.data);
 				break;
-			case DataTypes.JAVA_LANG_BINARY_STREAM:
+			case JAVA_LANG_BINARY_STREAM:
 				ComplexValue cv_bin = (ComplexValue)value;
 				statement.setBinaryStream(index, cv_bin.data);
 				break;
-			case DataTypes.JAVA_LANG_ARRAY:
+			case JAVA_LANG_ARRAY:
 				statement.setArray(index, (Array) value);
 				break;
-			case DataTypes.JAVA_BASIC_INT:
+			case JAVA_BASIC_INT:
 				int ii_val = ((Integer) value).intValue();
 				statement.setInt(index, ii_val);
 				break;
-			case DataTypes.JAVA_BASIC_DOUBLE:
+			case JAVA_BASIC_DOUBLE:
 				double dd_val = ((Double)value).doubleValue();
 				statement.setDouble(index, dd_val);
 				break;
-			case DataTypes.JAVA_BASIC_LONG:
+			case JAVA_BASIC_LONG:
 				long ll_val = ((Long) value).longValue();
 				statement.setLong(index, ll_val);
 				break;
@@ -232,7 +215,7 @@ public abstract class DbHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
-	public static Map parseQueryResult(ResultSet sqlRet) throws SQLException {
+	public static Map<String, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
 		
 		List<Object> rowData = null;
 		List<List<Object>> rows = null;

@@ -1,31 +1,27 @@
 package handy.tools.db;
 
-import handy.tools.helpers.DbHelper;
-
 public class DbManager {
-	
-	private static final String DEFAULT_DB_CONFIG = "config/db_config.properties";
 	
 	private DbConfig config;
 	private DbPool pool;
 	private static DbManager manager = null;
 	
-	private DbManager(String configPath) {
+	private DbManager(DbConfig config) {
 		
 		System.out.println("Start to init db manager !");		
-		setConfig(configPath);
+		setConfig(config);
 		setPool(getConfig());
 	}
 	
 	private DbManager() {	
-		System.out.println("Start to init db manager !");
-		setConfig(DEFAULT_DB_CONFIG);
-		setPool(getConfig());
+		System.out.println("Start to init db manager without init DbConfig and db pool!");
+		//setConfig(DEFAULT_DB_CONFIG);
+		//setPool(getConfig());
 	}
 	
-	private static synchronized void sysInit(String configPath) {
+	private static synchronized void sysInit(DbConfig config) {
 		if(null == manager) {
-			manager = new DbManager(configPath);
+			manager = new DbManager(config);
 		}
 	}
 	private static synchronized void sysInit() {
@@ -34,9 +30,9 @@ public class DbManager {
 		}
 	}
 	
-	public static DbManager getInstance(String configPath) {
+	public static DbManager getInstance(DbConfig config) {
 		if(null == manager) {
-			sysInit(configPath);
+			sysInit(config);
 		}
 		return manager;
 	}
@@ -45,13 +41,6 @@ public class DbManager {
 			sysInit();
 		}
 		return manager;
-	}
-		
-	private void setConfig(String configPath) {
-		System.out.println("Start to init db config !");
-		DbConfig dcfg = new DbConfig();
-		dcfg.parseConfigure(configPath);
-		setConfig(dcfg);
 	}
 	
 	public DbConfig getConfig() {
