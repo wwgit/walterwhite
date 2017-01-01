@@ -90,7 +90,6 @@ public abstract class BeanFactory implements Bean {
 			  Map<String,Object> propertyValues, 
 			  Map<String, Class<?>> propertyTypes) {
 
-		Map<Object, Class<?>> value_type = null;
 		String propertyName = null;
 		Object value = null;
 		Class<?> propertyClazz = null;
@@ -162,6 +161,7 @@ public abstract class BeanFactory implements Bean {
 		Object beanObj = null;
 		
 		try {
+			System.out.println("in getBean(beanId): default unique code:" +this.getParser().getDefaultUniqueCode());
 			String realBeanId = beanId + this.getParser().getDefaultUniqueCode();
 			if(null == this.getBeanObjects()) {
 				this.setBeanObjects(new HashMap<String, Object>());
@@ -190,8 +190,7 @@ public abstract class BeanFactory implements Bean {
 	
 	public synchronized Object getBean(String beanId, String configPath) {
 		
-		Object beanObj = null;
-		
+		Object beanObj = null;		
 		
 		try {
 			String realBeanId = beanId + String.valueOf(PathHelper.resolveAbsolutePath(configPath).hashCode());

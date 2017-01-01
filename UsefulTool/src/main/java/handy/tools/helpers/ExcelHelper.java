@@ -69,7 +69,7 @@ public abstract class ExcelHelper extends BasicHelper {
 	public static void readXlsWorkSheet(HSSFWorkbook workBook) {
 		
 		HSSFSheet sheet = workBook.getSheetAt(0);
-		
+		//sheet.getM
 		Iterator rowsIt = sheet.rowIterator();
 		
 		while(rowsIt.hasNext()) {

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class BeanParser implements Bean, TxTFile {
 		
-	//default unique code: hash code of config file: hash code of the first config file loaded
+	//default unique code: hash code of config file: hash code of the last config file loaded
 	private String defaultUniqueCode;
 	
 	//beansClazz: Map<beanId, bean Class> - beanId should be unique
@@ -51,9 +51,7 @@ public abstract class BeanParser implements Bean, TxTFile {
 	
 	private String loadBeanUniqCode(String beanFilePath) {
 	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(beanFilePath).hashCode());
-		if(null == this.getDefaultUniqueCode()) {
-			this.setDefaultUniqueCode(hashCode);
-		}
+	    this.setDefaultUniqueCode(hashCode);    
 		return hashCode;
 	}
 	

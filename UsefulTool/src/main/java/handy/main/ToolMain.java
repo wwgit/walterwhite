@@ -1,36 +1,10 @@
 package handy.main;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import handy.tools.db.ComplexValue;
-import handy.tools.db.DbConfig;
-import handy.tools.db.DbManager;
 import handy.tools.db.TestBean;
-import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
-import handy.tools.helpers.DbHelper;
-import handy.tools.helpers.ExcelHelper;
-import handy.tools.helpers.FileHelper;
-import handy.tools.helpers.PathHelper;
-import handy.tools.helpers.XmlHelper;
-import handy.tools.interfaces.ClassFactory;
 import handy.tools.interfaces.bean.BeanFactory;
-import handy.tools.interfaces.bean.BeanParser;
-import handy.tools.io.NioHelper;
-import handy.tools.parser.PropertiesConfigParser;
 
 public class ToolMain {
 
@@ -96,11 +70,11 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		//BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
+		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
 		//BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
 		long startTime = System.currentTimeMillis();
-		//xmlBeanCreator.lazyLoadBeans("example8.xml");
+		xmlBeanCreator.lazyLoadBeans("example8.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
 		//DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
 		//System.out.println("propChk:" + propChk.getPassword());
@@ -118,15 +92,15 @@ public class ToolMain {
 		//System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		
-		//TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
-		//System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		//System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
 		
 		
-		ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
+		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
 		
 	}
