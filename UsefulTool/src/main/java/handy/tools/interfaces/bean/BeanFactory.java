@@ -8,8 +8,8 @@ import handy.tools.helpers.TypeHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public abstract class BeanFactory implements Bean {
 	
@@ -63,6 +63,9 @@ public abstract class BeanFactory implements Bean {
 
 	protected void setBeanObjects() {
 		
+		List<String> beanIds = this.getParser().getCurrFileBeanIds();
+		if(null == beanIds) return;
+		
 		Map<String, Object> beanObjs = new HashMap<String, Object>();
 		Object beanObj = null;
 		
@@ -70,8 +73,8 @@ public abstract class BeanFactory implements Bean {
 			this.setBeanObjects(new HashMap<String, Object>());
 		}
 		
-		for(Entry<String, Class<?>> theBeanClazz : this.getParser().getBeansClazz().entrySet()) {
-			String beanId = theBeanClazz.getKey();
+		for(int i = 0; i < beanIds.size(); i++) {
+			String beanId = beanIds.get(i);
 			if(null != this.getBeanObjects().get(beanId)) {
 				continue;
 			}
@@ -232,7 +235,7 @@ public abstract class BeanFactory implements Bean {
 	public void setDefaultUniqueCode(String filePath) {
 		String hashCode = null;
 		if(null == this.getDefaultUniqueCode()) {
-			hashCode = String.valueOf(PathHelper.resolveAbsolutePath(filePath));
+			hashCode = String.valueOf(PathHelper.resolveAbsolutePath(filePath).hashCode());
 			this.defaultUniqueCode = hashCode;
 		}		
 		

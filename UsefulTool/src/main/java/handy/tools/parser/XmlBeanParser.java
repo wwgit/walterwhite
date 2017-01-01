@@ -1,6 +1,7 @@
 package handy.tools.parser;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +135,28 @@ public class XmlBeanParser extends XmlParser implements Parser, Bean {
 	public String createUniqBeanIdWithAttri(Element bean, String uniqueStr) {
 		String uniqBeanId = bean.attributeValue(this.getXmlAttriBeanIdTab()) + uniqueStr;
 		return uniqBeanId;
+	}
+	
+	public List<String> setCurrFileBeanIds(String uniqueStr) {
+		
+		List<String> currBeanIds = null;
+		
+		try {
+			List<Element> myBeanElements = this.getBeanElements();
+			if(myBeanElements == null || myBeanElements.size() < 1) {
+				return null;
+			}
+			currBeanIds = new LinkedList<String>();
+			for(int i = 0; i < myBeanElements.size(); i++) {
+				Element e = myBeanElements.get(i);
+				currBeanIds.add(createUniqBeanIdWithAttri(e,uniqueStr));
+			}
+			
+		} catch(Exception e) {
+			
+		}
+		
+		return currBeanIds;
 	}
 	
 	public Map<String, Class<?>> setBeansClazzWithAttri(String uniqueStr) {

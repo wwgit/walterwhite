@@ -7,6 +7,7 @@ import handy.tools.helpers.ReflectHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public abstract class BeanParser implements Bean, TxTFile {
@@ -30,16 +31,22 @@ public abstract class BeanParser implements Bean, TxTFile {
 	//propertyRefBeanId: Map<propertyName, refBeanId> - property name should be unique for one bean
 	//For the same bean, property name must be unique
 	//propertyRefBeanId:HashMap<String,String>
-	private Map<String, Map> beanPropertyRefBeanId;	
+	private Map<String, Map> beanPropertyRefBeanId;
+	
+	//for saving bean ids in current file loaded - in order to SetBeanObjects quickly
+	private List<String> currFileBeanIds;
 		
-	public abstract void setBeansClazz(String configHashCode);
-	public abstract void BeansPropertiesValues(String configHashCode);
-	public abstract void BeansPropertiesRefBeanIds(String configHashCode);
+	public abstract void setBeansClazz(String uniqCode);
+	public abstract void BeansPropertiesValues(String uniqCode);
+	public abstract void BeansPropertiesRefBeanIds(String uniqCode);
+	public abstract void setCurrFileBeanIds(String uniqCode);
+	
 	public abstract void loadResource(String configPath);
 	public abstract void loadTemplate();
 	
 	protected void loadBeansInfo(String beanFilePath) {
 		String hashCode = loadBeanUniqCode(beanFilePath);
+		setCurrFileBeanIds(hashCode);
 		setBeansClazz(hashCode);
 		setBeanPropertyClazz();
 		BeansPropertiesRefBeanIds(hashCode);
@@ -117,6 +124,12 @@ public abstract class BeanParser implements Bean, TxTFile {
 			this.getBeanPropertyRefBeanId().putAll(beanPropertyRefBeanId);
 		}
 		
+	}
+	public List<String> getCurrFileBeanIds() {
+		return currFileBeanIds;
+	}
+	public void setCurrFileBeanIds(List<String> currFileBeanIds) {
+		this.currFileBeanIds = currFileBeanIds;
 	}
 
 	

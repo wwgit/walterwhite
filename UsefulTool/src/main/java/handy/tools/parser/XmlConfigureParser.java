@@ -1,5 +1,7 @@
 package handy.tools.parser;
 
+import java.util.List;
+
 import handy.tools.interfaces.bean.BeanParser;
 import handy.tools.interfaces.templates.XmlConfigTemplate;
 
@@ -82,6 +84,13 @@ public class XmlConfigureParser extends BeanParser implements XmlConfigTemplate 
 		this.getParser().setXmlRefBeanTab(XML_REF_BEAN_TAB);
 		this.getParser().setXmlAttriRefBeanIdPropTab(XML_ATTRI_REF_BEAN_ID_PROP_TAB);
 		
+	}
+
+
+	@Override
+	public void setCurrFileBeanIds(String uniqCode) {
+		
+		this.setCurrFileBeanIds(this.getParser().setCurrFileBeanIds(uniqCode));
 	}
 
 

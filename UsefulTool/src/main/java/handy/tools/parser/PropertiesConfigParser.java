@@ -2,11 +2,11 @@ package handy.tools.parser;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Set;
 
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.TypeHelper;
@@ -123,6 +123,25 @@ public class PropertiesConfigParser extends BeanParser {
 	@Override
 	public void loadTemplate() {
 		
+	}
+
+	@Override
+	public void setCurrFileBeanIds(String uniqCode) {
+		
+		List<String> beanIds = null;
+		
+		beanIds = new LinkedList<String>();
+		String beanId = null;
+		for(Entry<Object, Object> property : this.getProp().entrySet()) {
+			String beanIdStr = (String) property.getKey();
+			beanId = beanIdStr.contains(beanHeader) 
+					? beanIdStr.replaceFirst(beanHeader,"") + uniqCode
+					: null;
+			if(null != beanId) { 
+				beanIds.add(beanId);
+			}			
+		}		
+		this.setCurrFileBeanIds(beanIds);
 	}
 	
 

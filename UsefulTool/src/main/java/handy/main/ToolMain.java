@@ -2,7 +2,10 @@ package handy.main;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import handy.tools.db.DbConfig;
 import handy.tools.db.TestBean;
+import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.interfaces.bean.BeanFactory;
 
@@ -70,14 +73,14 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		BeanFactory xmlBeanCreator = new XmlBeanFactory("example7.xml");
+		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
-		//BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
+		BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
 		long startTime = System.currentTimeMillis();
-		xmlBeanCreator.lazyLoadBeans("example8.xml");
+		xmlBeanCreator.lazyLoadBeans("example7.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
-		//DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
-		//System.out.println("propChk:" + propChk.getPassword());
+		DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
+		System.out.println("propChk:" + propChk.getPassword());
 		
 		//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("third");
 		//System.out.println("propChk2:" + propChk2.getPassword());
@@ -88,12 +91,12 @@ public class ToolMain {
 		//System.out.println("multValChk:" + multValChk.getUrl());
 		//System.out.println("multValChk:" + multValChk.getPassword());
 		//System.out.println("multValChk:" + multValChk.getDbSize());
-		//TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
-		//System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
+		TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
+		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		
-		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
-		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		//TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+		//System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
