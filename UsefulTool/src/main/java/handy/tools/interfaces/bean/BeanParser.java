@@ -1,20 +1,16 @@
 package handy.tools.interfaces.bean;
 
-import handy.tools.constants.DataTypes;
+import handy.tools.constants.Bean;
+import handy.tools.constants.TxTFile;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
-import handy.tools.helpers.TypeHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class BeanParser implements Bean {
-	
-	public static final int CONFIG_SUFFIX_PROPERTY = 1;
-	public static final int CONFIG_SUFFIX_XML = 2;
-	public static final int CONFIG_SUFFIX_JSON = 3;
-	
+public abstract class BeanParser implements Bean, TxTFile {
+		
 	//default unique code: hash code of config file: hash code of the first config file loaded
 	private String defaultUniqueCode;
 	
@@ -60,20 +56,6 @@ public abstract class BeanParser implements Bean {
 		}
 		return hashCode;
 	}
-	
-	public int parseFileSuffix(String beanFilePath) {
-		
-		if(beanFilePath.endsWith("properties")) {
-			return CONFIG_SUFFIX_PROPERTY;
-		} else if(beanFilePath.endsWith("xml")) {
-			return CONFIG_SUFFIX_XML;
-		} else if(beanFilePath.endsWith("json")) {
-			return CONFIG_SUFFIX_JSON;
-		} else {
-			return 0;
-		}
-		
-	}	
 	
 	public Map<String, Class<?>> getBeansClazz() {
 		return beansClazz;
@@ -147,22 +129,6 @@ public abstract class BeanParser implements Bean {
 	}
 	public void setDefaultUniqueCode(String defaultUniqueCode) {
 		this.defaultUniqueCode = defaultUniqueCode;
-	}
-	
-	public boolean isRefBean(Object propertyValue) {
-		
-		int type = TypeHelper.parseType(propertyValue);
-		
-		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
-			
-			int chk = ((Integer)propertyValue).intValue();				
-			
-			if(REF_LOCAL_NOT_INIT == chk || REF_BEAN_NOT_INIT == chk) {
-				return true;			
-			}					
-		}
-		
-		return false;
 	}
 	
 

@@ -1,8 +1,11 @@
 package handy.tools.interfaces.bean;
 
+import handy.tools.constants.Bean;
+import handy.tools.constants.DataTypes;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -109,7 +112,7 @@ public abstract class BeanFactory implements Bean {
 				propertyClazz = propertyTypes.get(propertyName);
 				value = propertyValues.get(propertyName);
 				
-				if(this.getParser().isRefBean(value)) {
+				if(isRefBean(value)) {
 					@SuppressWarnings("unchecked")
 					Map<String, String> propertyRefBeanIds = this.getParser().getBeanPropertyRefBeanId().get(beanId);
 					String refBeanId = propertyRefBeanIds.get(propertyName);
@@ -124,6 +127,22 @@ public abstract class BeanFactory implements Bean {
 		
 		return beanObj;
 
+	}
+	
+	public boolean isRefBean(Object propertyValue) {
+		
+		int type = TypeHelper.parseType(propertyValue);
+		
+		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
+			
+			int chk = ((Integer)propertyValue).intValue();				
+			
+			if(REF_LOCAL_NOT_INIT == chk || REF_BEAN_NOT_INIT == chk) {
+				return true;			
+			}					
+		}
+		
+		return false;
 	}
 	
 	protected void initBeanProperty(Object beanObj, String propertyName, 

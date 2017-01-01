@@ -1,4 +1,4 @@
-package handy.tools.interfaces.bean;
+package handy.tools.constants;
 
 public interface Bean {
 	

@@ -1,13 +1,5 @@
 package handy.tools.parser;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-
-import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.bean.BeanParser;
 import handy.tools.interfaces.templates.XmlConfigTemplate;
 

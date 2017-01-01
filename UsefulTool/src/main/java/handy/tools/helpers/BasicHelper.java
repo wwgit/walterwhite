@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import handy.tools.constants.DataTypes;
+import handy.tools.constants.TxTFile;
 
-public abstract class BasicHelper {
+public abstract class BasicHelper implements TxTFile {
 	
-	public static final String DATA_FORMAT_UTF8 = "utf-8";
-	public static final String DATA_FORMAT_GB2312 = "gb2312";
+
 	
 	public static String GetAbsoluteFilePath(String filePath) {
 		
@@ -80,5 +80,19 @@ public abstract class BasicHelper {
 		
 		return requiredClz;
 	}
+	
+	public int getFileSuffix(String filePath) {
+		
+		if(filePath.endsWith("properties")) {
+			return TXTFILE_SUFFIX_PROPERTY;
+		} else if(filePath.endsWith("xml")) {
+			return TXTFILE_SUFFIX_XML;
+		} else if(filePath.endsWith("json")) {
+			return TXTFILE_SUFFIX_JSON;
+		} else {
+			return 0;
+		}
+		
+	}	
 
 }

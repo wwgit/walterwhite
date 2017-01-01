@@ -7,9 +7,9 @@ import java.util.Map;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import handy.tools.constants.Bean;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.Parser;
-import handy.tools.interfaces.bean.Bean;
 
 public class XmlBeanParser extends XmlParser implements Parser, Bean {
 	
