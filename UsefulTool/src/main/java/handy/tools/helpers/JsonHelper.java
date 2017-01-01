@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONReader;
 
 public abstract class JsonHelper extends FileHelper {
 	

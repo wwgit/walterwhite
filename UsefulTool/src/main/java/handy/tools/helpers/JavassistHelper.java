@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.helpers;
 
 import handy.tools.aop.BasicClazDesc;
 import handy.tools.aop.BasicMethodDesc;
@@ -16,7 +16,7 @@ import javassist.NotFoundException;
 
 //import javassist.CtClass;
 
-public abstract class AspectHandler {
+public abstract class JavassistHelper {
 	
 	
 	public static ClassPool InitDefaultPool() {

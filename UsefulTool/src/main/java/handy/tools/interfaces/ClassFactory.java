@@ -2,9 +2,9 @@ package handy.tools.interfaces;
 
 
 import handy.tools.aop.BasicClazDesc;
-import java.io.IOException;
-import java.util.List;
+import handy.tools.helpers.JavassistHelper;
 
+import java.io.IOException;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -22,7 +22,7 @@ public class ClassFactory {
 	private ClassFactory() {
 		
 		try {
-			setPool(AspectHandler.InitNonDefPool(new String[]{proxyClassPath}));
+			setPool(JavassistHelper.InitNonDefPool(new String[]{proxyClassPath}));
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class ClassFactory {
 		//System.out.println(getPool().getCtClass("handy.auto.test.interfaces.TestResult"));
 		if(getPool() == null) {
 			try {
-				setPool(AspectHandler.InitNonDefPool(new String[]{proxyClassPath}));
+				setPool(JavassistHelper.InitNonDefPool(new String[]{proxyClassPath}));
 			} catch (NotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -60,7 +60,7 @@ public class ClassFactory {
 		}
 		
 		try {
-			AspectHandler.createClass(getPool(), bcd);
+			JavassistHelper.createClass(getPool(), bcd);
 			bcd.ctClazz.writeFile(proxyClassPath);
 			bcd.ctClazz.defrost();
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class ClassFactory {
 			
 			if(getPool() == null) {
 				try {
-					setPool(AspectHandler.InitNonDefPool(new String[]{proxyClassPath}));
+					setPool(JavassistHelper.InitNonDefPool(new String[]{proxyClassPath}));
 				} catch (NotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -94,9 +94,9 @@ public class ClassFactory {
 			try {
 				if(direct.equals("before")) {
 					System.out.println(methodName);
-					AspectHandler.changeBeforeMethod(cc, methodName, aspect);
+					JavassistHelper.changeBeforeMethod(cc, methodName, aspect);
 				} else if(direct.equals("after")) {
-					AspectHandler.changeAfterMethod(cc, methodName, aspect);
+					JavassistHelper.changeAfterMethod(cc, methodName, aspect);
 				}
 				cc.writeFile(proxyClassPath);
 				cc.defrost();
@@ -118,7 +118,7 @@ public class ClassFactory {
 		
 		if(getPool() == null) {
 			try {
-				setPool(AspectHandler.InitNonDefPool(new String[]{proxyClassPath}));
+				setPool(JavassistHelper.InitNonDefPool(new String[]{proxyClassPath}));
 			} catch (NotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,7 +132,7 @@ public class ClassFactory {
 			cc = getPool().getCtClass(clazzName);
 			//cc.getdECLAREDmE
 			cRtnType = getPool().getCtClass(rtnType);
-			AspectHandler.addNoParamMethod(cc, methodName,"{return;}", cRtnType, "public");
+			JavassistHelper.addNoParamMethod(cc, methodName,"{return;}", cRtnType, "public");
 			cc.writeFile(proxyClassPath);
 			cc.defrost();
 			
@@ -154,7 +154,7 @@ public class ClassFactory {
 								String[] inParamType, String rtnType) {
 		if(getPool() == null) {
 			try {
-				setPool(AspectHandler.InitNonDefPool(new String[]{proxyClassPath}));
+				setPool(JavassistHelper.InitNonDefPool(new String[]{proxyClassPath}));
 			} catch (NotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

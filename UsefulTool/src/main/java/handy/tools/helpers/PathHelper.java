@@ -1,11 +1,8 @@
 package handy.tools.helpers;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 
 public abstract class PathHelper extends BasicHelper {
 	
