@@ -1,15 +1,7 @@
 package handy.tools.factorties;
 
-import handy.tools.helpers.PathHelper;
-import handy.tools.helpers.ReflectHelper;
-import handy.tools.helpers.TypeHelper;
-import handy.tools.interfaces.BeanFactory;
-import handy.tools.interfaces.ConfigureParser;
+import handy.tools.interfaces.bean.BeanFactory;
 import handy.tools.parser.XmlConfigureParser;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 
 /*e.g
@@ -43,7 +35,7 @@ public class XmlBeanFactory extends BeanFactory {
 		if(null == this.getParser()) {
 			this.setParser(new XmlConfigureParser(xmlPath));	
 		} else {
-			this.getParser().loadConfig(xmlPath);
+			this.getParser().loadResource(xmlPath);
 		}
 	}
 		

@@ -1,11 +1,9 @@
 package handy.tools.factorties;
 
-import handy.tools.interfaces.BeanFactory;
+import handy.tools.interfaces.bean.BeanFactory;
 import handy.tools.parser.PropertiesConfigParser;
-import handy.tools.parser.XmlConfigureParser;
 
 public class PropertiesBeanFactory extends BeanFactory {
-
 	
 	public PropertiesBeanFactory(String propPath) {
 		loadBeans(propPath);
@@ -20,7 +18,7 @@ public class PropertiesBeanFactory extends BeanFactory {
 		if(null == this.getParser()) {
 			this.setParser(new PropertiesConfigParser(propPath));	
 		} else {
-			this.getParser().loadConfig(propPath);
+			this.getParser().loadResource(propPath);
 		}
 	}
 

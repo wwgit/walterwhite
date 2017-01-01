@@ -25,9 +25,9 @@ import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.FileHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
-import handy.tools.interfaces.BeanFactory;
 import handy.tools.interfaces.ClassFactory;
-import handy.tools.interfaces.ConfigureParser;
+import handy.tools.interfaces.bean.BeanFactory;
+import handy.tools.interfaces.bean.BeanParser;
 import handy.tools.io.NioHelper;
 import handy.tools.parser.PropertiesConfigParser;
 

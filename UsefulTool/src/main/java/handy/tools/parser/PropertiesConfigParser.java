@@ -10,7 +10,7 @@ import java.util.Set;
 
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.TypeHelper;
-import handy.tools.interfaces.ConfigureParser;
+import handy.tools.interfaces.bean.BeanParser;
 
 
 /*e.g
@@ -21,14 +21,14 @@ import handy.tools.interfaces.ConfigureParser;
  * beanId_user1=Test.User
  * user1.Test.User.name=example
  * */
-public class PropertiesConfigParser extends ConfigureParser {
+public class PropertiesConfigParser extends BeanParser {
 
 	public static final String beanHeader = "beanId_";
 	
 	private Properties prop;
 	
 	public PropertiesConfigParser(String propPath) {
-		loadConfig(propPath);
+		loadResource(propPath);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class PropertiesConfigParser extends ConfigureParser {
 	}
 
 	@Override
-	public void loadConfig(String propPath) {
+	public void loadResource(String propPath) {
 		setProp(propPath);
 		loadBeansInfo(propPath);
 	}

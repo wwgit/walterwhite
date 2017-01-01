@@ -1,4 +1,4 @@
-package handy.tools.interfaces;
+package handy.tools.interfaces.bean;
 
 import handy.tools.constants.DataTypes;
 import handy.tools.helpers.PathHelper;
@@ -9,19 +9,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.dom4j.Element;
-
-public abstract class ConfigureParser {
-	
-	public static final int REF_BEAN_NOT_INIT = "REFERENCE_BEAN_NOT_INIT".hashCode();
-	public static final int REF_LOCAL_NOT_INIT = "REFERENCE_LOCAL_NOT_INIT".hashCode();
+public abstract class BeanParser implements Bean {
 	
 	public static final int CONFIG_SUFFIX_PROPERTY = 1;
 	public static final int CONFIG_SUFFIX_XML = 2;
 	public static final int CONFIG_SUFFIX_JSON = 3;
 	
-	//default hash code of config file: hash code of the first config file loaded
-	private String defaultConfigHashCode;
+	//default unique code: hash code of config file: hash code of the first config file loaded
+	private String defaultUniqueCode;
 	
 	//beansClazz: Map<beanId, bean Class> - beanId should be unique
 	private Map<String, Class<?>> beansClazz;
@@ -42,62 +37,43 @@ public abstract class ConfigureParser {
 	//propertyRefBeanId: Map<propertyName, refBeanId> - property name should be unique for one bean
 	//For the same bean, property name must be unique
 	//propertyRefBeanId:HashMap<String,String>
-	private Map<String, Map> beanPropertyRefBeanId;
-	
+	private Map<String, Map> beanPropertyRefBeanId;	
 		
 	public abstract void setBeansClazz(String configHashCode);
 	public abstract void BeansPropertiesValues(String configHashCode);
 	public abstract void BeansPropertiesRefBeanIds(String configHashCode);
-	public abstract void loadConfig(String configPath);
+	public abstract void loadResource(String configPath);
 	public abstract void loadTemplate();
 	
-	public void loadBeansInfo(String configPath) {
-		String hashCode = loadConfigHashCode(configPath);
+	protected void loadBeansInfo(String beanFilePath) {
+		String hashCode = loadBeanUniqCode(beanFilePath);
 		setBeansClazz(hashCode);
 		setBeanPropertyClazz();
 		BeansPropertiesRefBeanIds(hashCode);
 		BeansPropertiesValues(hashCode);
 	}
 	
-	public String loadConfigHashCode(String configPath) {
-	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(configPath).hashCode());
-		if(null == this.getDefaultConfigHashCode()) {
-			this.setDefaultConfigHashCode(hashCode);
+	private String loadBeanUniqCode(String beanFilePath) {
+	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(beanFilePath).hashCode());
+		if(null == this.getDefaultUniqueCode()) {
+			this.setDefaultUniqueCode(hashCode);
 		}
 		return hashCode;
 	}
 	
-	public int parseFileSuffix(String configPath) {
+	public int parseFileSuffix(String beanFilePath) {
 		
-		if(configPath.endsWith("properties")) {
+		if(beanFilePath.endsWith("properties")) {
 			return CONFIG_SUFFIX_PROPERTY;
-		} else if(configPath.endsWith("xml")) {
+		} else if(beanFilePath.endsWith("xml")) {
 			return CONFIG_SUFFIX_XML;
-		} else if(configPath.endsWith("json")) {
+		} else if(beanFilePath.endsWith("json")) {
 			return CONFIG_SUFFIX_JSON;
 		} else {
 			return 0;
 		}
 		
-	}
-	
-	public boolean isRefBean(Object propertyValue) {
-		
-		int type = TypeHelper.parseType(propertyValue);
-		
-		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
-			
-			int chk = ((Integer)propertyValue).intValue();				
-			
-			if(ConfigureParser.REF_LOCAL_NOT_INIT == chk || 
-			    ConfigureParser.REF_BEAN_NOT_INIT == chk) {
-				return true;			
-			}					
-		}
-		
-		return false;
-	}
-	
+	}	
 	
 	public Map<String, Class<?>> getBeansClazz() {
 		return beansClazz;
@@ -142,13 +118,6 @@ public abstract class ConfigureParser {
 
 	}
 	
-	public String getDefaultConfigHashCode() {
-		return defaultConfigHashCode;
-	}
-	public void setDefaultConfigHashCode(String defaultConfigHashCode) {
-		this.defaultConfigHashCode = defaultConfigHashCode;
-	}
-	
 	public Map<String, Map> getBeanPropertyValues() {
 		return beanPropertyValues;
 	}
@@ -172,6 +141,28 @@ public abstract class ConfigureParser {
 			this.getBeanPropertyRefBeanId().putAll(beanPropertyRefBeanId);
 		}
 		
+	}
+	public String getDefaultUniqueCode() {
+		return defaultUniqueCode;
+	}
+	public void setDefaultUniqueCode(String defaultUniqueCode) {
+		this.defaultUniqueCode = defaultUniqueCode;
+	}
+	
+	public boolean isRefBean(Object propertyValue) {
+		
+		int type = TypeHelper.parseType(propertyValue);
+		
+		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
+			
+			int chk = ((Integer)propertyValue).intValue();				
+			
+			if(REF_LOCAL_NOT_INIT == chk || REF_BEAN_NOT_INIT == chk) {
+				return true;			
+			}					
+		}
+		
+		return false;
 	}
 	
 

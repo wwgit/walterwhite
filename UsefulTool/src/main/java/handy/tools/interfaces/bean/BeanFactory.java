@@ -1,21 +1,18 @@
-package handy.tools.interfaces;
+package handy.tools.interfaces.bean;
 
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
-import handy.tools.helpers.XmlHelper;
-import handy.tools.parser.XmlConfigureParser;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class BeanFactory {
+public abstract class BeanFactory implements Bean {
 	
 	//beanObjects: Map<beanId, bean Object> - beanId should be unique
 	private Map<String, Object> beanObjects;
 	
-	private ConfigureParser parser;
+	private BeanParser parser;
 	
 	protected abstract void initParser(String configPath);
 	
@@ -29,11 +26,11 @@ public abstract class BeanFactory {
 		initParser(configPath);		
 	}
 	
-	protected ConfigureParser getParser() {
+	protected BeanParser getParser() {
 		return this.parser;
 	}
 
-	protected void setParser(ConfigureParser myParser) {
+	protected void setParser(BeanParser myParser) {
 		this.parser = myParser;
 	}
 	
@@ -139,15 +136,14 @@ public abstract class BeanFactory {
 		value_type.put(value, propertyClazz);
 		ReflectHelper.callSetter(beanObj, propertyName, value_type);
 
-	}
-	
+	}	
 	
 	public synchronized Object getBean(String beanId) {
 		
 		Object beanObj = null;
 		
 		try {
-			String realBeanId = beanId + this.getParser().getDefaultConfigHashCode();
+			String realBeanId = beanId + this.getParser().getDefaultUniqueCode();
 			if(null == this.getBeanObjects()) {
 				this.setBeanObjects(new HashMap<String, Object>());
 			}
@@ -173,7 +169,7 @@ public abstract class BeanFactory {
 		return beanObj;
 	}
 	
-	public Object getBean(String beanId, String configPath) {
+	public synchronized Object getBean(String beanId, String configPath) {
 		
 		Object beanObj = null;
 		
