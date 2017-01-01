@@ -13,7 +13,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;
-		System.out.println("GetAbsoluteFilePath: " + filePath);
+		//System.out.println("GetAbsoluteFilePath: " + filePath);
 		File file = new File(filePath);
 		if(!file.exists()) {
 			try {

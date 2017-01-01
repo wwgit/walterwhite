@@ -1,5 +1,6 @@
 package handy.tools.factorties;
 
+import handy.tools.helpers.PathHelper;
 import handy.tools.interfaces.bean.BeanFactory;
 import handy.tools.parser.XmlConfigureParser;
 

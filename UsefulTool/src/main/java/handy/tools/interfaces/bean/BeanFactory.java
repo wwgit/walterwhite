@@ -9,6 +9,7 @@ import handy.tools.helpers.TypeHelper;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class BeanFactory implements Bean {
 	
@@ -17,16 +18,26 @@ public abstract class BeanFactory implements Bean {
 	
 	private BeanParser parser;
 	
-	protected abstract void initParser(String configPath);
+	//unique code of absolute path of current file
+	private String currentFilePath;
 	
-	public synchronized void loadBeans(String configPath) {			
-		initParser(configPath);
+	//default unique code: hash code of config file: hash code of the first config file loaded
+	private String defaultUniqueCode;
+	
+	protected abstract void initParser(String filePath);
+	
+	public synchronized void loadBeans(String filePath) {			
+		initParser(filePath);
+		setDefaultUniqueCode(filePath);
+		setCurrentFilePath(filePath);		
 		setBeanObjects();
 	}
 
 
-	public synchronized void lazyLoadBeans(String configPath) {		
-		initParser(configPath);		
+	public synchronized void lazyLoadBeans(String filePath) {		
+		initParser(filePath);
+		setDefaultUniqueCode(filePath);
+		setCurrentFilePath(filePath);	
 	}
 	
 	protected BeanParser getParser() {
@@ -53,22 +64,23 @@ public abstract class BeanFactory implements Bean {
 	protected void setBeanObjects() {
 		
 		Map<String, Object> beanObjs = new HashMap<String, Object>();
-			
-		Iterator beanIdIt = this.getParser().getBeansClazz().keySet().iterator();
-		String beanId = null;
 		Object beanObj = null;
-		Class<?> beanClazz = null;
 		
-		while(beanIdIt.hasNext()) {
-			beanId = ((String) beanIdIt.next());
-			beanClazz = this.getParser().getBeansClazz().get(beanId);
-			beanObj = initBean(beanId, beanClazz);
-			if(null == beanObj) {
+		if(null == this.getBeanObjects()) {
+			this.setBeanObjects(new HashMap<String, Object>());
+		}
+		
+		for(Entry<String, Class<?>> theBeanClazz : this.getParser().getBeansClazz().entrySet()) {
+			String beanId = theBeanClazz.getKey();
+			if(null != this.getBeanObjects().get(beanId)) {
 				continue;
 			}
-			beanObjs.put(beanId, beanObj);
-			beanId = null; beanObj = null;
+			beanObj = getRealBean(beanId);
+			if(null != beanObj) {
+				beanObjs.put(beanId, beanObj);
+			}
 		}
+		
 		this.setBeanObjects(beanObjs);		
 	}
 	
@@ -115,7 +127,7 @@ public abstract class BeanFactory implements Bean {
 					@SuppressWarnings("unchecked")
 					Map<String, String> propertyRefBeanIds = this.getParser().getBeanPropertyRefBeanId().get(beanId);
 					String refBeanId = propertyRefBeanIds.get(propertyName);
-					value = getBean(refBeanId);
+					value = getBean(refBeanId, getCurrentFilePath());
 				}
 		
 				initBeanProperty(beanObj, propertyName, propertyClazz, value);	
@@ -154,32 +166,31 @@ public abstract class BeanFactory implements Bean {
 		value_type.put(value, propertyClazz);
 		ReflectHelper.callSetter(beanObj, propertyName, value_type);
 
-	}	
+	}
 	
-	public synchronized Object getBean(String beanId) {
+	public Object getRealBean(String beanIdUniqCode) {
 		
 		Object beanObj = null;
 		
 		try {
-			System.out.println("in getBean(beanId): default unique code:" +this.getParser().getDefaultUniqueCode());
-			String realBeanId = beanId + this.getParser().getDefaultUniqueCode();
+
 			if(null == this.getBeanObjects()) {
 				this.setBeanObjects(new HashMap<String, Object>());
 			}
 			
-			if(false == getBeanObjects().containsKey(realBeanId)) {
-				if(false == this.getParser().getBeansClazz().containsKey(realBeanId)) {
-					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
+			if(false == getBeanObjects().containsKey(beanIdUniqCode)) {
+				if(false == this.getParser().getBeansClazz().containsKey(beanIdUniqCode)) {
+					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanIdUniqCode);
 				}
 			} else {
-				beanObj = getBeanObjects().get(realBeanId);
+				beanObj = getBeanObjects().get(beanIdUniqCode);
 			}
 			
 			if(null != beanObj) {
 				return beanObj;
 			}
 
-			beanObj = initBean(realBeanId, this.getParser().getBeansClazz().get(realBeanId));			
+			beanObj = initBean(beanIdUniqCode, this.getParser().getBeansClazz().get(beanIdUniqCode));			
 		}
 		catch (Exception e) {			
 			e.printStackTrace();
@@ -188,35 +199,43 @@ public abstract class BeanFactory implements Bean {
 		return beanObj;
 	}
 	
-	public synchronized Object getBean(String beanId, String configPath) {
+	public synchronized Object getBean(String beanId) {
+	
+		System.out.println("in getBean(beanId): default unique code:" +
+									getDefaultUniqueCode());
+		String realBeanId = beanId + getDefaultUniqueCode();
 		
-		Object beanObj = null;		
-		
-		try {
-			String realBeanId = beanId + String.valueOf(PathHelper.resolveAbsolutePath(configPath).hashCode());
-			if(null == this.getBeanObjects()) {
-				this.setBeanObjects(new HashMap<String, Object>());
-			}
-			
-			if(false == getBeanObjects().containsKey(realBeanId)) {
-				if(false == this.getParser().getBeansClazz().containsKey(realBeanId)) {
-					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
-				}
-			} else {
-				beanObj = getBeanObjects().get(realBeanId);
-			}
-			
-			if(null != beanObj) {
-				return beanObj;
-			}
+		return getRealBean(realBeanId);
+	}
+	
+	public synchronized Object getBean(String beanId, String filePath) {	
+		setCurrentFilePath(filePath);
+		String realBeanId = beanId + String.valueOf(getCurrentFilePath().hashCode());
+		System.out.println("in getBean(beanId,configPath): unique code:" +
+							realBeanId);
+		return getRealBean(realBeanId);
+	}
 
-			beanObj = initBean(realBeanId, this.getParser().getBeansClazz().get(realBeanId));			
-		}
-		catch (Exception e) {			
-			e.printStackTrace();
+
+	public String getCurrentFilePath() {
+		return currentFilePath;
+	}
+
+	public void setCurrentFilePath(String currentFilePath) {
+		this.currentFilePath = PathHelper.resolveAbsolutePath(currentFilePath);
+	}
+
+	public String getDefaultUniqueCode() {
+		return defaultUniqueCode;
+	}
+
+	public void setDefaultUniqueCode(String filePath) {
+		String hashCode = null;
+		if(null == this.getDefaultUniqueCode()) {
+			hashCode = String.valueOf(PathHelper.resolveAbsolutePath(filePath));
+			this.defaultUniqueCode = hashCode;
 		}		
 		
-		return beanObj;
 	}
 
 }

@@ -20,8 +20,8 @@ public abstract class ReflectHelper extends BasicHelper {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
 		//Map<Object, String> values = new HashMap<Object, String>();
-		System.out.println("calling setter: " + setterName + " for " + beanObj.getClass().getName());
-		System.out.println("value: " + values.toString());
+		//System.out.println("calling setter: " + setterName + " for " + beanObj.getClass().getName());
+		//System.out.println("value: " + values.toString());
 		doOneDeclareMethodCall(beanObj, setterName, values);
 		
 	}
