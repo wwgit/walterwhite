@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class BeanFactory implements Bean {
 	
@@ -63,8 +64,10 @@ public abstract class BeanFactory implements Bean {
 
 	protected void setBeanObjects() {
 		
-		List<String> beanIds = this.getParser().getCurrFileBeanIds();
-		if(null == beanIds) return;
+		if(this.getParser().getCurrFileBeanIds().size() < 1) return;
+		List<String> currBeanIds = this.getParser().getCurrFileBeanIds();
+		//if(this.getParser().getBeansClazz().size() < 1) return;
+		//Map<String,Class<?>> beanClazz = this.getParser().getBeansClazz();
 		
 		Map<String, Object> beanObjs = new HashMap<String, Object>();
 		Object beanObj = null;
@@ -73,22 +76,25 @@ public abstract class BeanFactory implements Bean {
 			this.setBeanObjects(new HashMap<String, Object>());
 		}
 		
-		for(int i = 0; i < beanIds.size(); i++) {
-			String beanId = beanIds.get(i);
+		for(int i = 0; i < currBeanIds.size(); i++) {
+			
+			String beanId = currBeanIds.get(i);
 			if(null != this.getBeanObjects().get(beanId)) {
-				continue;
-			}
+				continue;				
+			}		
 			beanObj = getRealBean(beanId);
-			if(null != beanObj) {
-				beanObjs.put(beanId, beanObj);
-			}
 		}
 		
+		this.getParser().getCurrFileBeanIds().removeAll(this.getParser().getCurrFileBeanIds());
 		this.setBeanObjects(beanObjs);		
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected Object initBean(String beanId, Class<?> beanClazz) {
+	protected Object initBean(String beanId, Class<?> beanClazz) throws Exception {
+		
+		if(false == this.getParser().getBeansClazz().containsKey(beanId)) {
+			throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
+		}
 		
 		Object beanObj = null;
 		Map<String,Object> propertyValues = null;
@@ -96,7 +102,7 @@ public abstract class BeanFactory implements Bean {
 		
 		propertyValues = this.getParser().getBeanPropertyValues().get(beanId);
 		propertyTypes = this.getParser().getBeanPropertyClazz().get(beanId);
-		beanObj = initBeanProperties(beanClazz, beanId, propertyValues, propertyTypes);				
+		beanObj = initBeanProperties(beanClazz, beanId, propertyValues, propertyTypes);	
 		
 		return beanObj;
 	}
@@ -181,19 +187,26 @@ public abstract class BeanFactory implements Bean {
 				this.setBeanObjects(new HashMap<String, Object>());
 			}
 			
-			if(false == getBeanObjects().containsKey(beanIdUniqCode)) {
-				if(false == this.getParser().getBeansClazz().containsKey(beanIdUniqCode)) {
-					throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanIdUniqCode);
-				}
-			} else {
+			if(true == getBeanObjects().containsKey(beanIdUniqCode)) {
 				beanObj = getBeanObjects().get(beanIdUniqCode);
-			}
+			} 
 			
 			if(null != beanObj) {
 				return beanObj;
 			}
 
-			beanObj = initBean(beanIdUniqCode, this.getParser().getBeansClazz().get(beanIdUniqCode));			
+			beanObj = initBean(beanIdUniqCode, this.getParser().getBeansClazz().get(beanIdUniqCode));
+			
+			if(null != beanObj) {
+				this.getBeanObjects().put(beanIdUniqCode, beanObj);
+				
+				//remove current bean info after completing initializing
+				this.getParser().getBeanPropertyValues().remove(beanIdUniqCode);
+				this.getParser().getBeanPropertyClazz().remove(beanIdUniqCode);
+				this.getParser().getBeansClazz().remove(beanIdUniqCode);
+				this.getParser().getBeanPropertyRefBeanId().remove(beanIdUniqCode);
+			}
+			
 		}
 		catch (Exception e) {			
 			e.printStackTrace();

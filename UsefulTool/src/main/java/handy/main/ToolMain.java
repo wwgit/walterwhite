@@ -95,8 +95,8 @@ public class ToolMain {
 		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		
-		//TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
-		//System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");

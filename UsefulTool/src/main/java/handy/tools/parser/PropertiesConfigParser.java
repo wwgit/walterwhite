@@ -85,8 +85,7 @@ public class PropertiesConfigParser extends BeanParser {
 
 	@Override
 	public void BeansPropertiesRefBeanIds(String configHashCode) {
-
-		return;
+		this.setBeanPropertyRefBeanId(new HashMap<String,Map>());
 	}
 
 	public Properties getProp() {

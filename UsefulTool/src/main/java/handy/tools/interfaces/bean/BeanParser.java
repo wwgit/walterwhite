@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+//only store info of bean not loaded in current file, 
+//if bean is initialized, related info will be removed.
 public abstract class BeanParser implements Bean, TxTFile {
 	
 	//beansClazz: Map<beanId, bean Class> - beanId should be unique
@@ -129,7 +131,12 @@ public abstract class BeanParser implements Bean, TxTFile {
 		return currFileBeanIds;
 	}
 	public void setCurrFileBeanIds(List<String> currFileBeanIds) {
-		this.currFileBeanIds = currFileBeanIds;
+		if(null == this.getCurrFileBeanIds()) {
+			this.currFileBeanIds = currFileBeanIds;
+		} else {
+			this.getCurrFileBeanIds().addAll(currFileBeanIds);
+		}
+		
 	}
 
 	
