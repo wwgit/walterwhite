@@ -1,29 +1,17 @@
 package handy.tools.interfaces.bean;
 
-import handy.tools.constants.Bean;
-import handy.tools.constants.DataTypes;
 import handy.tools.helpers.PathHelper;
-import handy.tools.helpers.ReflectHelper;
-import handy.tools.helpers.TypeHelper;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-public abstract class BeanFactory implements Bean {
+public abstract class BeanFactory extends BeanCommons {
 	
 	//beanObjects: Map<beanId, bean Object> - beanId should be unique
 	private Map<String, Object> beanObjects;
 	
 	private BeanParser parser;
-	
-	//unique code of absolute path of current file
-	private String currentFilePath;
-	
-	//default unique code: hash code of config file: hash code of the first config file loaded
-	private String defaultUniqueCode;
 	
 	protected abstract void initParser(String filePath);
 	
@@ -66,8 +54,6 @@ public abstract class BeanFactory implements Bean {
 		
 		if(this.getParser().getCurrFileBeanIds().size() < 1) return;
 		List<String> currBeanIds = this.getParser().getCurrFileBeanIds();
-		//if(this.getParser().getBeansClazz().size() < 1) return;
-		//Map<String,Class<?>> beanClazz = this.getParser().getBeansClazz();
 		
 		Map<String, Object> beanObjs = new HashMap<String, Object>();
 		Object beanObj = null;
@@ -149,34 +135,6 @@ public abstract class BeanFactory implements Bean {
 
 	}
 	
-	public boolean isRefBean(Object propertyValue) {
-		
-		int type = TypeHelper.parseType(propertyValue);
-		
-		if(type == DataTypes.JAVA_LANG_INTEGER || type == DataTypes.JAVA_BASIC_INT ) {
-			
-			int chk = ((Integer)propertyValue).intValue();				
-			
-			if(REF_LOCAL_NOT_INIT == chk || REF_BEAN_NOT_INIT == chk) {
-				return true;			
-			}					
-		}
-		
-		return false;
-	}
-	
-	protected void initBeanProperty(Object beanObj, String propertyName, 
-			Class<?> propertyClazz, Object org_value) {
-		Object value = org_value;
-		if(false == value.getClass().equals(propertyClazz)) {
-				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
-		}
-		Map<Object, Class<?>> value_type = new HashMap<Object, Class<?>>();
-		value_type.put(value, propertyClazz);
-		ReflectHelper.callSetter(beanObj, propertyName, value_type);
-
-	}
-	
 	public Object getRealBean(String beanIdUniqCode) {
 		
 		Object beanObj = null;
@@ -232,26 +190,5 @@ public abstract class BeanFactory implements Bean {
 		return getRealBean(realBeanId);
 	}
 
-
-	public String getCurrentFilePath() {
-		return currentFilePath;
-	}
-
-	public void setCurrentFilePath(String currentFilePath) {
-		this.currentFilePath = PathHelper.resolveAbsolutePath(currentFilePath);
-	}
-
-	public String getDefaultUniqueCode() {
-		return defaultUniqueCode;
-	}
-
-	public void setDefaultUniqueCode(String filePath) {
-		String hashCode = null;
-		if(null == this.getDefaultUniqueCode()) {
-			hashCode = String.valueOf(PathHelper.resolveAbsolutePath(filePath).hashCode());
-			this.defaultUniqueCode = hashCode;
-		}		
-		
-	}
 
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 //only store info of bean not loaded in current file, 
 //if bean is initialized, related info will be removed.
-public abstract class BeanParser implements Bean, TxTFile {
+public abstract class BeanParser extends BeanCommons implements TxTFile {
 	
 	//beansClazz: Map<beanId, bean Class> - beanId should be unique
 	private Map<String, Class<?>> beansClazz;
@@ -53,11 +53,6 @@ public abstract class BeanParser implements Bean, TxTFile {
 		setBeanPropertyClazz();
 		BeansPropertiesRefBeanIds(hashCode);
 		BeansPropertiesValues(hashCode);
-	}
-	
-	private String loadBeanUniqCode(String beanFilePath) {
-	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(beanFilePath).hashCode()); 
-		return hashCode;
 	}
 	
 	public Map<String, Class<?>> getBeansClazz() {
