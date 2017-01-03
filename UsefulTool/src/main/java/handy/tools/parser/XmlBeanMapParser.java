@@ -10,9 +10,12 @@ import org.dom4j.Element;
 
 import handy.tools.constants.Bean;
 import handy.tools.helpers.XmlHelper;
+import handy.tools.interfaces.IXmlBeanTempSetter;
 import handy.tools.interfaces.Parser;
+import handy.tools.interfaces.bean.IBeanInfoMapParser;
 
-public class XmlBeanParser extends XmlParser implements Parser, Bean {
+public class XmlBeanMapParser extends XmlParser implements Parser, Bean, 
+														IBeanInfoMapParser, IXmlBeanTempSetter {
 	
 	private Document doc;
 	private Element beans;
@@ -93,8 +96,14 @@ public class XmlBeanParser extends XmlParser implements Parser, Bean {
 	 * */
 	private String xmlAttriRefBeanIdPropTab;
 	
-	public XmlBeanParser(String xmlPath) {
-		this.setDoc(xmlPath);
+	public XmlBeanMapParser(String xmlPath) {
+		setDoc(xmlPath);
+		//this.setBeans();
+		//this.setBeanElements();
+	}
+	
+	public XmlBeanMapParser() {
+		
 	}
 
 	public Document getDoc() {
@@ -179,10 +188,10 @@ public class XmlBeanParser extends XmlParser implements Parser, Bean {
 	}
 	
 	
-	public Map<String, Map> BeansPropertiesValues(String uniqueStr) {
+	public Map<String, Map<String,Object>> BeansPropertiesValues(String uniqueStr) {
 		
 		List<Element> beanElements = this.getBeanElements();
-		Map<String, Map> beansProperties = new HashMap<String, Map>();
+		Map<String, Map<String,Object>> beansProperties = new HashMap<String, Map<String,Object>>();
 		for(int i = 0 ; i < beanElements.size(); i++) {
 			Element bean = beanElements.get(i);
 			beansProperties.put(createUniqBeanIdWithAttri(bean, uniqueStr), getPropertyValues(bean));
@@ -291,10 +300,11 @@ public class XmlBeanParser extends XmlParser implements Parser, Bean {
 		return result;
 	}
 	
-	public Map<String, Map> BeansPropertiesRefBeanIds(String uniqueStr) {
+	public Map<String, Map<String,String>> BeansPropertiesRefBeanIds(String uniqueStr) {
 		
 		List<Element> beanElements = this.getBeanElements();
-		Map<String, Map> beansPropertiesRefBeanIds = new HashMap<String, Map>();
+		Map<String, Map<String,String>> beansPropertiesRefBeanIds 
+							= new HashMap<String, Map<String,String>>();
 		Element bean = null;
 		Map<String,String> propertyRefBeanIds = null;
 		for(int i = 0; i < beanElements.size(); i++) {
@@ -409,6 +419,16 @@ public class XmlBeanParser extends XmlParser implements Parser, Bean {
 	}
 	public void setXmlBeanTab(String xmlBeanTab) {
 		this.xmlBeanTab = xmlBeanTab;
+	}
+
+	public Map<String, Class<?>> setBeansClazz(String uniqCode) {
+		return setBeansClazzWithAttri(uniqCode);
+	}
+
+	// has to be initied after template is loaded
+	public void initParser() {
+		this.setBeans();
+		this.setBeanElements();		
 	}
 	
 

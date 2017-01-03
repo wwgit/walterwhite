@@ -1,8 +1,7 @@
 package handy.tools.factorties;
 
-import handy.tools.helpers.PathHelper;
+import handy.tools.bean.XmlBeanMapFacadeImpl;
 import handy.tools.interfaces.bean.BeanFactory;
-import handy.tools.parser.XmlConfigureParser;
 
 
 /*e.g
@@ -23,22 +22,11 @@ public class XmlBeanFactory extends BeanFactory {
 
 	
 	public XmlBeanFactory(String xmlPath) {		
-		this.loadBeans(xmlPath);
+		this.setBeanFacade(new XmlBeanMapFacadeImpl(xmlPath));
 	}
 	
 	public XmlBeanFactory() {
-		
-	}
-
-	@Override
-	protected void initParser(String xmlPath) {
-
-		if(null == this.getParser()) {
-			this.setParser(new XmlConfigureParser(xmlPath));	
-		} else {
-			this.getParser().loadResource(xmlPath);
-		}
-	}
-		
+		this.setBeanFacade(new XmlBeanMapFacadeImpl());
+	}		
 	
 }

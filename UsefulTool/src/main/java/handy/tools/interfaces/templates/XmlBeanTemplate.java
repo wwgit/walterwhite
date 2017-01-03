@@ -1,6 +1,6 @@
 package handy.tools.interfaces.templates;
 
-public interface XmlConfigTemplate {
+public interface XmlBeanTemplate {
 	
 	//xmlBeansTab <beans><bean /></beans>
 	public static final String XML_BEANS_TAB = "beans";

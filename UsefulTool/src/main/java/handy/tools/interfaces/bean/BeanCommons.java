@@ -2,7 +2,6 @@ package handy.tools.interfaces.bean;
 
 import handy.tools.constants.Bean;
 import handy.tools.constants.DataTypes;
-import handy.tools.helpers.BasicHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
@@ -68,31 +67,10 @@ public abstract class BeanCommons implements Bean {
 
 	}
 	
-	protected String loadBeanUniqCode(String beanFilePath) {
+	public String loadBeanUniqCode(String beanFilePath) {
 	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(beanFilePath).hashCode()); 
 		return hashCode;
 	}
 	
-	
-	/*protected void initBeanProperties(String realBeanId, String[] propertyName, 
-									  Object[] propertyValues, Class<?>[] propertyTypes) {
-		Object beanObj = null;
-		try {
-			beanObj = BasicHelper.getRequireClass(realBeanId).newInstance();
-			for(int i = 0; i < propertyName.length; i++) {
-				initBeanProperty(beanObj, propertyName[i], propertyTypes[i], propertyValues[i]);
-			}
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
-	}*/
 	
 }

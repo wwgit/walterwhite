@@ -75,12 +75,12 @@ public class ToolMain {
 		
 		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
-		BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
+		//BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
 		long startTime = System.currentTimeMillis();
 		xmlBeanCreator.lazyLoadBeans("example7.xml");
-		//xmlBeanCreator.loadBeans("example8.xml");
-		DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
-		System.out.println("propChk:" + propChk.getPassword());
+		//xmlBeanCreator.loadBeans("example7.xml");
+		//DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
+		//System.out.println("propChk:" + propChk.getPassword());
 		
 		//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("third");
 		//System.out.println("propChk2:" + propChk2.getPassword());
