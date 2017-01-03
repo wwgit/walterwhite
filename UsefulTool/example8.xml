@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans>
+  <bean id="DbConfig" class="handy.tools.db.DbConfig">
+  
+	<property name="url" value="value from example8"></property>
+  </bean>
+  <bean id="TestBean" class="handy.tools.db.TestBean">
+  
+	<property name="config"><ref local="DbConfig" /></property>
+  </bean>
+  <bean id="SMSConfig" class="handy.tools.db.DbConfig">
+  
+	  <property name="url" >
+		<value>value from element</value>
+	  </property>
+  </bean>
+  <bean id="SMSConfig2" class="handy.tools.db.DbConfig">
+  
+	  <property name="url">
+		<value>value from element</value>
+	  </property>
+	  <property name="dbSize">
+		<value>500</value>
+	  </property>
+	  <property name="password">
+		<value>password</value>
+	  </property>
+  </bean>
+</beans>

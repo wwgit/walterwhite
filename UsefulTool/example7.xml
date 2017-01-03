@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans>
+  <bean id="DbConfig" class="handy.tools.db.DbConfig">
+  
+	<property name="url" value="value from example7"></property>
+  </bean>
+  <bean id="TestBean" class="handy.tools.db.TestBean">
+  
+	<property name="config"><ref local="DbConfig" /></property>
+  </bean>
+  <bean id="SMSConfig" class="handy.tools.db.DbConfig">
+  
+	  <property name="url" >
+		<value>value from element</value>
+	  </property>
+  </bean>
+  <bean id="SMSConfig2" class="handy.tools.db.DbConfig">
+  
+	  <property name="url">
+		<value>value from element</value>
+	  </property>
+	  <property name="dbSize">
+		<value>500</value>
+	  </property>
+	  <property name="password">
+		<value>password</value>
+	  </property>
+  </bean>
+  <bean id="SMSConfig3" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig4" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig5" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig6" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig7" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig8" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig9" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig10" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig11" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig12" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig13" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig14" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig15" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig16" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig17" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig18" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig19" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig20" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig21" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig22" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig23" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig24" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig25" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig26" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig27" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig28" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+    <bean id="SMSConfig29" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <bean id="SMSConfig30" class="handy.tools.db.DbConfig">
+  
+  <Property name="url" value="url_test_data"></Property>
+  </bean>
+  <good3>value3</good3>
+  <good2>value2</good2>
+  <good1 id="123" class="com.test.xml">value1</good1>
+</beans>
