@@ -28,5 +28,11 @@ public abstract class BeanFactory {
 		this.getBeanFacade().lazyLoadBeans(filePath);
 	}
 	
-
+	public void loadBeans(String ...filePaths) {
+		this.getBeanFacade().loadBeans(filePaths);
+	}
+	public void lazyLoadBeans(String ...filePaths) {
+		this.getBeanFacade().lazyLoadBeans(filePaths);
+	}
+	
 }

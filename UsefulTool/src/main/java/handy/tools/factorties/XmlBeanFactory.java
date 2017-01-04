@@ -27,6 +27,11 @@ public class XmlBeanFactory extends BeanFactory {
 	
 	public XmlBeanFactory() {
 		this.setBeanFacade(new XmlBeanMapFacadeImpl());
-	}		
+	}
+	
+	public XmlBeanFactory(String ...xmlPaths) {
+		this.setBeanFacade(new XmlBeanMapFacadeImpl(xmlPaths));
+	}
+	
 	
 }

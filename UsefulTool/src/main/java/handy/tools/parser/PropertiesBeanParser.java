@@ -130,8 +130,12 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 		return beanIds;
 	}
 
-	public void initParser() {
+	public void loadBeanTemplate() {
+		
+	}
 
+	public void reloadParser(String filePath) {
+		// TODO Auto-generated method stub
 		
 	}
 	

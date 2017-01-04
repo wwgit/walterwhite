@@ -7,7 +7,8 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	private IBeanDataMap beanData;
 	
 	protected abstract void initBeanParser(String filePath);
-	protected abstract void loadBeanTemplate();
+	protected abstract void initBeanParser();
+	protected abstract void loadBeanTemplate(String filePath);
 
 	public IBeanInfoMapParser getBeanParser() {
 		return beanParser;
@@ -27,7 +28,6 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	
 	private void loadBeanInfo(String filePath) {	
 		
-		loadBeanTemplate();
 		String uniqCode = loadBeanUniqCode(filePath);
 		this.getBeanData().setCurrentFilePath(filePath);
 		this.getBeanData().setDefaultUniqueCode(filePath);
@@ -45,12 +45,36 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	
 	public synchronized void loadBeans(String filePath) {		
 		initBeanParser(filePath);
+		loadBeanTemplate(filePath);
 		loadBeanInfo(filePath);
 		this.getBeanData().setBeanObjects();
+	}
+	
+	public synchronized void loadBeans(String ...filePaths) {
+		if(null == this.getBeanParser()) {
+			initBeanParser();
+		}
+		for(int i = 0; i < filePaths.length; i++) {
+			loadBeanTemplate(filePaths[i]);
+			loadBeanInfo(filePaths[i]);
+			this.getBeanData().setBeanObjects();
+		}
+	}
+	
+	public synchronized void lazyLoadBeans(String ...filePaths) {
+		if(null == this.getBeanParser()) {
+			initBeanParser();
+		}
+		for(int i = 0; i < filePaths.length; i++) {
+			loadBeanTemplate(filePaths[i]);
+			loadBeanInfo(filePaths[i]);
+			//this.getBeanData().setBeanObjects();
+		}
 	}
 
 	public synchronized void lazyLoadBeans(String filePath) {
 		initBeanParser(filePath);
+		loadBeanTemplate(filePath);
 		loadBeanInfo(filePath);		
 	}
 	

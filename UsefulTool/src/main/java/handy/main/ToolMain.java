@@ -73,12 +73,13 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
+		BeanFactory xmlBeanCreator = new XmlBeanFactory();
+		xmlBeanCreator.loadBeans("example8.xml","example7.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
 		//BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
 		long startTime = System.currentTimeMillis();
-		xmlBeanCreator.lazyLoadBeans("example7.xml");
-		//xmlBeanCreator.loadBeans("example7.xml");
+		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
+		
 		//DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
 		//System.out.println("propChk:" + propChk.getPassword());
 		

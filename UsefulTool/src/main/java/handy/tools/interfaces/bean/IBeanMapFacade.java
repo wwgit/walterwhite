@@ -8,5 +8,7 @@ public interface IBeanMapFacade {
 	public void loadBeans(String filePath);
 	public void lazyLoadBeans(String filePath);
 	
+	public void loadBeans(String ...filePaths);
+	public void lazyLoadBeans(String ...filePaths);
 
 }

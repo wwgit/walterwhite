@@ -10,12 +10,14 @@ import org.dom4j.Element;
 
 import handy.tools.constants.Bean;
 import handy.tools.helpers.XmlHelper;
-import handy.tools.interfaces.IXmlBeanTempSetter;
-import handy.tools.interfaces.Parser;
 import handy.tools.interfaces.bean.IBeanInfoMapParser;
+import handy.tools.interfaces.templates.IXmlBeanTempSetter;
+import handy.tools.interfaces.templates.XmlBeanTemplate;
 
-public class XmlBeanMapParser extends XmlParser implements Parser, Bean, 
-														IBeanInfoMapParser, IXmlBeanTempSetter {
+public class XmlBeanMapParser extends XmlParser implements Bean, 
+/* provides default xml bean template for initializing */  XmlBeanTemplate,
+	/* provides reading and writing methods for visitors */ IBeanInfoMapParser,
+	/*provides writing methods for bean template setting */ IXmlBeanTempSetter {
 	
 	private Document doc;
 	private Element beans;
@@ -97,13 +99,14 @@ public class XmlBeanMapParser extends XmlParser implements Parser, Bean,
 	private String xmlAttriRefBeanIdPropTab;
 	
 	public XmlBeanMapParser(String xmlPath) {
+		loadBeanTemplate();
 		setDoc(xmlPath);
-		//this.setBeans();
-		//this.setBeanElements();
+		this.setBeans();
+		this.setBeanElements();	
 	}
 	
 	public XmlBeanMapParser() {
-		
+		loadBeanTemplate();
 	}
 
 	public Document getDoc() {
@@ -426,10 +429,28 @@ public class XmlBeanMapParser extends XmlParser implements Parser, Bean,
 	}
 
 	// has to be initied after template is loaded
-	public void initParser() {
+	public void reloadParser(String xmlPath) {
+		//loadBeanTemplate();
+		setDoc(xmlPath);
 		this.setBeans();
 		this.setBeanElements();		
 	}
 	
+	private void loadBeanTemplate() {
+		
+		//load bean related template
+		setXmlBeansTab(XML_BEANS_TAB);
+		setXmlBeanTab(XML_BEAN_TAB);		
+		setXmlAttriBeanIdTab(XML_ATTRI_BEAN_ID_TAB);
+		setXmlAttriBeanClazzTab(XML_ATTRI_BEAN_CLAZZ_TAB);
+		
+		//load property related template
+		setXmlPropertyTab(XML_PROPERTY_TAB);
+		setXmlAttriPropertyNameTab(XML_ATTRI_PROPERTY_NAME_TAB);
+		setXmlValueTab(XML_VALUE_TAB);
+		setXmlRefBeanTab(XML_REF_BEAN_TAB);
+		setXmlAttriRefBeanIdPropTab(XML_ATTRI_REF_BEAN_ID_PROP_TAB);
+		
+	}
 
 }
