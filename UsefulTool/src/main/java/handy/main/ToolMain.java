@@ -106,7 +106,7 @@ public class ToolMain {
 			//System.out.println(i);
 			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
 			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
-			DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
+			//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
 			//System.out.println("propChk:" + propChk2.getPassword());
 			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		}
