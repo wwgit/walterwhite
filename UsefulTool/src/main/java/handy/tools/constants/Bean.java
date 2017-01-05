@@ -7,5 +7,7 @@ public interface Bean {
 	
 	public static final String REF_LOCAL_BEAN = "local";
 	public static final String REF_BEAN_BEAN = "bean";
+	
+	public static final int GET_BEAN_CALL_LIMIT = 1;
 
 }

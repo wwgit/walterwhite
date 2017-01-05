@@ -92,12 +92,22 @@ public class ToolMain {
 		//System.out.println("multValChk:" + multValChk.getUrl());
 		//System.out.println("multValChk:" + multValChk.getPassword());
 		//System.out.println("multValChk:" + multValChk.getDbSize());
-		TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
-		System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
+		//TestBean refBeanChk = (TestBean) xmlBeanCreator.getBean("TestBean");
+		//System.out.println("refBeanChk:" + refBeanChk.getConfig().getUrl());
 		
 		
-		TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
-		System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+	//	TestBean refBeanChk2 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+	//	System.out.println("refBeanChk2:" + refBeanChk2.getConfig().getUrl());
+		
+	//	TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
+	//	System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
+		
+		for(int i = 0; i < 5001; i++) {
+			//System.out.println(i);
+			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
+			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
+			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
+		}
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
