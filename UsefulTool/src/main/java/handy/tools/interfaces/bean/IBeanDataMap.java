@@ -9,7 +9,7 @@ public interface IBeanDataMap {
 	public Object getBean(String beanId);
 	public Object getBean(String beanId, String filePath);	
 	
-	public void setBeanObjects();
+	public void setBeanObjects(String filePath);
 	public void setBeanPropertyClazz();
 	
 	public void setBeanPropertyValues(Map<String, Map<String, Object>> beanPropertyValues);

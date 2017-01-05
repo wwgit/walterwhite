@@ -19,19 +19,20 @@ public class BeanDataMapImpl extends BeanDataMap {
 		this.setBeanObjects(new HashMap<String, Object>());
 	}
 
-	private Object initBean(String beanId, Class<?> beanClazz) throws Exception {
+	public Object initBean(String beanIdUniqCode) throws Exception {
 		
-		if(false == this.getBeanInfo().getBeansClazz().containsKey(beanId)) {
-			throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanId);
+		if(false == this.getBeanInfo().getBeansClazz().containsKey(beanIdUniqCode)) {
+			throw new Exception("bean Not loaded in BeanFactory. beanId: " + beanIdUniqCode);
 		}
 		
+		Class<?> beanClazz = this.getBeanInfo().getBeansClazz().get(beanIdUniqCode);
 		Object beanObj = null;
 		Map<String,Object> propertyValues = null;
 		Map<String, Class<?>> propertyTypes = null;
 		
-		propertyValues = this.getBeanInfo().getBeanPropertyValues().get(beanId);
-		propertyTypes = this.getBeanInfo().getBeanPropertyClazz().get(beanId);
-		beanObj = initBeanProperties(beanClazz, beanId, propertyValues, propertyTypes);	
+		propertyValues = this.getBeanInfo().getBeanPropertyValues().get(beanIdUniqCode);
+		propertyTypes = this.getBeanInfo().getBeanPropertyClazz().get(beanIdUniqCode);
+		beanObj = initBeanProperties(beanClazz, beanIdUniqCode, propertyValues, propertyTypes);	
 		
 		return beanObj;
 	}
@@ -93,10 +94,12 @@ public class BeanDataMapImpl extends BeanDataMap {
 			} 
 			
 			if(null != beanObj) {
+				System.out.println("removing " + beanIdUniqCode + " after getBean from cache !");
+				//getBeanObjects().remove(beanIdUniqCode);
 				return beanObj;
 			}
 
-			beanObj = initBean(beanIdUniqCode, this.getBeanInfo().getBeansClazz().get(beanIdUniqCode));
+			beanObj = initBean(beanIdUniqCode);
 			
 			if(null != beanObj) {
 				this.getBeanObjects().put(beanIdUniqCode, beanObj);

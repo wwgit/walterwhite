@@ -47,7 +47,7 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		initBeanParser(filePath);
 		loadBeanTemplate(filePath);
 		loadBeanInfo(filePath);
-		this.getBeanData().setBeanObjects();
+		this.getBeanData().setBeanObjects(filePath);
 	}
 	
 	public synchronized void loadBeans(String ...filePaths) {
@@ -57,7 +57,7 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		for(int i = 0; i < filePaths.length; i++) {
 			loadBeanTemplate(filePaths[i]);
 			loadBeanInfo(filePaths[i]);
-			this.getBeanData().setBeanObjects();
+			this.getBeanData().setBeanObjects(filePaths[i]);
 		}
 	}
 	

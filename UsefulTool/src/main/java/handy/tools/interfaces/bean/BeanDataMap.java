@@ -13,6 +13,7 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap {
 	private IBeanInfoMap beanInfo;
 	
 	public abstract Object getRealBean(String beanId);
+	public abstract Object initBean(String beanIdUniqCode) throws Exception;
 	
 	public Map<String, Object> getBeanObjects() {
 		return beanObjects;
@@ -39,7 +40,7 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap {
 		this.beanInfo.setBeanPropertyClazz();
 	}
 	
-	public void setBeanObjects() {
+	public void setBeanObjects(String filePath) {
 		
 		if(this.getBeanInfo().getCurrFileBeanIds().size() < 1) return;
 		List<String> currBeanIds = this.getBeanInfo().getCurrFileBeanIds();
@@ -50,14 +51,18 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap {
 		if(null == this.getBeanObjects()) {
 			this.setBeanObjects(new HashMap<String, Object>());
 		}
-		
-		for(int i = 0; i < currBeanIds.size(); i++) {
-			
-			String beanId = currBeanIds.get(i);
-			if(null != this.getBeanObjects().get(beanId)) {
-				continue;				
-			}		
-			beanObj = getRealBean(beanId);
+		try {
+			for(int i = 0; i < currBeanIds.size(); i++) {
+				
+				String beanId = currBeanIds.get(i);
+				//String beanIdUniqCode = beanId + loadBeanUniqCode(filePath);
+				beanObj = initBean(beanId);
+				if(null != beanObj) {
+					this.getBeanObjects().put(beanId, beanObj);
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 		this.getBeanInfo().getCurrFileBeanIds().removeAll(this.getBeanInfo().getCurrFileBeanIds());
@@ -75,7 +80,7 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap {
 	
 	public synchronized Object getBean(String beanId, String filePath) {	
 		setCurrentFilePath(filePath);
-		String realBeanId = beanId + String.valueOf(getCurrentFilePath().hashCode());
+		String realBeanId = beanId + loadBeanUniqCode(filePath);
 		System.out.println("in getBean(beanId,configPath): unique code:" +
 							realBeanId);
 		return getRealBean(realBeanId);
