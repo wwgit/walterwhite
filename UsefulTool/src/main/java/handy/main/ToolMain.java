@@ -76,12 +76,12 @@ public class ToolMain {
 		BeanFactory xmlBeanCreator = new XmlBeanFactory();
 		xmlBeanCreator.loadBeans("example7.xml","example8.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
-		//BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
+		BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
 		long startTime = System.currentTimeMillis();
 		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
 		
-		//DbConfig propChk = (DbConfig) propBeanCreator.getBean("hahaha");
-		//System.out.println("propChk:" + propChk.getPassword());
+		DbConfig propChk = (DbConfig) propBeanCreator.getBean("dbConfig1");
+		System.out.println("propChk:" + propChk.getPassword());
 		
 		//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("third");
 		//System.out.println("propChk2:" + propChk2.getPassword());
@@ -102,10 +102,12 @@ public class ToolMain {
 	//	TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
 	//	System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		
-		for(int i = 0; i < 5001; i++) {
+		for(int i = 0; i < 10001; i++) {
 			//System.out.println(i);
 			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
 			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
+			DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
+			//System.out.println("propChk:" + propChk2.getPassword());
 			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		}
 		

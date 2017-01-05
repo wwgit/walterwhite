@@ -9,8 +9,11 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.bean.IBeanInfoMapParser;
+import handy.tools.interfaces.templates.IPropBeanTempSetter;
+import handy.tools.interfaces.templates.IPropBeanTemplate;
 
 
 /*e.g
@@ -21,17 +24,31 @@ import handy.tools.interfaces.bean.IBeanInfoMapParser;
  * beanId_user1=Test.User
  * user1.Test.User.name=example
  * */
-public class PropertiesBeanParser implements IBeanInfoMapParser {
+public class PropertiesBeanParser implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
 
-	public static final String beanHeader = "beanId_";
+	private String beanIdTab;
+	
+	private String clazHeaderSeperator;
+	
+	private String clazPropSeperator;
+	
+	private Map<String, Class<?>> beanClazInfo;
+	
 	
 	private Properties prop;
 	
-	public PropertiesBeanParser(String propPath) {
-		this.setProp(propPath);
+	public PropertiesBeanParser(String propPath) {	
+		loadBeanTemplate();
+		setProp(propPath);
+		this.beanClazInfo = new HashMap<String, Class<?>>();
+	}
+	
+	public PropertiesBeanParser() {
+		loadBeanTemplate();
+		this.beanClazInfo = new HashMap<String, Class<?>>();
 	}
 
-	public Map<String, Class<?>> setBeansClazz(String configHashCode) {
+	public Map<String, Class<?>> setBeansClazz(String uniqCode) {
 	
 		Map<String, Class<?>> beanClazzes = null;
 		
@@ -39,8 +56,8 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 		String beanId = null;
 		for(Entry<Object, Object> property : this.getProp().entrySet()) {
 			String beanIdStr = (String) property.getKey();
-			beanId = beanIdStr.contains(beanHeader) 
-					? beanIdStr.replaceFirst(beanHeader,"") + configHashCode
+			beanId = beanIdStr.contains(BEAN_ID_TAB) 
+					? beanIdStr.replaceFirst(BEAN_ID_TAB,"") + uniqCode
 					: null;
 			if(null != beanId) { 
 				try {
@@ -49,32 +66,33 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 					e.printStackTrace();
 				}
 			}			
-		}		
+		}
+		setBeanClazInfo(beanClazzes);
 		return beanClazzes;
 	}
 
 	//need to re-write the logic
-	public Map<String, Map<String,Object>> BeansPropertiesValues(String configHashCode) {
+	public Map<String, Map<String,Object>> BeansPropertiesValues(String uniqCode) {
 		
 		String beanId = null; Map<String,Object> propertyValues = null;
 		Map<String, Map<String, Object>> beanPropertiesValues = new HashMap<String, Map<String, Object>>();
-		/*for(Entry<String, Class<?>> beanClazzes : this.getBeansClazz().entrySet()) {
-			beanId = beanClazzes.getKey().replaceAll(configHashCode, "");
-			propertyValues = getPropertyValues(beanId, beanClazzes.getValue(),
-							 this.getBeanPropertyClazz().get(beanClazzes.getKey()));
+		
+		for(Entry<String, Class<?>> beanClazzes : this.beanClazInfo.entrySet()) {
+			beanId = beanClazzes.getKey().replaceAll(uniqCode, "");
+			propertyValues = getPropertyValues(beanId, beanClazzes.getValue());
 			beanPropertiesValues.put(beanClazzes.getKey(), propertyValues);
-		}*/
+		}
 		return beanPropertiesValues;
 
 	}
 	
-	public Map<String, Object> getPropertyValues(String beanId, Class<?> beanClazz, 
-												Map<String,Class<?>> propertyClazzes) {
+	public Map<String, Object> getPropertyValues(String beanId, Class<?> beanClazz) {
 		
 		Map<String,Object> propertyValues = new HashMap<String,Object>();
+		Map<String, Class<?>> propertyTypes = ReflectHelper.retrieveBeanPropertyTypes(beanClazz);
 		
-		for(Entry<String, Class<?>> property : propertyClazzes.entrySet()) {
-			String propName = beanId +"." + beanClazz.getName() + "." + property.getKey().toLowerCase();
+		for(Entry<String, Class<?>> property : propertyTypes.entrySet()) {
+			String propName = beanId + CLAZ_HEADER_SEPERATOR + beanClazz.getName() + CLAZ_PROP_SEPERATOR + property.getKey();
 			Object value = this.getProp().get(propName);
 			propertyValues.put(property.getKey(), value);
 		}
@@ -83,7 +101,7 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 	}
 
 	public Map<String,Map<String, String>> BeansPropertiesRefBeanIds(String uniqCode) {
-		return null;
+		return new HashMap<String,Map<String, String>>();
 	}
 
 	public Properties getProp() {
@@ -96,9 +114,6 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 	
 	public void setProp(String propPath) {
 		
-		if(null != this.getProp()) {
-			return;
-		}
 		Properties theProp = new Properties();
 		try {
 			theProp.load(PathHelper.resolveAbsoluteStream(propPath));
@@ -120,8 +135,8 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 		String beanId = null;
 		for(Entry<Object, Object> property : this.getProp().entrySet()) {
 			String beanIdStr = (String) property.getKey();
-			beanId = beanIdStr.contains(beanHeader) 
-					? beanIdStr.replaceFirst(beanHeader,"") + uniqCode
+			beanId = beanIdStr.contains(BEAN_ID_TAB) 
+					? beanIdStr.replaceFirst(BEAN_ID_TAB,"") + uniqCode
 					: null;
 			if(null != beanId) { 
 				beanIds.add(beanId);
@@ -130,12 +145,49 @@ public class PropertiesBeanParser implements IBeanInfoMapParser {
 		return beanIds;
 	}
 
-	public void loadBeanTemplate() {
-		
-	}
 
 	public void reloadParser(String filePath) {
-		// TODO Auto-generated method stub
+		this.setProp(filePath);
+	}
+
+	public String getClazHeaderSeperator() {
+		return clazHeaderSeperator;
+	}
+
+	public void setClazHeaderSeperator(String clazHeaderSeperator) {
+		this.clazHeaderSeperator = clazHeaderSeperator;
+	}
+
+	public String getClazPropSeperator() {
+		return clazPropSeperator;
+	}
+
+	public void setClazPropSeperator(String clazPropSeperator) {
+		this.clazPropSeperator = clazPropSeperator;
+	}
+
+	public String getBeanIdTab() {
+		return beanIdTab;
+	}
+
+	public void setBeanIdTab(String beanIdTab) {
+		this.beanIdTab = beanIdTab;
+	}
+
+	public Map<String, Class<?>> getBeanClazInfo() {
+		return beanClazInfo;
+	}
+
+	public void setBeanClazInfo(Map<String, Class<?>> beanClazInfo) {
+		this.beanClazInfo = beanClazInfo;
+	}
+	
+	private void loadBeanTemplate() {
+		
+		//load bean related template
+		setBeanIdTab(BEAN_ID_TAB);
+		setClazHeaderSeperator(CLAZ_HEADER_SEPERATOR);		
+		setClazPropSeperator(CLAZ_PROP_SEPERATOR);		
 		
 	}
 	

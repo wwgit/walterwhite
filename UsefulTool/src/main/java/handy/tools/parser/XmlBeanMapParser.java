@@ -312,7 +312,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 		Map<String,String> propertyRefBeanIds = null;
 		for(int i = 0; i < beanElements.size(); i++) {
 			bean = beanElements.get(i);
-			propertyRefBeanIds = getPropertyRefBeanIds(bean);
+			propertyRefBeanIds = getPropertyRefBeanIds(bean, uniqueStr);
 			if(null == propertyRefBeanIds || propertyRefBeanIds.size() < 1) {
 				continue;
 			}
@@ -322,7 +322,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 		return beansPropertiesRefBeanIds;
 	}
 
-	public Map<String,String> getPropertyRefBeanIds(Element beanElement) {
+	public Map<String,String> getPropertyRefBeanIds(Element beanElement, String uniqueStr) {
 
 		Map<String,String> propertyRefBeanId = null;
 		List<Element> propertyElements = null;
@@ -345,8 +345,9 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 					throw new Exception("ref format error !");
 				}
 				propertyRefBeanId = new HashMap<String, String>();
-				propertyName = propertyElements.get(i).attributeValue(this.getXmlAttriPropertyNameTab());
-				propertyRefBeanId.put(propertyName, refBeanId);
+				propertyName = propertyElements.get(i).attributeValue(this.getXmlAttriPropertyNameTab())
+							   ;
+				propertyRefBeanId.put(propertyName, refBeanId + uniqueStr);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();		

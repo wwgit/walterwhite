@@ -68,7 +68,6 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		for(int i = 0; i < filePaths.length; i++) {
 			loadBeanTemplate(filePaths[i]);
 			loadBeanInfo(filePaths[i]);
-			//this.getBeanData().setBeanObjects();
 		}
 	}
 

@@ -68,7 +68,7 @@ public class BeanDataMapImpl extends BeanDataMap {
 					@SuppressWarnings("unchecked")
 					Map<String, String> propertyRefBeanIds = this.getBeanInfo().getBeanPropertyRefBeanId().get(beanId);
 					String refBeanId = propertyRefBeanIds.get(propertyName);
-					value = getBean(refBeanId, getCurrentFilePath());
+					value = getRealBean(refBeanId);
 				}
 		
 				initBeanProperty(beanObj, propertyName, propertyClazz, value);	

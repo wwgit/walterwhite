@@ -9,12 +9,16 @@ public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTempla
 
 	@Override
 	protected void initBeanParser(String filePath) {
-		setBeanParser(new XmlBeanMapParser(filePath));	
+		if(null == this.getBeanParser()) {
+			setBeanParser(new XmlBeanMapParser(filePath));
+		} 
 	}
 	
 	@Override
 	protected void initBeanParser() {	
-		setBeanParser(new XmlBeanMapParser());
+		if(null == this.getBeanParser()) {
+			setBeanParser(new XmlBeanMapParser());
+		} 
 	}
 	
 	public XmlBeanMapFacadeImpl(String filePath) {
