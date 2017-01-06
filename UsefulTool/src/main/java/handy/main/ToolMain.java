@@ -108,7 +108,7 @@ public class ToolMain {
 			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
 			//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
 			//System.out.println("propChk:" + propChk2.getPassword());
-			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
+			System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		}
 		
 		long endTime = System.currentTimeMillis();
