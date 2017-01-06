@@ -207,8 +207,7 @@ public abstract class DbHelper extends BasicHelper {
 		} else {
 			return null;
 		}
-		
-		
+			
 	}
 
 	/*Debug has been done
