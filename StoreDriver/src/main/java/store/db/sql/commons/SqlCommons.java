@@ -1,4 +1,4 @@
-package store.db.commons;
+package store.db.sql.commons;
 
 import handy.tools.constants.DataTypes;
 import handy.tools.db.ComplexValue;
