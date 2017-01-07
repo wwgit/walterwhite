@@ -21,17 +21,17 @@ public abstract class SqlKnowledge extends SqlCommons {
 	 * 
 	 * 
 	 * */
-	public void doInsert(Connection conn, String tableName, String[] ColNames, Object[]values, int[] DataTypes) {
+	public void doInsert(Connection conn, String tableName, List<Map<String,Object>> rowsData, int[] DataTypes) {
 		
 		//Connection conn = retrieveConnection();
-		Iterator it = batchData.get(0).keySet().iterator();
-		String[] keys = new String[batchData.get(0).size()];
+		Iterator it = rowsData.get(0).keySet().iterator();
+		String[] keys = new String[rowsData.get(0).size()];
 		for(int i = 0; it.hasNext(); i++) {
 			keys[i] = (String) it.next();
 		}
 		String sql =  prepareInsertSql(keys,tableName);
-		int cnt = batchData.size();
-		int[] dataTypes = TypeHelper.getDataTypes(batchData.get(0));
+		int cnt = rowsData.size();
+		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
 			
 		System.out.println(sql);
 		try {
@@ -39,11 +39,11 @@ public abstract class SqlKnowledge extends SqlCommons {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
 				
-				setValuesForSql(statement, batchData.get(i), keys, dataTypes);
+				setValuesForSql(statement, rowsData.get(i), keys, dataTypes);
 				statement.addBatch();
 				//System.out.println(batchData.get(i));
 				if(i%2000 == 0) {
-					System.out.println("commiting data: " + batchData.get(i));
+					System.out.println("commiting data: " + rowsData.get(i));
 					statement.executeBatch();
 					conn.commit();
 				}
@@ -65,7 +65,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 						
 	}
 	
-public void doUpdates(Connection conn, String tableName, List<Map> batchData, String whereCondSql) {
+public void doUpdate(Connection conn, String tableName, List<Map> batchData, String[] whereColPlusOper, String[] whereAndOr) {
 		
 
 		Iterator it = batchData.get(0).keySet().iterator();
@@ -73,10 +73,7 @@ public void doUpdates(Connection conn, String tableName, List<Map> batchData, St
 		for(int i = 0; it.hasNext(); i++) {
 			keys[i] = (String) it.next();
 		}
-		String sql =  prepareUpdateSql(keys,tableName);
-		if(null != whereCondSql) {
-			sql = sql + " " + whereCondSql;
-		}
+		String sql =  prepareUpdateSql(keys,tableName, whereColPlusOper, whereAndOr);
 		int cnt = batchData.size();
 		int[] dataTypes = TypeHelper.getDataTypes(batchData.get(0));
 			

@@ -228,14 +228,14 @@ public abstract class SqlCommons {
 	 * 
 	 * */
 	public void setValuesForSql(PreparedStatement statement, 
-									Map data, String[] dbColumnNames, int[] dataTypes) throws SQLException {
+									Map<String,Object> colName_value, String[] dbColumnNames, int[] dataTypes) throws SQLException {
 		
-		if(null == data || data.size() < 1) {
+		if(null == colName_value || colName_value.size() < 1) {
 			return;
 		}
 		
 		for(int i = 0; i < dataTypes.length; i++) {
-			setSqlValue(statement,data.get(dbColumnNames[i]), i+1, dataTypes[i]);
+			setSqlValue(statement,colName_value.get(dbColumnNames[i]), i+1, dataTypes[i]);
 		}
 	}
 	/*Debug has been done
