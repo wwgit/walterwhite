@@ -3,6 +3,10 @@ package handy.main;
 import java.util.HashMap;
 import java.util.Map;
 
+import handy.tools.annotations.AnnoFieldTest;
+import handy.tools.annotations.AnnoMethodTest;
+import handy.tools.annotations.AnnoTypeTest;
+import handy.tools.annotations.ParseObjAnno;
 import handy.tools.db.DbConfig;
 import handy.tools.db.TestBean;
 import handy.tools.factorties.PropertiesBeanFactory;
@@ -102,14 +106,22 @@ public class ToolMain {
 	//	TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean","example8.xml");
 	//	System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		
-		for(int i = 0; i < 10001; i++) {
+		for(int i = 0; i < 10000; i++) {
 			//System.out.println(i);
 			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
 			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
 			//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
 			//System.out.println("propChk:" + propChk2.getPassword());
-			System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
+			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		}
+		TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
+		System.out.println("refBeanChk3:calling getTestAnno: " + refBeanChk3.getTestAnno());
+		
+		ParseObjAnno.parseTypesAnnotation(refBeanChk3);
+		
+		//ParseObjAnno.parseMethodAnnotation(refBeanChk3,AnnoTypeTest.class);
+		//ParseObjAnno.parseMethodAnnotation(refBeanChk3,AnnoMethodTest.class);
+		//ParseObjAnno.parseFieldAnnotation(refBeanChk3, AnnoFieldTest.class);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
