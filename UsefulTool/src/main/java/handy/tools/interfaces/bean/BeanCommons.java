@@ -9,7 +9,7 @@ import handy.tools.helpers.TypeHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BeanCommons implements Bean {
+public abstract class BeanCommons extends PathHelper implements Bean {
 
 	
 	//unique code of absolute path of current file
@@ -23,7 +23,7 @@ public abstract class BeanCommons implements Bean {
 	}
 
 	public void setCurrentFilePath(String currentFilePath) {
-		this.currentFilePath = PathHelper.resolveAbsolutePath(currentFilePath);
+		this.currentFilePath = resolveAbsolutePath(currentFilePath);
 	}
 
 	public String getDefaultUniqueCode() {
@@ -68,7 +68,7 @@ public abstract class BeanCommons implements Bean {
 	}
 	
 	public String loadBeanUniqCode(String beanFilePath) {
-	    String hashCode = String.valueOf(PathHelper.resolveAbsolutePath(beanFilePath).hashCode()); 
+	    String hashCode = String.valueOf(resolveAbsolutePath(beanFilePath).hashCode()); 
 		return hashCode;
 	}
 	

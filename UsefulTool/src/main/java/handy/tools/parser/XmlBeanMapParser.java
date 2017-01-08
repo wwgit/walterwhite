@@ -116,7 +116,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 		this.doc = doc;
 	}		
 	public void setDoc(String xmlPath) {
-		this.doc = XmlHelper.readXmlFrmFile(xmlPath);
+		this.doc = readXmlFrmFile(xmlPath);
 	}
 	public Element getBeans() {
 		return beans;

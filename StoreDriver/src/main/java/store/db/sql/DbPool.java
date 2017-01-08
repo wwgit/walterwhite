@@ -1,13 +1,13 @@
 package store.db.sql;
 
-import handy.tools.db.DbConfig;
-import handy.tools.helpers.DbHelper;
 
 import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Vector;
 
+import store.db.sql.beans.DbConfig;
 import store.db.sql.commons.SqlCommons;
+import store.db.sql.interfaces.ISQLReporter;
 
 public class DbPool extends SqlCommons {
 	
@@ -25,39 +25,37 @@ public class DbPool extends SqlCommons {
 	 * 
 	 * 
 	 * */
-	public Vector<Connection> initConnections(DbConfig config) {
+	public void initConnections(DbConfig config, ISQLReporter reporter) {
 		
 		Vector<Connection> conns = new Vector<Connection>();
 		Connection conn = null;
 		try {
 			
 			Class.forName(config.getDbDriver());		
-			for(int i = 0; i < config.getDbSize(); i++) {
+			for(int i = 0; i < config.getPoolSize(); i++) {
 				conn = createConnection(config.getUrl(), config.getUserName(), config.getPassword());
+				if (null == conn) continue;
 				conns.add(i, conn);
 			}
 
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			reporter.reportFailure(e);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			reporter.reportFailure(e);
 		}	
-
-		return conns;		
+		this.setConnetions(conns);		
 	}
 	
 	/*debug is done
 	 * 
 	 * 
 	 * */
-	public void closeConnections() {
+	public void closeConnections(ISQLReporter reporter) {
 		
 		Iterator<?> it = null;
 		for(it = getConnetions().iterator(); it.hasNext();) {
 			Connection conn = (Connection) it.next();
-			DbHelper.closeConnection(conn);
+			closeConnection(conn, reporter);
 		}
 	}
 	
@@ -82,7 +80,6 @@ public class DbPool extends SqlCommons {
 	public void returnConnection(Connection conn) {
 		getConnetions().add(conn);
 	}
-	
 	
 
 }

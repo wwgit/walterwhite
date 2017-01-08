@@ -16,33 +16,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import store.db.sql.interfaces.ISQLReporter;
+
 public abstract class SqlCommons {
 	
-	public Connection createConnection(String url, String userName, String password) {
+	public Connection createConnection(String url, String userName, String password) throws SQLException {
 		
 		Connection conn = null;
-		try {
-			if(null != userName && null != password) {
-				
-			   conn = DriverManager.getConnection(url, userName, password);
+		if(null != userName && null != password) {
+			  conn = DriverManager.getConnection(url, userName, password);
 			  
-			} else {
+		} else {
 				conn = DriverManager.getConnection(url);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		}		
 		return conn;		
 	}
 	
-	public static void closeConnection(Connection conn) {
+	public void closeConnection(Connection conn, ISQLReporter reporter) {
 		try {
-			//System.out.println("closing connection");
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			reporter.reportFailure(e);
 		}
 	}
 	

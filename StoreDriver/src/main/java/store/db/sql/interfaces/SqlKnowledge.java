@@ -1,11 +1,14 @@
 package store.db.sql.interfaces;
 
+import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.TypeHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +17,12 @@ import store.db.sql.commons.SqlCommons;
 
 public abstract class SqlKnowledge extends SqlCommons {
 
-	
-	public abstract void returnConnection(Connection conn);
-	public abstract void reportSQLError(Connection conn, SQLException e);
+	public abstract void reportFailure(Exception e);
+	public abstract void reportExecuteProcess(String info);
+	public abstract void reportResults(ResultSet result);
+	public abstract void reportResults(int doneCnt);
+	public abstract void returnResources(Connection conn, PreparedStatement statement);
+	public abstract void returnResources(Connection conn, Statement statement);
 	
 	/*debug is done
 	 * 
@@ -25,7 +31,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 	public void doInsert(Connection conn, String tableName, List<Map<String,Object>> rowsData, int[] DataTypes) {
 		
 		//Connection conn = retrieveConnection();
-		Iterator it = rowsData.get(0).keySet().iterator();
+		Iterator<?> it = rowsData.get(0).keySet().iterator();
 		String[] keys = new String[rowsData.get(0).size()];
 		for(int i = 0; it.hasNext(); i++) {
 			keys[i] = (String) it.next();
@@ -34,43 +40,41 @@ public abstract class SqlKnowledge extends SqlCommons {
 		int cnt = rowsData.size();
 		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
 			
-		System.out.println(sql);
+		reportExecuteProcess("ready to execute sql:" + sql);
+		PreparedStatement statement = null;
 		try {
 			conn.setAutoCommit(false);		
-			PreparedStatement statement = conn.prepareStatement(sql);
-			for(int i = 0; i < cnt; i++) {
-				
+			statement = conn.prepareStatement(sql);
+			for(int i = 0; i < cnt; i++) {		
 				setValuesForSql(statement, rowsData.get(i), keys, dataTypes);
 				statement.addBatch();
-				//System.out.println(batchData.get(i));
-				if(i%2000 == 0) {
-					System.out.println("commiting data: " + rowsData.get(i));
+				if(i%2000 == 0) {			
 					statement.executeBatch();
 					conn.commit();
+					reportExecuteProcess("committed data: " + rowsData.get(i));
 				}
-		    }
-			System.out.println("commiting rest of data");
+		    }			
 			statement.executeBatch();
 			conn.commit();
+			reportExecuteProcess("commiting rest of data");
+			conn.setAutoCommit(true);
 		} catch (SQLException e) {
-			e.printStackTrace();
-			reportSQLError(conn,e);
-		} finally {
+			reportFailure(e);
 			try {
-				conn.setAutoCommit(true);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				reportSQLError(conn,e);
+				conn.rollback();
+			} catch (SQLException e1) {
+				reportFailure(e1);
 			}
-			returnConnection(conn);
+		} finally {
+			returnResources(conn,statement);
 		}
 						
 	}
 	
-public void doUpdate(Connection conn, String tableName, List<Map<String,Object>> rowsData, String[] whereColPlusOper, String[] whereAndOr) {
+	public void doUpdate(Connection conn, String tableName, List<Map<String,Object>> rowsData, String[] whereColPlusOper, String[] whereAndOr) {
 		
 
-		Iterator it = rowsData.get(0).keySet().iterator();
+		Iterator<?> it = rowsData.get(0).keySet().iterator();
 		String[] keys = new String[rowsData.get(0).size()];
 		for(int i = 0; it.hasNext(); i++) {
 			keys[i] = (String) it.next();
@@ -79,64 +83,128 @@ public void doUpdate(Connection conn, String tableName, List<Map<String,Object>>
 		int cnt = rowsData.size();
 		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
 			
-		System.out.println(sql);
+		reportExecuteProcess("ready to execute sql:" + sql);
+		PreparedStatement statement = null;
 		try {
-			conn.setAutoCommit(true);
-			
-			PreparedStatement statement = conn.prepareStatement(sql);
+			conn.setAutoCommit(false);
+			statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {
 				
 				setValuesForSql(statement, rowsData.get(i), keys, dataTypes);				
-				System.out.println("commiting data: " + rowsData.get(i));
-				statement.executeUpdate();
+				statement.addBatch();
+				if(i%2000 == 0) {			
+					statement.executeBatch();
+					conn.commit();
+					reportExecuteProcess("committed data: " + rowsData.get(i));
+				}
 		    }
+			statement.executeBatch();
+			conn.commit();
+			reportExecuteProcess("commiting rest of data");
+			conn.setAutoCommit(true);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			reportSQLError(conn,e);
+			reportFailure(e);
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				reportFailure(e1);
+			}
 		} finally {
-			returnConnection(conn);
+			returnResources(conn,statement);
 		}
 						
 	}
 
-/*Debug has been done
- * 
- * 
- * */
-	public ResultSet doQuery(Connection conn, String baseSql, String[] conditions, String[] andOr, Object[] condValues) {
-	
-		System.out.println("do query start !");
-		//Connection conn = retrieveConnection();
+	public void doDelete(Connection conn, String delSql, String[] conditions, String[] andOr, Object[] condValues) {
 	
 		PreparedStatement statement = null;		
-		String sql = baseSql;
-		String where_sql = prepareSimpleWhereConds(conditions, andOr);
+		String sql = delSql + prepareSimpleWhereConds(conditions, andOr);	
 		
-		if(null != where_sql) {
-			sql = sql + where_sql;
-		}	
-		
-		System.out.println("sql string: " + sql);
-
-		//Map<String,List<List<Object>>> Result = null;
-		ResultSet sqlResult = null;
+		reportExecuteProcess("ready to execute sql:" + sql);
 		try {
 			//System.out.println("do prepare statement start !");
 			statement = conn.prepareStatement(sql);
-			setValuesForSql(statement, condValues);
-			sqlResult = statement.executeQuery();		
-			//Result = parseQueryResult(sqlRet);
+			DbHelper.setValuesForSql(statement, condValues);
+			statement.executeUpdate();		
 			 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			reportSQLError(conn,e);
+			reportFailure(e);
 		} finally {
-			returnConnection(conn);
+			returnResources(conn,statement);
 		}
-					
-		return sqlResult;
 
 	}
+	
+	public void doSimpleDelete(Connection conn, String delSql) {
+		
+		Statement sqlStatement = null;
+		
+		int doneCnt = 0;
+		
+		try {
+			sqlStatement = conn.createStatement();
+			doneCnt = sqlStatement.executeUpdate(delSql);
+			
+		} catch (SQLException e) {
+			reportFailure(e);
+		} finally {
+			reportResults(doneCnt);
+			returnResources(conn, sqlStatement);
+		}
+		
+	}
+
+	/*Debug has been done
+	 * 
+	 * 
+	 * */
+	public void doQuery(Connection conn, String baseSql, String[] conditions, 
+												String[] andOr, Object[] condValues) {
+	
+		PreparedStatement statement = null;		
+		
+		String sql = baseSql + prepareSimpleWhereConds(conditions, andOr);
+		reportExecuteProcess("ready to execute sql:" + sql);
+		//Map<String,List<List<Object>>> Result = null;
+		ResultSet sqlResult = null;
+		try {
+			//statement = conn.prepareStatement(sql);
+			//parepare statement for tons of data coming ~
+			statement = conn.prepareStatement(sql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
+			statement.setFetchSize(Integer.MIN_VALUE);
+			statement.setFetchDirection(ResultSet.FETCH_REVERSE);
+			
+			setValuesForSql(statement, condValues);
+			sqlResult = statement.executeQuery();		
+			 
+		} catch (SQLException e) {
+			reportFailure(e);
+		} finally {
+			reportResults(sqlResult);
+			returnResources(conn,statement);
+		}
+
+	}
+	
+	public void doSimpleQuery(Connection conn, String sql) {
+		
+		ResultSet sqlResult = null;
+		Statement sqlStatement = null;
+		
+		try {
+			sqlStatement = conn.createStatement();
+			sqlResult = sqlStatement.executeQuery(sql);
+			
+		} catch (SQLException e) {
+			reportFailure(e);
+		} finally {
+			reportResults(sqlResult);
+			returnResources(conn, sqlStatement);
+		}
+		
+	}
+	
+	
 	
 }

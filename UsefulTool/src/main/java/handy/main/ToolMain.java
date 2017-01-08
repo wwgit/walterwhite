@@ -7,7 +7,6 @@ import handy.tools.annotations.AnnoFieldTest;
 import handy.tools.annotations.AnnoMethodTest;
 import handy.tools.annotations.AnnoTypeTest;
 import handy.tools.annotations.ParseObjAnno;
-import handy.tools.db.DbConfig;
 import handy.tools.db.TestBean;
 import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
@@ -84,8 +83,8 @@ public class ToolMain {
 		long startTime = System.currentTimeMillis();
 		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
 		
-		DbConfig propChk = (DbConfig) propBeanCreator.getBean("dbConfig1");
-		System.out.println("propChk:" + propChk.getPassword());
+		//Testing propChk = (Testing) propBeanCreator.getBean("dbConfig1");
+		//System.out.println("propChk:" + propChk.getPassword());
 		
 		//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("third");
 		//System.out.println("propChk2:" + propChk2.getPassword());

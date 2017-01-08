@@ -11,18 +11,18 @@ import handy.tools.annotations.AnnoTypeTest.EnumData;
 public class TestBean {
 	
 	//@AnnoFieldTest
-	private DbConfig config;
+	private Testing config;
 	
 	@AnnoFieldTest
 	private String testAnno;
 	
 
 	@AnnoMethodTest
-	public DbConfig getConfig() {
+	public Testing getConfig() {
 		return config;
 	}
 
-	public void setConfig(DbConfig config) {
+	public void setConfig(Testing config) {
 		this.config = config;
 	}
 
