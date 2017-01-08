@@ -129,20 +129,20 @@ public abstract class SqlCommons {
 	 * 
 	 * 
 	 * */
-	public Map<String, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
+	public Map<Object, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
 		
 		List<Object> rowData = null;
 		List<List<Object>> rows = null;
-		Map<String, List<List<Object>>> result = null;
-		String key = null;
+		Map<Object, List<List<Object>>> result = null;
+		Object key = null;
 		
 		int colCnt = sqlRet.getMetaData().getColumnCount();
 		rows = new LinkedList<List<Object>>();
-		result = new TreeMap<String, List<List<Object>>>();
+		result = new TreeMap<Object, List<List<Object>>>();
 		
 		while(sqlRet.next()) {
 			//first field value as key by default
-			key = sqlRet.getString(1);
+			key = sqlRet.getObject(1);
 			//System.out.println("key = " + key);
 			rowData = new LinkedList<Object>();
 			for(int i = 1; i <= colCnt; i++) {
@@ -161,6 +161,19 @@ public abstract class SqlCommons {
 		}
 		
 		return result;		
+	}
+	
+	protected boolean hasExpectedValue(ResultSet result, Object expectedValue, String colName) throws SQLException {
+		
+		Object actValue = null;
+		while(result.next()) {
+			actValue = result.getObject(colName);
+			if(expectedValue.equals(actValue)) {
+				return true;
+			}
+		}
+			
+		return false;	
 	}
 	
 

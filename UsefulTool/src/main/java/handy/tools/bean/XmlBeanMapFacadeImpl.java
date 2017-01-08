@@ -7,12 +7,12 @@ import handy.tools.parser.XmlBeanMapParser;
 
 public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTemplate {
 
-	@Override
+	/*@Override
 	protected void initBeanParser(String filePath) {
 		if(null == this.getBeanParser()) {
-			setBeanParser(new XmlBeanMapParser(filePath));
+			setBeanParser(new XmlBeanMapParser());
 		} 
-	}
+	}*/
 	
 	@Override
 	protected void initBeanParser() {	

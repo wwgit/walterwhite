@@ -1,55 +1,44 @@
 package store.db.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import handy.tools.interfaces.bean.BeanFactory;
 
+import store.db.sql.beans.DbConfig;
 import store.db.sql.interfaces.SqlKnowledge;
 
-public class TestCaseAbstract extends SqlKnowledge {
+public abstract class TestCaseAbstract extends SqlKnowledge {
 
-	@Override
-	public void reportFailure(Exception e) {
-		e.printStackTrace();
+	private DbConfig config;
+	private DbPool pool;
+	private BeanFactory beanCreator;
+
+	public DbConfig getConfig() {
+		return config;
 	}
 
-	@Override
-	public void reportExecuteProcess(String info) {
-		System.out.println(info);
+
+	public void setConfig(DbConfig config) {
+		this.config = config;
 	}
 
-	@Override
-	public void reportResults(ResultSet result) {
-		System.out.println(result);
+
+	public DbPool getPool() {
+		return pool;
 	}
 
-	@Override
-	public void reportResults(int doneCnt) {
-		System.out.println(doneCnt);
+
+	public void setPool(DbPool pool) {
+		this.pool = pool;
 	}
 
-	@Override
-	public void returnResources(Connection conn, PreparedStatement statement) {
-		try {
-			statement.close();
-			conn.close();
-		} catch (SQLException e) {
-			reportFailure(e);
-		}
-		
+
+	public BeanFactory getBeanCreator() {
+		return beanCreator;
 	}
 
-	@Override
-	public void returnResources(Connection conn, Statement statement) {
-		try {
-			statement.close();
-			conn.close();
-		} catch (SQLException e) {
-			reportFailure(e);
-		}
-		
+
+	public void setBeanCreator(BeanFactory beanCreator) {
+		this.beanCreator = beanCreator;
 	}
+
 
 }

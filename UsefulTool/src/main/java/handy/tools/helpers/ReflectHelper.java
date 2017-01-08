@@ -89,7 +89,7 @@ public abstract class ReflectHelper extends BasicHelper {
 	 * 
 	 * */
 	public static Map<String, Class<?>> retrieveBeanPropertyTypes(Class<?> beanClaz) {
-		
+
 		Field[] fields = beanClaz.getDeclaredFields();
 		Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
 		

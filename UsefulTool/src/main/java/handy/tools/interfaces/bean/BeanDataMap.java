@@ -45,7 +45,7 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, B
 		this.beanInfo.setBeanPropertyClazz();
 	}
 	
-	public void setBeanObjects(String filePath) {
+	public void setBeanObjects() {
 		
 		if(this.getBeanInfo().getCurrFileBeanIds().size() < 1) return;
 		List<String> currBeanIds = this.getBeanInfo().getCurrFileBeanIds();
