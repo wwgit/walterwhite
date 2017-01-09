@@ -184,10 +184,10 @@ public abstract class SqlCommons {
 	 * 
 	 * */
 	private void setSqlValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
-		System.out.println(value);
+		//System.out.println("setting index: " + index);
 		switch(dataType) {
 			case DataTypes.JAVA_LANG_STRING:
-				statement.setString(index, (String) value);
+				statement.setString(index, (String) value);//System.out.println("setting Str value: " + value);
 				break;
 			case DataTypes.JAVA_LANG_INTEGER:
 				int i_val = ((Integer) value).intValue();
@@ -228,7 +228,8 @@ public abstract class SqlCommons {
 				statement.setLong(index, ll_val);
 				break;
 			default:
-				break;
+				throw new SQLException("Type not support yet " + value.getClass().getName());
+				//break;
 		}
 	}
 	

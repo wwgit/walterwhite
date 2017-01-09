@@ -52,7 +52,7 @@ public abstract class TestDataCreator {
 				type = TypeHelper.parseType(colTypeMap.getValue());
 				switch(type) {
 				case DataTypes.JAVA_LANG_STRING:
-					String s_value = new String("utf-8");s_value = "auto" + colTypeMap.getKey();
+					String s_value = new String("utf-8");s_value = "autoData" + colTypeMap.getKey();
 					row.put(colTypeMap.getKey(), s_value);
 					break;
 				case DataTypes.JAVA_BASIC_INT:

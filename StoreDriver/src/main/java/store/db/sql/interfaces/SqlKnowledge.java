@@ -42,7 +42,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doInsert(Connection conn, String tableName, List<Map<String,Object>> rowsData, int[] DataTypes) {
+	public void doInsert(Connection conn, String tableName, List<Map<String,Object>> rowsData) {
 		
 		Iterator<?> it = rowsData.get(0).keySet().iterator();
 		String[] columns = new String[rowsData.get(0).size()];
@@ -85,82 +85,24 @@ public abstract class SqlKnowledge extends SqlCommons {
 	}	
 
 	/** 
-	* @Title: doUpdate 
-	* @Description: TODO(for batch update) 
+	* @Title: doPrepareSql 
+	* @Description: TODO(insert,update,delete) 
 	* @param @param conn
-	* @param @param tableName
-	* @param @param setRowData
-	* 				-  List<Map<String,Object>> set column1=value,column2=value2
-	* @param @param whereRowData 
-	* 				- List<Map<String,Object>> where column=value, and column3=value4
-	* @param @param whereAndOrs 
-	* 				- List<Map<String,String>> and/or in where column=value and/or column3=value4
-	* @param @param operators 
-	* 				- String[] and/or in where column=value and/or column3=value4
-	* 
+	* @param @param completeSql
+	* @param @param values  
 	* @return void   
 	* @throws 
 	*/
-	public void doUpdate(Connection conn, String tableName, List<Map<String,Object>> setRowData, 
-						List<Map<String,Object>> whereRowData, 
-						List<Map<String,String>> whereAndOrs, String[] operators) {
-		if(null == setRowData) {
-			reportFailure(new NullPointerException("param setRowData is Null"));
-		}
-		if(null == whereRowData) {
-			reportFailure(new NullPointerException("param whereRowData is Null"));
-		}
-		if(null == whereAndOrs) {
-			if(whereRowData.size() > 1)
-			reportFailure(new NullPointerException("param whereAndOrs should Not be Null"));
-		}
-		if(null == operators) {
-			reportFailure(new NullPointerException("param operators is Null"));
-		}
-		
-		if(1 != whereRowData.size() - whereAndOrs.size() ) {
-			reportFailure(new Exception("the number of where conditions and operators does Not match !"));
-		}
-		if(1 > setRowData.size()) {
-			reportFailure(new Exception("at least one set statement is needed ! param setRowData issue !"));
-		}	
-		if(whereRowData.size() != setRowData.size()) {
-			reportFailure(new Exception("row number does Not match for set statment and where conditions !"));
-		}
-		if(whereRowData.size() != operators.length) {
-			reportFailure(new Exception("row number does Not match for where operators and where conditions !"));
-		}
-		
-		int rowCnt = setRowData.size();
-		Iterator<?> it = setRowData.get(0).keySet().iterator();
-		String[] setColumns = new String[setRowData.get(0).size()];
-		String[] whereColumns = new String[whereRowData.get(0).size()];
-		for(int i = 0; it.hasNext(); i++) {
-			setColumns[i] = (String) it.next();
-		}
-		String sql =  prepareUpdateSql(setColumns,tableName, whereColPlusOper, whereAndOr);
-		
-		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
+	public void doPrepareSql(Connection conn, String completeSql, Object[] values) {
 			
-		reportExecuteProcess("ready to execute sql:" + sql);
+		reportExecuteProcess("ready to execute sql:" + completeSql);
 		PreparedStatement statement = null;
+		int result = 0;
 		try {
-			conn.setAutoCommit(false);
-			statement = conn.prepareStatement(sql);
-			for(int i = 0; i < cnt; i++) {
-				
-				setValuesForSql(statement, rowsData.get(i), keys, dataTypes);				
-				statement.addBatch();
-				if(i%2000 == 0) {			
-					statement.executeBatch();
-					conn.commit();
-					reportExecuteProcess("committed data: " + rowsData.get(i));
-				}
-		    }
-			statement.executeBatch();
-			conn.commit();
-			reportExecuteProcess("commiting rest of data");
-			conn.setAutoCommit(true);
+			if(!conn.getAutoCommit()) conn.setAutoCommit(true);			
+			statement = conn.prepareStatement(completeSql);
+			setValuesForSql(statement,values);
+			result = statement.executeUpdate();
 			
 		} catch (SQLException e) {
 			reportFailure(e);
@@ -170,47 +112,17 @@ public abstract class SqlKnowledge extends SqlCommons {
 				reportFailure(e1);
 			}
 		} finally {
+			reportResults(result);
 			returnResources(conn,statement);
 		}
 						
-	}
-
-	/** 
-	* @Title: doDelete 
-	* @Description: TODO(what to do) 
-	* @param @param conn
-	* @param @param delSql
-	* @param @param conditions
-	* @param @param andOr
-	* @param @param condValues  
-	* @return void   
-	* @throws 
-	*/
-	public void doDelete(Connection conn, String delSql, String[] conditions, String[] andOr, Object[] condValues) {
-	
-		PreparedStatement statement = null;		
-		String sql = delSql + prepareSimpleWhereConds(conditions, andOr);	
-		
-		reportExecuteProcess("ready to execute sql:" + sql);
-		try {
-			//System.out.println("do prepare statement start !");
-			statement = conn.prepareStatement(sql);
-			DbHelper.setValuesForSql(statement, condValues);
-			statement.executeUpdate();		
-			 
-		} catch (SQLException e) {
-			reportFailure(e);
-		} finally {
-			returnResources(conn,statement);
-		}
-
 	}
 	
 	/** 
 	* @Title: doSimpleSql 
 	* @Description: TODO(what to do) 
 	* @param @param conn
-	* @param @param sql  
+	* @param @param complete sql  
 	* @return void   
 	* @throws 
 	*/
@@ -233,30 +145,27 @@ public abstract class SqlKnowledge extends SqlCommons {
 		
 	}
 
+
 	/** 
-	* @Title: doQuery 
-	* @Description: TODO(for tons of data coming) Debug has been done 
+	* @Title: doPrepareQuery 
+	* @Description: TODO(query using prepareStatement) 
 	* @param @param conn
-	* @param @param baseSql e.g select * from tableName
-	* @param @param conditions
-	* @param @param andOr
-	* @param @param condValues  
+	* @param @param completeSql
+	* @param @param condValues - where condition values 
 	* @return void   
 	* @throws 
 	*/
-	public void doQuery(Connection conn, String baseSql, String[] conditions, 
-												String[] andOr, Object[] condValues) {
+	public void doPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
 	
 		PreparedStatement statement = null;		
-		
-		String sql = baseSql + prepareSimpleWhereConds(conditions, andOr);
-		reportExecuteProcess("ready to execute sql:" + sql);
+
+		reportExecuteProcess("ready to execute sql:" + completeSql);
 		//Map<String,List<List<Object>>> Result = null;
 		ResultSet sqlResult = null;
 		try {
-			//statement = conn.prepareStatement(sql);
+			//statement = conn.prepareStatement(completeSql);
 			//parepare statement for tons of data coming ~
-			statement = conn.prepareStatement(sql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
+			statement = conn.prepareStatement(completeSql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
 			statement.setFetchSize(Integer.MIN_VALUE);
 			statement.setFetchDirection(ResultSet.FETCH_REVERSE);
 			
