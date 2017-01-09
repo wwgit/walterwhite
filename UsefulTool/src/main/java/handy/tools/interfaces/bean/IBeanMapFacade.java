@@ -1,5 +1,13 @@
 package handy.tools.interfaces.bean;
 
+
+/** 
+* @ClassName: IBeanMapFacade 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:16:46 
+*  
+*/
 public interface IBeanMapFacade {
 	
 	public Object getBean(String beanId);

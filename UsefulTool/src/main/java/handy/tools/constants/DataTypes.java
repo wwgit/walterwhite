@@ -1,5 +1,12 @@
 package handy.tools.constants;
 
+/** 
+* @ClassName: DataTypes 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:25:14 
+*  
+*/
 public interface DataTypes {
 	
 	public static final int JAVA_LANG_STRING = 1;

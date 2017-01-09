@@ -3,6 +3,13 @@ package handy.tools.interfaces.bean;
 import java.util.List;
 import java.util.Map;
 
+/** 
+* @ClassName: IBeanInfoMap 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:22:26 
+*  
+*/
 public interface IBeanInfoMap {
 	
 	public void setBeanPropertyValues(Map<String, Map<String, Object>> beanPropertyValues);

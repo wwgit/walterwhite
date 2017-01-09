@@ -4,6 +4,13 @@ import handy.tools.bean.PropBeanMapFacadeImpl;
 import handy.tools.interfaces.bean.BeanFactory;
 
 
+/** 
+* @ClassName: PropertiesBeanFactory 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:25:49 
+*  
+*/
 public class PropertiesBeanFactory extends BeanFactory {
 	
 	public PropertiesBeanFactory(String propPath) {

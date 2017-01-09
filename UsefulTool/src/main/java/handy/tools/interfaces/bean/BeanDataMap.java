@@ -2,22 +2,52 @@ package handy.tools.interfaces.bean;
 
 import handy.tools.constants.Bean;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** 
+* @ClassName: BeanDataMap 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:13:35 
+*  
+*/
 public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, Bean {
-
-	//beanObjects: Map<beanId, bean Object> - beanId should be unique
+	
+	/** 
+	* @Fields beanObjects : Map<beanId, bean Object> - beanId should be unique 
+	*/ 
 	private Map<String, Object> beanObjects;
 	
-	//set a limit to remove objects
+	
+	/** 
+	* @Fields beanGetCnt : set a limit to remove objects 
+	*/ 
 	private Map<String,Integer> beanGetCnt;
 	
-	//holding bean info
+	/** 
+	* @Fields beanInfo : holding bean info 
+	*/ 
 	private IBeanInfoMap beanInfo;
 	
+	/** 
+	* @Title: getRealBean 
+	* @Description: TODO(what to do) 
+	* @param @param beanId
+	* @param @return  
+	* @return Object   
+	* @throws 
+	*/
 	public abstract Object getRealBean(String beanId);
+	/** 
+	* @Title: initBean 
+	* @Description: TODO(what to do) 
+	* @param @param beanIdUniqCode
+	* @param @return
+	* @param @throws Exception  
+	* @return Object   
+	* @throws 
+	*/
 	public abstract Object initBean(String beanIdUniqCode) throws Exception;
 	
 	public Map<String, Object> getBeanObjects() {
@@ -44,13 +74,16 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, B
 	public void setBeanPropertyClazz() {
 		this.beanInfo.setBeanPropertyClazz();
 	}
+
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanDataMap#setBeanObjects()
+	 */
 	public void setBeanObjects() {
 		
 		if(this.getBeanInfo().getCurrFileBeanIds().size() < 1) return;
 		List<String> currBeanIds = this.getBeanInfo().getCurrFileBeanIds();
 		
-		//Map<String, Object> beanObjs = new HashMap<String, Object>();
 		Object beanObj = null;
 		
 		try {
@@ -69,7 +102,11 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, B
 		
 		this.getBeanInfo().getCurrFileBeanIds().removeAll(this.getBeanInfo().getCurrFileBeanIds());		
 	}
+
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanDataMap#getBean(java.lang.String)
+	 */
 	public synchronized Object getBean(String beanId) {
 		
 	//	System.out.println("in getBean(beanId): default unique code:" +
@@ -78,7 +115,11 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, B
 		
 		return getRealBean(realBeanId);
 	}
+
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanDataMap#getBean(java.lang.String, java.lang.String)
+	 */
 	public synchronized Object getBean(String beanId, String filePath) {	
 		setCurrentFilePath(filePath);
 		String realBeanId = beanId + loadBeanUniqCode(filePath);

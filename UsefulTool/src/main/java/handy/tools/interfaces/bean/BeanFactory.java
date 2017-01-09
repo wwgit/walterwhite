@@ -1,5 +1,15 @@
 package handy.tools.interfaces.bean;
 
+
+
+
+/** 
+* @ClassName: BeanFactory 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:17:29 
+*  
+*/
 public abstract class BeanFactory {
 	
 	private IBeanMapFacade beanFacade;

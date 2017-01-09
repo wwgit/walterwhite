@@ -1,5 +1,13 @@
 package handy.tools.interfaces.bean;
 
+/** 
+* @ClassName: BeanMapFacade 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:21:18 
+*  
+*/
+
 public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacade {
 
 	private IBeanInfoMapParser beanParser;
@@ -25,7 +33,15 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	public void setBeanData(IBeanDataMap beanData) {
 		this.beanData = beanData;
 	}
+
 	
+	/** 
+	* @Title: loadBeanInfo 
+	* @Description: TODO(what to do) 
+	* @param   
+	* @return void   
+	* @throws 
+	*/
 	private void loadBeanInfo() {	
 		
 		this.getBeanData().setDefaultUniqueCode();	
@@ -42,6 +58,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#loadBeans(java.lang.String)
+	 */
 	public synchronized void loadBeans(String filePath) {		
 		initBeanParser();
 		this.getBeanData().setCurrentFilePath(filePath);
@@ -50,6 +69,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		this.getBeanData().setBeanObjects();
 	}
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#loadBeans(java.lang.String[])
+	 */
 	public synchronized void loadBeans(String ...filePaths) {
 		if(null == this.getBeanParser()) {
 			initBeanParser();
@@ -62,6 +84,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#lazyLoadBeans(java.lang.String[])
+	 */
 	public synchronized void lazyLoadBeans(String ...filePaths) {
 		if(null == this.getBeanParser()) {
 			initBeanParser();
@@ -73,6 +98,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#lazyLoadBeans(java.lang.String)
+	 */
 	public synchronized void lazyLoadBeans(String filePath) {
 		initBeanParser();
 		this.getBeanData().setCurrentFilePath(filePath);
@@ -80,10 +108,16 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		loadBeanInfo();	
 	}
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#getBean(java.lang.String)
+	 */
 	public Object getBean(String beanId) {
 		return this.getBeanData().getBean(beanId);
 	}
 
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanMapFacade#getBean(java.lang.String, java.lang.String)
+	 */
 	public Object getBean(String beanId, String filePath) {
 		return this.getBeanData().getBean(beanId, filePath);
 	}

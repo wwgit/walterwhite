@@ -9,13 +9,29 @@ import handy.tools.helpers.TypeHelper;
 import java.util.HashMap;
 import java.util.Map;
 
+/** 
+* @ClassName: BeanCommons 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:09:40 
+*  
+*/
+
 public abstract class BeanCommons extends PathHelper implements Bean {
 
 	
-	//unique code of absolute path of current file
+	/** 
+	* @Fields currentFilePath : unique code of absolute path of current file 
+	*/ 
 	private String currentFilePath;
 	
-	//default unique code: hash code of config file: hash code of the first config file loaded
+	//
+	
+	/** 
+	* @Fields defaultUniqueCode :  default unique code:
+	* 							   hash code of config file: 
+	* 						       hash code of the first config file loaded
+	*/ 
 	private String defaultUniqueCode;
 	
 	public String getCurrentFilePath() {
@@ -30,6 +46,13 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 		return defaultUniqueCode;
 	}
 
+	/** 
+	* @Title: setDefaultUniqueCode 
+	* @Description: TODO(setting default file unique code) 
+	* @param   
+	* @return void   
+	* @throws 
+	*/
 	public void setDefaultUniqueCode() {
 		String hashCode = null;
 		if(null == this.getDefaultUniqueCode()) {
@@ -67,6 +90,15 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 
 	}
 	
+	
+	/** 
+	* @Title: loadBeanUniqCode 
+	* @Description: TODO(get uniq code for bean using bean file ) 
+	* @param @param beanFilePath - absolute path
+	* @param @return  
+	* @return String   
+	* @throws 
+	*/
 	public String loadBeanUniqCode(String beanFilePath) {
 	    String hashCode = String.valueOf(beanFilePath.hashCode()); 
 		return hashCode;

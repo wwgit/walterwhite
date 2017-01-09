@@ -14,6 +14,15 @@ import handy.tools.interfaces.bean.IBeanInfoMapParser;
 import handy.tools.interfaces.templates.IXmlBeanTempSetter;
 import handy.tools.interfaces.templates.XmlBeanTemplate;
 
+
+/** 
+* @ClassName: XmlBeanMapParser 
+* @Description: TODO(what to do) 
+*
+* @author walterwhite
+* @date 2017年1月9日 下午2:34:09 
+*  
+*/
 public class XmlBeanMapParser extends XmlParser implements Bean, 
 /* provides default xml bean template for initializing */  XmlBeanTemplate,
 	/* provides reading and writing methods for visitors */ IBeanInfoMapParser,
@@ -27,75 +36,89 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 	 *  bean template is to guide Parser how to understand an xml bean file of config.
 	 * 
 	 * */
-	
-	/*<beans />
-	 * e.g: <beans></beans> beans is xmlBeansTab
-	 * desc: xml tab of beans in which bean classes are described within the xml tab.
-	 * */	
+		
+	/** 
+	* @Fields xmlBeansTab :  
+	* <beans />
+	* e.g: <beans></beans> beans is xmlBeansTab
+	* desc: xml tab of beans in which bean classes are described within the xml tab.
+	*/ 
 	private String xmlBeansTab;
 	
-	
-	/*<bean />
-	 * e.g: <bean></bean> bean is xmlBeanTab
-	 * desc: xml tab of one bean in which one bean class is described within the xml tab.
-	 * */
+	/** 
+	* @Fields xmlBeanTab : 
+	* <bean />
+	*  e.g: <bean></bean> bean is xmlBeanTab 
+	*  desc: xml tab of one bean in which one bean class is described within the xml tab.
+	*/ 
 	private String xmlBeanTab;
 	
-	/*<bean xmlAttriBeanIdTab=beanId />
-	 * e.g: <bean id=beanId/> id is xmlAttriBeanIdTab 
-	 * desc: xml attribute tab of unique bean id of one bean class
-	 * */
+	/** 
+	* @Fields xmlAttriBeanIdTab : 
+	* <bean xmlAttriBeanIdTab=beanId />
+	* e.g: <bean id=beanId/> id is xmlAttriBeanIdTab 
+	* desc: xml attribute tab of unique bean id of one bean class 
+	*/ 
 	private String xmlAttriBeanIdTab;
 	
-	/*<bean attriBeanClazzTab=beanClazzName /> 
-	 * desc: xml attribute tab bean class of one bean class
-	 * e.g: <bean class=bean.class.name/> class is attriBeanClazzTab
-	 * */
+	/** 
+	* @Fields xmlAttriBeanClazzTab :
+	* <bean attriBeanClazzTab=beanClazzName />
+	* desc: xml attribute tab bean class of one bean class  
+	* e.g: <bean class=bean.class.name/> class is attriBeanClazzTab  
+	*/ 
 	private String xmlAttriBeanClazzTab;	
 	
-	/*<property />
-	 * e.g: property is xmlPropertyTab - element of parentNode
-	 * 
-	 * desc:property xml tab/xml attribute tab in which properties of a bean class are described
-	 * or
-	 * 
-	 * <parentNode property="property of parent node"/>
-	 * e.g: property is xmlPropertyTab: attribute of parentNode
-	 * */
+	/** 
+	* @Fields xmlPropertyTab :
+	* <property />
+	*  e.g: property is xmlPropertyTab - element of parentNode 
+	*  desc:property xml tab/xml attribute tab in which properties of a bean class are described 
+	*  or 
+	*  <parentNode property="property of parent node"/>
+	*  e.g: property is xmlPropertyTab: attribute of parentNode 
+	*/ 
 	private String xmlPropertyTab;
 	
-	/*<value />
-	 * e.g: value is xmlValueTab - element of parentNode
-	 * 
-	 * desc:value xml tab/xml attribute tab in which value of a property of one bean class is described
-	 * or
-	 * <property value="property value" />
-	 * e.g: value is xmlValueTab: attribute of property element
-	 * */
+	/** 
+	* @Fields xmlValueTab : 
+	* <value />
+	*  e.g: value is xmlValueTab - element of parentNode
+	*  desc:value xml tab/xml attribute tab in which value of a property of one bean class is described
+	*  or
+	*  <property value="property value" />
+	*  e.g: value is xmlValueTab: attribute of property element
+	*/ 
 	private String xmlValueTab;
 	
-	/*<property name="url"/>
-	 * e.g: name is xmlAttriPropertyNameTab - property name = property name of a bean class
-	 * desc: xml attribute tab of property name for one property of a bean class
-	 * */
+	/** 
+	* @Fields xmlAttriPropertyNameTab : 
+	* <property name="url"/>
+	* e.g: name is xmlAttriPropertyNameTab - property name = property name of a bean class
+	* desc: xml attribute tab of property name for one property of a bean class
+	*/ 
 	private String xmlAttriPropertyNameTab;
 	
-	/*<ref />
-	 * e.g: ref is xmlRefBeanTab - element of parentNode
-	 * desc:xml tab/xml attribute tab of a reference bean as a value of one property of a bean class
-	 * 		in some case, property of a bean is an object of another bean.
-	 *      this can only be under property xml tab as an value of property 
-	 * or
-	 * <property ref="beanId of reference bean" />
-	 * e.g: value is xmlValueTab: attribute of property element
-	 * */
+	/** 
+	* @Fields xmlRefBeanTab :  
+	* <ref />
+	* e.g: ref is xmlRefBeanTab - element of parentNode
+	* desc:xml tab/xml attribute tab of a reference bean as a value of one property of a bean class
+	* in some case, property of a bean is an object of another bean.
+	* this can only be under property xml tab as an value of property 
+	* or
+	* <property ref="beanId of reference bean" />
+	* e.g: value is xmlValueTab: attribute of property element
+	* 
+	*/ 
 	private String xmlRefBeanTab;
 	
-
-	/*<ref local="beanId" />
-	 * e.g: local is refBeanIdPropTab - attribute of ref element
-	 * desc:xml attribute tab that represents reference bean location, it's value should be bean id. 
-	 * */
+	/** 
+	* @Fields xmlAttriRefBeanIdPropTab :  
+	* <ref local="beanId" />
+	* e.g: local is refBeanIdPropTab - attribute of ref element
+	* desc:xml attribute tab that represents reference bean location, it's value should be bean id.
+	*/ 
 	private String xmlAttriRefBeanIdPropTab;
 	
 	public XmlBeanMapParser(String xmlPath) {
@@ -429,8 +452,11 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 	public Map<String, Class<?>> setBeansClazz(String uniqCode) {
 		return setBeansClazzWithAttri(uniqCode);
 	}
-
-	// has to be initied after template is loaded
+	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.IBeanInfoMapParser#reloadParser(java.lang.String)
+	 * has to be initied after template is loaded
+	 */
 	public void reloadParser(String xmlPath) {
 		//loadBeanTemplate();
 		setDoc(xmlPath);

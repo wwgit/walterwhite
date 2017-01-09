@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import handy.tools.helpers.FileHelper;
-import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.bean.IBeanInfoMapParser;
@@ -17,14 +16,22 @@ import handy.tools.interfaces.templates.IPropBeanTempSetter;
 import handy.tools.interfaces.templates.IPropBeanTemplate;
 
 
-/*e.g
- * beanId_realBeanId=beanClazzName
- * realBeanId.beanClazzName.propertyName=value
- * realBeanId must be unique
- * 
- * beanId_user1=Test.User
- * user1.Test.User.name=example
- * */
+/** 
+* @ClassName: PropertiesBeanParser 
+* @Description: TODO(what to do) 
+* e.g
+* beanId_realBeanId=beanClazzName
+* realBeanId.beanClazzName.propertyName=value
+* realBeanId must be unique
+* 
+* e.g
+* beanId_user1=Test.User
+* user1.Test.User.name=example
+* 
+* @author walterwhite
+* @date 2017年1月9日 下午2:43:34 
+*  
+*/
 public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
 
 	private String beanIdTab;

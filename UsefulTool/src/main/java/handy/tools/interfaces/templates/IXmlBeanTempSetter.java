@@ -1,5 +1,13 @@
 package handy.tools.interfaces.templates;
 
+
+/** 
+* @ClassName: IXmlBeanTempSetter 
+* @Description: TODO(provides writing methods for bean template setting) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:33:03 
+*  
+*/
 public interface IXmlBeanTempSetter {
 	
 	public void setXmlBeansTab(String XML_BEANS_TAB);

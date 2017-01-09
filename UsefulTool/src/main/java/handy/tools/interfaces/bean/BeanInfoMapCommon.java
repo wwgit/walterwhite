@@ -8,30 +8,48 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/** 
+* @ClassName: BeanInfoMapCommon 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:17:53 
+*  
+*/
 public abstract class BeanInfoMapCommon implements IBeanInfoMap {
 	
-	    //beansClazz: Map<beanId, bean Class> - beanId should be unique
+		/** 
+		* @Fields beansClazz :  beanId should be unique
+		*/ 
 		private Map<String, Class<?>> beansClazz;
 		
-		//beanPropertyClazz: Map<beanId, propertyClazzes> -  beanId should be unique
-		//propertyClazzes: Map<propertyName, propertyClazz> - property name should be unique for one bean
-		//For the same bean, property name must be unique
-		//propertyClazzes:HashMap<String,Class<?>>
+		/** 
+		* @Fields beanPropertyClazz :  Map<beanId, propertyClazzes> -  beanId should be unique
+		* propertyClazzes: Map<propertyName, propertyClazz> - property name should be unique for one
+		* For the same bean, property name must be unique
+		* propertyClazzes:HashMap<String,Class<?>>
+		*/ 
 		private Map<String, Map<String,Class<?>>> beanPropertyClazz;
 		
-		//beanPropertyValues: Map<beanId, propertyInfo> -  beanId should be unique
-		//PropertyValues: Map<propertyName, propertyValue> - property name should be unique for one bean
-		//For the same bean, property name must be unique 
-		//PropertyValues:HashMap<String,Object>
+		/** 
+		* @Fields beanPropertyValues : Map<beanId, propertyInfo> -  beanId should be unique
+		* PropertyValues: Map<propertyName, propertyValue> - property name should be unique for one bean
+		* For the same bean, property name must be unique
+		* PropertyValues:HashMap<String,Object>
+		*/ 
 		private Map<String, Map<String,Object>> beanPropertyValues;
 		
-		//beanPropertyRefBeanId: Map<beanId, propertyRefBeanId> -  beanId should be unique
-		//propertyRefBeanId: Map<propertyName, refBeanId> - property name should be unique for one bean
-		//For the same bean, property name must be unique
-		//propertyRefBeanId:HashMap<String,String>
+		/** 
+		* @Fields beanPropertyRefBeanId : Map<beanId, propertyRefBeanId> -  beanId should be unique
+		* propertyRefBeanId: Map<propertyName, refBeanId> - property name should be unique for one bean
+		* For the same bean, property name must be unique 
+		* propertyRefBeanId:HashMap<String,String>
+		*/ 
 		private Map<String, Map<String,String>> beanPropertyRefBeanId;
 		
-		//for saving bean ids in current file loaded - in order to SetBeanObjects quickly
+		/** 
+		* @Fields currFileBeanIds : 
+		* for saving bean ids in current file loaded - in order to SetBeanObjects quickly 
+		*/ 
 		private List<String> currFileBeanIds;
 		
 		public BeanInfoMapCommon(String filePath) {

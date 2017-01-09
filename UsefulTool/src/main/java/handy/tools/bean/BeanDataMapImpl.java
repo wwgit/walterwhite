@@ -1,3 +1,4 @@
+
 package handy.tools.bean;
 
 import java.util.HashMap;
@@ -5,6 +6,15 @@ import java.util.Iterator;
 import java.util.Map;
 
 import handy.tools.interfaces.bean.BeanDataMap;
+
+/** 
+* @ClassName: BeanDataMapImpl 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:22:56 
+*  
+*/
+
 
 public class BeanDataMapImpl extends BeanDataMap {
 
@@ -21,6 +31,10 @@ public class BeanDataMapImpl extends BeanDataMap {
 		this.setBeanGetCnt(new HashMap<String, Integer>());
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.BeanDataMap#initBean(java.lang.String)
+	 */
 	public Object initBean(String beanIdUniqCode) throws Exception {
 
 		if(false == this.getBeanInfo().getBeansClazz().containsKey(beanIdUniqCode)) {
@@ -81,6 +95,9 @@ public class BeanDataMapImpl extends BeanDataMap {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see handy.tools.interfaces.bean.BeanDataMap#getRealBean(java.lang.String)
+	 */
 	public Object getRealBean(String beanIdUniqCode) {
 		
 		Object beanObj = null;

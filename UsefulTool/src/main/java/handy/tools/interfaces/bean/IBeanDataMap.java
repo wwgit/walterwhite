@@ -3,11 +3,46 @@ package handy.tools.interfaces.bean;
 import java.util.List;
 import java.util.Map;
 
+/** 
+* @ClassName: IBeanDataMap 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:16:56 
+*  
+*/
 public interface IBeanDataMap {
 	
 	
+	/** 
+	* @Title: getBean 
+	* @Description: TODO(what to do) 
+	* @param @param beanId
+	* @param @return  
+	* @return Object   
+	* @throws 
+	*/
 	public Object getBean(String beanId);
+
+	
+	/** 
+	* @Title: getBean 
+	* @Description: TODO(what to do) 
+	* @param @param beanId
+	* @param @param filePath
+	* @param @return  
+	* @return Object   
+	* @throws 
+	*/
 	public Object getBean(String beanId, String filePath);
+	
+	
+	/** 
+	* @Title: getCurrentFilePath 
+	* @Description: TODO(what to do) 
+	* @param @return  
+	* @return String   
+	* @throws 
+	*/
 	public String getCurrentFilePath();
 	
 	public void setBeanObjects();

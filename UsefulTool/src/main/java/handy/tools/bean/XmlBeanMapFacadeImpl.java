@@ -5,6 +5,14 @@ import handy.tools.interfaces.templates.IXmlBeanTempSetter;
 import handy.tools.interfaces.templates.XmlBeanTemplate;
 import handy.tools.parser.XmlBeanMapParser;
 
+
+/** 
+* @ClassName: XmlBeanMapFacadeImpl 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017年1月9日 下午2:24:43 
+*  
+*/
 public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTemplate {
 
 	@Override

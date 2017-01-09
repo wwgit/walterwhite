@@ -3,9 +3,10 @@ package handy.tools.factorties;
 import handy.tools.bean.XmlBeanMapFacadeImpl;
 import handy.tools.interfaces.bean.BeanFactory;
 
-
-/*e.g
- * <beans>
+/** 
+* @ClassName: XmlBeanFactory 
+* @Description: TODO(what to do) 
+*  * <beans>
  * 	<bean id="id" class="handy.tools.parser">
  * 		<property name="url" value="value"/>
  * 	</bean>
@@ -16,8 +17,11 @@ import handy.tools.interfaces.bean.BeanFactory;
  * 		<property name="url"><ref local=beanId /></property>
  * 	</bean>
  * </beans>
- * 
- * */
+
+* @author walterwhite
+* @date 2017年1月9日 下午2:25:58 
+*  
+*/
 public class XmlBeanFactory extends BeanFactory {
 
 	
