@@ -6,7 +6,7 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	
 	private IBeanDataMap beanData;
 	
-	//protected abstract void initBeanParser(String filePath);
+	protected abstract void initBeanParser(String filePath);
 	protected abstract void initBeanParser();
 	protected abstract void loadBeanTemplate(String filePath);
 
@@ -26,11 +26,10 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 		this.beanData = beanData;
 	}
 	
-	private void loadBeanInfo(String filePath) {	
+	private void loadBeanInfo() {	
 		
-		String uniqCode = loadBeanUniqCode(filePath);
-		this.getBeanData().setCurrentFilePath(filePath);
-		this.getBeanData().setDefaultUniqueCode(filePath);
+		this.getBeanData().setDefaultUniqueCode();	
+		String uniqCode = loadBeanUniqCode(this.getBeanData().getCurrentFilePath());
 		this.getBeanData().setBeansClazz(
 							this.getBeanParser().setBeansClazz(uniqCode));
 		this.getBeanData().setBeanPropertyClazz();
@@ -45,8 +44,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 	
 	public synchronized void loadBeans(String filePath) {		
 		initBeanParser();
-		loadBeanTemplate(filePath);
-		loadBeanInfo(filePath);
+		this.getBeanData().setCurrentFilePath(filePath);
+		loadBeanTemplate(this.getBeanData().getCurrentFilePath());
+		loadBeanInfo();
 		this.getBeanData().setBeanObjects();
 	}
 	
@@ -55,8 +55,9 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 			initBeanParser();
 		}
 		for(int i = 0; i < filePaths.length; i++) {
-			loadBeanTemplate(filePaths[i]);
-			loadBeanInfo(filePaths[i]);
+			this.getBeanData().setCurrentFilePath(filePaths[i]);
+			loadBeanTemplate(this.getBeanData().getCurrentFilePath());
+			loadBeanInfo();
 			this.getBeanData().setBeanObjects();
 		}
 	}
@@ -66,15 +67,17 @@ public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacad
 			initBeanParser();
 		}
 		for(int i = 0; i < filePaths.length; i++) {
-			loadBeanTemplate(filePaths[i]);
-			loadBeanInfo(filePaths[i]);
+			this.getBeanData().setCurrentFilePath(filePaths[i]);
+			loadBeanTemplate(this.getBeanData().getCurrentFilePath());
+			loadBeanInfo();
 		}
 	}
 
 	public synchronized void lazyLoadBeans(String filePath) {
 		initBeanParser();
-		loadBeanTemplate(filePath);
-		loadBeanInfo(filePath);		
+		this.getBeanData().setCurrentFilePath(filePath);
+		loadBeanTemplate(this.getBeanData().getCurrentFilePath());
+		loadBeanInfo();	
 	}
 	
 	public Object getBean(String beanId) {

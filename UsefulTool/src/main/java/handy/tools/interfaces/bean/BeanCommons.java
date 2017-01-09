@@ -30,10 +30,10 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 		return defaultUniqueCode;
 	}
 
-	public void setDefaultUniqueCode(String filePath) {
+	public void setDefaultUniqueCode() {
 		String hashCode = null;
 		if(null == this.getDefaultUniqueCode()) {
-			hashCode = loadBeanUniqCode(filePath);
+			hashCode = loadBeanUniqCode(this.getCurrentFilePath());
 			this.defaultUniqueCode = hashCode;
 		}		
 		
@@ -68,7 +68,7 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 	}
 	
 	public String loadBeanUniqCode(String beanFilePath) {
-	    String hashCode = String.valueOf(resolveAbsolutePath(beanFilePath).hashCode()); 
+	    String hashCode = String.valueOf(beanFilePath.hashCode()); 
 		return hashCode;
 	}
 	

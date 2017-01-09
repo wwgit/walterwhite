@@ -98,12 +98,12 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 	 * */
 	private String xmlAttriRefBeanIdPropTab;
 	
-	/*public XmlBeanMapParser(String xmlPath) {
+	public XmlBeanMapParser(String xmlPath) {
 		loadBeanTemplate();
-	//	setDoc(xmlPath);
-	//	this.setBeans();
-	//	this.setBeanElements();	
-	}*/
+		setDoc(xmlPath);
+		this.setBeans();
+		this.setBeanElements();	
+	}
 	
 	public XmlBeanMapParser() {
 		loadBeanTemplate();

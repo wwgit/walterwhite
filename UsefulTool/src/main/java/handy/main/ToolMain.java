@@ -79,7 +79,7 @@ public class ToolMain {
 		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
 		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
-		BeanFactory propBeanCreator = new PropertiesBeanFactory("config/db_config.properties");
+		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();
 		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
 		

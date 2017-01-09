@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import handy.tools.helpers.FileHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
@@ -24,7 +25,7 @@ import handy.tools.interfaces.templates.IPropBeanTemplate;
  * beanId_user1=Test.User
  * user1.Test.User.name=example
  * */
-public class PropertiesBeanParser extends PathHelper implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
+public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
 
 	private String beanIdTab;
 	
@@ -38,8 +39,8 @@ public class PropertiesBeanParser extends PathHelper implements IBeanInfoMapPars
 	private Properties prop;
 	
 	public PropertiesBeanParser(String propPath) {	
-	//	loadBeanTemplate();
-	//	setProp(propPath);
+		loadBeanTemplate();
+		setProp(propPath);
 		this.beanClazInfo = new HashMap<String, Class<?>>();
 	}
 	
@@ -118,10 +119,10 @@ public class PropertiesBeanParser extends PathHelper implements IBeanInfoMapPars
 			Properties theProp = null;
 			if(null == this.getProp()) {
 				theProp = new Properties();
-				theProp.load(resolveAbsoluteStream(propPath));
+				theProp.load(getFileInputStream(propPath));
 				this.setProp(theProp);
 			} else {
-				this.getProp().load(resolveAbsoluteStream(propPath));
+				this.getProp().load(getFileInputStream(propPath));
 			}
 			
 		} catch (IOException e) {

@@ -2,6 +2,7 @@ package handy.tools.io;
 
 
 import handy.tools.files.FileNioPack;
+import handy.tools.helpers.BasicHelper;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 
 import sun.nio.ch.DirectBuffer;
 
-public abstract class NioHelper {
+public abstract class NioHelper extends BasicHelper {
 	
 	//testing done
 	protected static void deleteDirectMem(ByteBuffer byteBuffer) throws Exception {

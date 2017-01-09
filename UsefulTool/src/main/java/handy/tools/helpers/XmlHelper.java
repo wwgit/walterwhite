@@ -88,7 +88,7 @@ public abstract class XmlHelper extends PathHelper {
 		Document doc = null;
 		try {
 			
-			doc = reader.read(resolveAbsolutePath(xmlPath));
+			doc = reader.read(xmlPath);
 			
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block

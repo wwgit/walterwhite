@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public abstract class PathHelper extends BasicHelper {
+public abstract class PathHelper extends FileHelper {
 	
 	public String resolveAbsolutePath(String relativePath) {
 				
@@ -17,7 +17,7 @@ public abstract class PathHelper extends BasicHelper {
 			path = GetAbsoluteFilePath(relativePath);
 		}
 		
-		//System.out.println("path: " + path);
+		System.out.println("path: " + path);
 		return path;
 		
 	}
@@ -28,7 +28,7 @@ public abstract class PathHelper extends BasicHelper {
 		try {
 			//System.out.println("relativePath AbsoluteStream: " + relativePath.getClass());
 		  // fis = this.getClass().getClassLoader().getResourceAsStream(relativePath);
-			fis = new FileInputStream(resolveAbsolutePath(relativePath));
+			fis = getFileInputStream(resolveAbsolutePath(relativePath));
 		} catch (Exception e) {
 			//e.printStackTrace();
 			String path = GetAbsoluteFilePath(relativePath);

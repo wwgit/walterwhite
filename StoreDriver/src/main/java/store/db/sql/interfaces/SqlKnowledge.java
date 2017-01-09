@@ -136,7 +136,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 
 	}
 	
-	public void doSimpleDelete(Connection conn, String delSql) {
+	public void doSimpleSql(Connection conn, String delSql) {
 		
 		Statement sqlStatement = null;
 		

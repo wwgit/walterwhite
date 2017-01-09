@@ -68,7 +68,8 @@ public class DbPool extends SqlCommons {
 		if(!getConnetions().isEmpty()) {
 			conn = getConnetions().firstElement();
 			getConnetions().remove(0);
-			System.out.println("pool size: " + this.getConnetions().size());
+			//System.out.println("pool size: " + this.getConnetions().size());
+			//System.out.println("removed conn: " + conn);
 		}
 		return conn;
 	}

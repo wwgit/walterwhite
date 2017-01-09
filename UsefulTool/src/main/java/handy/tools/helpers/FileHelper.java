@@ -25,7 +25,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class FileHelper extends NioHelper {
-		
+	
+	public InputStream getFileInputStream(String path) {
+		try {
+			return new FileInputStream(path);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 		
 	/*
 	 * reads/writes data from/to file using old IO APIs
