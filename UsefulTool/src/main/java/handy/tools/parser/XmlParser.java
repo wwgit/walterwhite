@@ -1,6 +1,8 @@
 package handy.tools.parser;
 
-public abstract class XmlParser {
+import handy.tools.helpers.XmlHelper;
+
+public abstract class XmlParser extends XmlHelper {
 	
 	
 

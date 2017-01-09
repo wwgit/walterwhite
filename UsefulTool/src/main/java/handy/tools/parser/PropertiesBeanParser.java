@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import handy.tools.helpers.FileHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
 import handy.tools.helpers.TypeHelper;
@@ -24,7 +25,7 @@ import handy.tools.interfaces.templates.IPropBeanTemplate;
  * beanId_user1=Test.User
  * user1.Test.User.name=example
  * */
-public class PropertiesBeanParser implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
+public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
 
 	private String beanIdTab;
 	
@@ -44,7 +45,7 @@ public class PropertiesBeanParser implements IBeanInfoMapParser, IPropBeanTempla
 	}
 	
 	public PropertiesBeanParser() {
-		loadBeanTemplate();
+	//	loadBeanTemplate();
 		this.beanClazInfo = new HashMap<String, Class<?>>();
 	}
 
@@ -71,7 +72,7 @@ public class PropertiesBeanParser implements IBeanInfoMapParser, IPropBeanTempla
 		return beanClazzes;
 	}
 
-	//need to re-write the logic
+	//rewrite done
 	public Map<String, Map<String,Object>> BeansPropertiesValues(String uniqCode) {
 		
 		String beanId = null; Map<String,Object> propertyValues = null;
@@ -113,17 +114,20 @@ public class PropertiesBeanParser implements IBeanInfoMapParser, IPropBeanTempla
 	}
 	
 	public void setProp(String propPath) {
-		
-		Properties theProp = new Properties();
+		System.out.println("who is calling me: " + this.getClass());
 		try {
-			theProp.load(PathHelper.resolveAbsoluteStream(propPath));
+			Properties theProp = null;
+			if(null == this.getProp()) {
+				theProp = new Properties();
+				theProp.load(getFileInputStream(propPath));
+				this.setProp(theProp);
+			} else {
+				this.getProp().load(getFileInputStream(propPath));
+			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			this.prop = theProp;
-		}
+		} 
 	}
 
 

@@ -7,9 +7,10 @@ public interface IBeanDataMap {
 	
 	
 	public Object getBean(String beanId);
-	public Object getBean(String beanId, String filePath);	
+	public Object getBean(String beanId, String filePath);
+	public String getCurrentFilePath();
 	
-	public void setBeanObjects(String filePath);
+	public void setBeanObjects();
 	public void setBeanPropertyClazz();
 	
 	public void setBeanPropertyValues(Map<String, Map<String, Object>> beanPropertyValues);
@@ -22,7 +23,7 @@ public interface IBeanDataMap {
 	
 	public void setCurrentFilePath(String currentFilePath);
 	
-	public void setDefaultUniqueCode(String filePath);
+	public void setDefaultUniqueCode();
 	
 
 }

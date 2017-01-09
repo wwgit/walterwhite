@@ -17,15 +17,15 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-public abstract class XmlHelper extends BasicHelper {
+public abstract class XmlHelper extends PathHelper {
 
-	public static void writeXMLFileUTF8(String writeToPath, Document doc) {
+	public void writeXMLFileUTF8(String writeToPath, Document doc) {
 		
 		XMLWriter xmlWriter = null;
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setEncoding(DATA_FORMAT_UTF8);
 		try {
-			String path = PathHelper.resolveAbsolutePath(writeToPath);
+			String path = resolveAbsolutePath(writeToPath);
 			Writer fileWriter = new FileWriter(path);
 			xmlWriter = new XMLWriter(fileWriter, format);
 			xmlWriter.write(doc);
@@ -48,7 +48,7 @@ public abstract class XmlHelper extends BasicHelper {
 	/*debug done
 	 * 
 	 * */
-	public static void createXmlDoc(String xmlPath, String rootName, Map<String, Object> subElements) {
+	public void createXmlDoc(String xmlPath, String rootName, Map<String, Object> subElements) {
 		
 		Document doc = DocumentHelper.createDocument();
 		Iterator<String> it = subElements.keySet().iterator();
@@ -71,7 +71,7 @@ public abstract class XmlHelper extends BasicHelper {
 	/*debug done
 	 * 
 	 * */
-	public static void createEmptyXmlDoc(String xmlPath, String rootName) {
+	public void createEmptyXmlDoc(String xmlPath, String rootName) {
 		
 		Document doc = DocumentHelper.createDocument();
 		Element root = DocumentHelper.createElement(rootName);
@@ -82,13 +82,13 @@ public abstract class XmlHelper extends BasicHelper {
 	/*debug done
 	 * 
 	 * */
-	public static Document readXmlFrmFile(String xmlPath) {
+	public Document readXmlFrmFile(String xmlPath) {
 		
 		SAXReader reader = new SAXReader();
 		Document doc = null;
 		try {
 			
-			doc = reader.read(PathHelper.resolveAbsolutePath(xmlPath));
+			doc = reader.read(xmlPath);
 			
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -143,7 +143,7 @@ public abstract class XmlHelper extends BasicHelper {
 	/*debug done
 	 * 
 	 * */
-	public static void addSubElements(String xmlPath, String eleName, Map<String, Object> subElements) {
+	public void addSubElements(String xmlPath, String eleName, Map<String, Object> subElements) {
 		
 		Document doc = readXmlFrmFile(xmlPath);
 		if(null == doc) {

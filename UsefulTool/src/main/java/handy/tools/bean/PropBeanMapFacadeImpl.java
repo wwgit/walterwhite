@@ -28,7 +28,7 @@ public class PropBeanMapFacadeImpl extends BeanMapFacade implements IPropBeanTem
 	@Override
 	protected void initBeanParser(String filePath) {
 		if(null == this.getBeanParser()) {
-			this.setBeanParser(new PropertiesBeanParser(filePath));
+			this.setBeanParser(new PropertiesBeanParser());
 		}
 		
 	}

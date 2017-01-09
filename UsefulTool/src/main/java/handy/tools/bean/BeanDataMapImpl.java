@@ -102,7 +102,6 @@ public class BeanDataMapImpl extends BeanDataMap {
 				} 
 				return beanObj;
 			}
-
 			beanObj = initBean(beanIdUniqCode);
 			
 			if(null != beanObj) {
