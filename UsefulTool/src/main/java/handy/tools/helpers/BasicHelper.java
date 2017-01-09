@@ -2,14 +2,31 @@ package handy.tools.helpers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import handy.tools.constants.DataTypes;
 import handy.tools.constants.FileFormat;
 import handy.tools.constants.TxTFile;
 
+/** 
+* @ClassName: BasicHelper 
+* @Description: TODO(some very basic needs - and very general functions) 
+* @author walterwhite
+* @date 2017年1月9日 下午5:30:57 
+*  
+*/
 public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 	
 
+	/** 
+	* @Title: GetAbsoluteFilePath 
+	* @Description: TODO(try to resolve absolute path for a relative path - not tested yet) 
+	* @param @param filePath
+	* @param @return  
+	* @return String   
+	* @throws 
+	*/
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;
@@ -22,7 +39,6 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 				file = new File(System.getProperty("user.dir").replaceAll("\\\\", "/") + "/" + filePath);
 				file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -30,7 +46,6 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		try {
 			path = file.getCanonicalPath();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return path;
@@ -93,6 +108,47 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 			return 0;
 		}
 		
-	}	
+	}
+	
+	
+	public static Map<String,String> StrArrayToHashMap(String[] keys, String[] values) throws Exception {
+		Map<String,String> rtnMap = null;
+		if(keys.length != values.length) {
+			throw new Exception("length does Not equal for each other !");
+		}
+		if(keys.length < 1) {
+			throw new Exception("not element in keys !");
+		}
+		if(keys == null || values == null) {
+			throw new NullPointerException("inputed keys or values is NULL !");
+		}
+		
+		rtnMap = new HashMap<String,String>();
+		for(int i = 0; i < keys.length; i++) {
+			rtnMap.put(keys[i], values[i]);
+		}
+		
+		return rtnMap;
+	}
+	
+	public static Map<String,Object> StrObjArrayToHashMap(String[] keys, Object[] values) throws Exception {
+		Map<String,Object> rtnMap = null;
+		if(keys.length != values.length) {
+			throw new Exception("length does Not equal for each other !");
+		}
+		if(keys.length < 1) {
+			throw new Exception("not element in keys !");
+		}
+		if(keys == null || values == null) {
+			throw new NullPointerException("inputed keys or values is NULL !");
+		}
+		
+		rtnMap = new HashMap<String,Object>();
+		for(int i = 0; i < keys.length; i++) {
+			rtnMap.put(keys[i], values[i]);
+		}
+		
+		return rtnMap;
+	}
 
 }

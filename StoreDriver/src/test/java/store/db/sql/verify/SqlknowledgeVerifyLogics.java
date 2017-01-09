@@ -1,6 +1,7 @@
 package store.db.sql.verify;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /** 
 * @ClassName: SqlknowledgeVerifyLogics 
@@ -53,7 +54,18 @@ public abstract class SqlknowledgeVerifyLogics {
 			return isColFound;
 		}
 	
-	
+	protected boolean hasExpectedValue(ResultSet result, Object expectedValue, String colName) throws SQLException {
+		
+		Object actValue = null;
+		while(result.next()) {
+			actValue = result.getObject(colName);
+			if(expectedValue.equals(actValue)) {
+				return true;
+			}
+		}
+			
+		return false;	
+	}
 	
 	public boolean isDataSatisified(String whereColName, String operator, 
 									Object expecteValue) throws Exception {

@@ -15,9 +15,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import store.db.sql.interfaces.ISQLReporter;
 
+
+/** 
+* @ClassName: SqlCommons 
+* @Description: TODO(sql basics) 
+* @author walterwhite
+* @date 2017年1月9日 下午5:54:47 
+*  
+*/
 public abstract class SqlCommons {
 	
 	public Connection createConnection(String url, String userName, String password) throws SQLException {
@@ -83,7 +90,7 @@ public abstract class SqlCommons {
 			}
 			
 		}
-		sb.append(dbColumns[dbColumns.length-1] + "=?");
+		sb.append(dbColumns[dbColumns.length-1] + "=? ");
 		
 		if(null == colPlusOper && null == andOr) {
 			return sb.toString();
@@ -94,13 +101,21 @@ public abstract class SqlCommons {
 		return sb.toString();
 	}
 	
-	/*does not support embedded conditions combinations like where (a and b) or c
-	 * does not support keywords like: 'like', 'is' etc 
-	 * returns only conditions like: a=b and d=e or m<>n and k<=y
-	 * Debug has been done
-	 * 
-	 * 
-	 * */
+
+	/** 
+	* @Title: prepareSimpleWhereConds 
+	* @Description: TODO(what to do)
+	* does not support embedded conditions combinations like where (a and b) or c
+	* does not support keywords like: 'like', 'is' etc  
+	* returns only conditions like: a=b and d=e or m<>n and k<=y
+	* Debug has been done
+	*  
+	* @param @param colPlusOper
+	* @param @param andOr
+	* @param @return  
+	* @return String   
+	* @throws 
+	*/
 	public String prepareSimpleWhereConds(String[] colPlusOper, String[] andOr) {
 		
 		StringBuilder sb = null;
@@ -163,26 +178,13 @@ public abstract class SqlCommons {
 		return result;		
 	}
 	
-	protected boolean hasExpectedValue(ResultSet result, Object expectedValue, String colName) throws SQLException {
-		
-		Object actValue = null;
-		while(result.next()) {
-			actValue = result.getObject(colName);
-			if(expectedValue.equals(actValue)) {
-				return true;
-			}
-		}
-			
-		return false;	
-	}
-	
 
 	/*Debug has been done
 	 * 
 	 * 
 	 * */
 	private void setSqlValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
-		
+		System.out.println(value);
 		switch(dataType) {
 			case DataTypes.JAVA_LANG_STRING:
 				statement.setString(index, (String) value);
