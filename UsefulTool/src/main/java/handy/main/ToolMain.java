@@ -10,6 +10,9 @@ import handy.tools.annotations.ParseObjAnno;
 import handy.tools.db.TestBean;
 import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
+import handy.tools.helpers.BasicHelper;
+import handy.tools.helpers.JavassistHelper;
+import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.bean.BeanFactory;
 
 public class ToolMain {
@@ -24,12 +27,35 @@ public class ToolMain {
 		 * */
 		
 		
-	//	ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 
-	//			"newInstance","{List obj = new ArrayList<>();return obj;}"
-	//			, new String[]{}, "java.util.List");
+//		ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 
+//				"newInstance","{List obj = new ArrayList<>();return obj;}"
+//				, new String[]{}, "java.util.List");
 		
+		//JavassistHelper.test();
+		String clazName = "handy.tools.helpers.TypeHelper";
+		//Class<?> claaz = Class.forName(clazName).getM
+		//String relativePath = Class.forName(clazName).getPackage().getName().replaceAll("\\.", "/");
+		//String path = Class.forName(clazName).getClassLoader().getResource(
+		//		clazName.replaceAll("\\.", "/")+".class").getPath();
+		//System.out.println(relativePath);
+		//System.out.println(path);
+		String classRootPath = ToolMain.class.getResource("/").getPath();
+//		System.out.println(classRootPath);
+		//JavassistHelper.getClassPool().get("handy.tools.aop.AspectsHandler");
+		//JavassistHelper.getClassPool().appendClassPath(classRootPath);
+		//System.out.println("classpath root:" + ToolMain.class.getResource("/").getPath());
+		//System.out.println(path.replaceFirst("\\/[^./]*\\.class", ""));
+		//String folderPath = path.replaceFirst("\\/[^./]*\\.class", "");
+		//System.out.println(folderPath);
+		JavassistHelper.InitNonDefPool();
+//		JavassistHelper.getClassPool().appendClassPath(classRootPath);
+		//JavassistHelper.testInsertBefore(clazName, "- a mark of insert before data ",classRootPath);
 		
-		
+		//JavassistHelper.testInsertAfter(clazName, "- a mark of insert after data ",classRootPath);
+		//TRY TEST AFTER INSERT
+		//BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
+		//TypeHelper.getRequiredValue(1, "java.lang.String");
+		//TypeHelper.parseType("asdf");
 		
 		//GenInstance maker = new InstGenerator();
 		
@@ -78,7 +104,6 @@ public class ToolMain {
 		
 		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
-		//ConfigureParser propBeanCreator = new PropertiesConfigParser("config/db_config.properties");
 		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();
 		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
@@ -108,15 +133,15 @@ public class ToolMain {
 		for(int i = 0; i < 10000; i++) {
 			//System.out.println(i);
 			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
-			TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
+			//TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
 			//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
 			//System.out.println("propChk:" + propChk2.getPassword());
 			//System.out.println("refBeanChk3:" + refBeanChk3.getConfig().getUrl());
 		}
-		TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
-		System.out.println("refBeanChk3:calling getTestAnno: " + refBeanChk3.getTestAnno());
+		//TestBean refBeanChk3 = (TestBean) xmlBeanCreator.getBean("TestBean");
+		//System.out.println("refBeanChk3:calling getTestAnno: " + refBeanChk3.getTestAnno());
 		
-		ParseObjAnno.parseTypesAnnotation(refBeanChk3);
+		//ParseObjAnno.parseTypesAnnotation(refBeanChk3);
 		
 		//ParseObjAnno.parseMethodAnnotation(refBeanChk3,AnnoTypeTest.class);
 		//ParseObjAnno.parseMethodAnnotation(refBeanChk3,AnnoMethodTest.class);

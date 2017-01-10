@@ -11,11 +11,11 @@ import javafx.util.converter.BigDecimalStringConverter;
 public abstract class TypeHelper extends BasicHelper {
 	
 	
-	public static int[] getDataTypes(Map data) {
+	public static int[] getDataTypes(Map<?,?> data) {
 		
 		int[] types = new int[data.size()];
 		int i = 0;
-		Iterator it = null;
+		Iterator<?> it = null;
 		for(it = data.values().iterator(); it.hasNext();) {
 			types[i++] = parseType(it.next());
 		}

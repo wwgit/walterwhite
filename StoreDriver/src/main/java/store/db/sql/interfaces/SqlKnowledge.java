@@ -1,6 +1,5 @@
 package store.db.sql.interfaces;
 
-import handy.tools.helpers.DbHelper;
 import handy.tools.helpers.TypeHelper;
 
 import java.sql.Connection;
@@ -8,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -163,7 +161,37 @@ public abstract class SqlKnowledge extends SqlCommons {
 		//Map<String,List<List<Object>>> Result = null;
 		ResultSet sqlResult = null;
 		try {
-			//statement = conn.prepareStatement(completeSql);
+			statement = conn.prepareStatement(completeSql);			
+			setValuesForSql(statement, condValues);
+			sqlResult = statement.executeQuery();		
+			 
+		} catch (SQLException e) {
+			reportFailure(e);
+		} finally {
+			reportResults(sqlResult);
+			returnResources(conn,statement);
+		}
+
+	}
+	
+	
+	/** 
+	* @Title: doMySqlPrepareQuery 
+	* @Description: TODO(query using prepareStatement using mysql stream mode) 
+	* @param @param conn
+	* @param @param completeSql
+	* @param @param condValues  
+	* @return void   
+	* @throws 
+	*/
+	public void doMySqlPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
+		
+		PreparedStatement statement = null;		
+
+		reportExecuteProcess("ready to execute sql:" + completeSql);
+		//Map<String,List<List<Object>>> Result = null;
+		ResultSet sqlResult = null;
+		try {
 			//parepare statement for tons of data coming ~
 			statement = conn.prepareStatement(completeSql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
 			statement.setFetchSize(Integer.MIN_VALUE);

@@ -92,13 +92,14 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 			requiredClz = Class.forName(type);
 			break;
 		}
-		
+		System.out.println("checkpoint before return !");
 		return requiredClz;
 	}
 	
 	public int getFileSuffix(String filePath) {
 		
 		if(filePath.endsWith("properties")) {
+			
 			return TXTFILE_SUFFIX_PROPERTY;
 		} else if(filePath.endsWith("xml")) {
 			return TXTFILE_SUFFIX_XML;

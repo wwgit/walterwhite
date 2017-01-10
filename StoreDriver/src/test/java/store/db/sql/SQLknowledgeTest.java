@@ -40,7 +40,7 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		this.getPool().initConnections(this.getConfig(), this);
 	}
 	
-//	@Test
+	@Test
 	public void testSimpleSql() {
 		System.out.println("\ntesting doSimpleSql inserting");
 		String phone = "31010101010";
@@ -67,8 +67,8 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 //	@Test
 	public void simpleQueryTest() {
 		
-		String sql = "select * from user_base_info "
-					+ "where phone=\'13510084082\' and mail='steveredd@qq.com'";
+		String sql = "select * from user_base_info ";
+					//+ "where phone=\'13510084082\' and mail='steveredd@qq.com'";
 		boolean colReturned = false;
 		this.doSimpleQuery(this.getPool().retrieveConnection(), sql);
 		try {
@@ -81,13 +81,13 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		
 	}
 	
-	@Test
+//	@Test
 	public void doQueryTest() {
 		
 		String baseSql = "select * from user_base_info";
 
 		Object[] condValues = new Object[]{"simpleName","steveredd@qq.com"};		
-		this.doPrepareQuery(this.getPool().retrieveConnection(), baseSql, null);
+		this.doMySqlPrepareQuery(this.getPool().retrieveConnection(), baseSql, null);
 		boolean colReturned = false;
 		try {
 			colReturned = areColumnsReturned(new String[]{"phone","mail"});
@@ -113,12 +113,13 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		try {
 			columns_values = BasicHelper.StrObjArrayToHashMap(condColumns, condValues);
 			columns_types = BasicHelper.StrArrayToHashMap(condColumns, colTypes);
-			batchData = TestDataCreator.rowDataGenerateUTF8(300, columns_types);
+			batchData = TestDataCreator.rowDataGenerateUTF8(500000, columns_types);
 		} catch (Exception e) {
 			reportFailure(e);
 		}
 //		List<Map<String,Object>> data = new ArrayList<Map<String,Object>>();
 //		data.add(columns_values);
+		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
 		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
 	}
 	
@@ -152,7 +153,7 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 			//result.first();
 			int i = 0;
 			while(result.next()) {
-				testResult = (String) result.getObject("phone");
+				testResult = (String) result.getString("phone");
 				System.out.println(testResult + i++);
 			}
 

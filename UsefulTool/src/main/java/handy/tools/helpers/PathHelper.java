@@ -6,12 +6,12 @@ import java.io.InputStream;
 
 public abstract class PathHelper extends FileHelper {
 	
-	public String resolveAbsolutePath(String relativePath) {
+	public static String resolveAbsolutePath(String relativePath) {
 				
 		String path = null;
 		try {
 			//System.out.println("relativePath AbsolutePath: " + this.getClass().getClassLoader());
-			path = this.getClass().getClassLoader().getResource(relativePath).getPath();
+			path = PathHelper.class.getClassLoader().getResource(relativePath).getPath();
 		} catch (Exception e) {
 			//e.printStackTrace();
 			path = GetAbsoluteFilePath(relativePath);
