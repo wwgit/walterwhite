@@ -39,7 +39,7 @@ public class ToolMain {
 		//		clazName.replaceAll("\\.", "/")+".class").getPath();
 		//System.out.println(relativePath);
 		//System.out.println(path);
-		String classRootPath = ToolMain.class.getResource("/").getPath();
+		//String classRootPath = ToolMain.class.getResource("/").getPath();
 //		System.out.println(classRootPath);
 		//JavassistHelper.getClassPool().get("handy.tools.aop.AspectsHandler");
 		//JavassistHelper.getClassPool().appendClassPath(classRootPath);
@@ -102,9 +102,9 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
+//		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
-		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
+//		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();
 		//xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
 		
