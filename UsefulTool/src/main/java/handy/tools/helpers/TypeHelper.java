@@ -1,5 +1,6 @@
 package handy.tools.helpers;
 
+import handy.tools.annotations.MethodArgs;
 import handy.tools.db.ComplexValue;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import javafx.util.converter.BigDecimalStringConverter;
 
 public abstract class TypeHelper extends BasicHelper {
 	
-	
+	@MethodArgs
 	public static int[] getDataTypes(Map<?,?> data) {
 		
 		int[] types = new int[data.size()];
@@ -22,6 +23,8 @@ public abstract class TypeHelper extends BasicHelper {
 		
 		return types;
 	}
+	
+	@MethodArgs
 	public static int[] getDataTypes(Object[] data) {
 		
 		int[] types = new int[data.length];
@@ -31,6 +34,26 @@ public abstract class TypeHelper extends BasicHelper {
 		}
 		
 		return types;
+	}
+	
+	public static boolean isBasicOrBasicArray(String type) {
+		
+		if(type.equals("int")||type.equals("int[]")) {
+			return true;
+		} else if(type.equals("long")||type.equals("long[]")) {
+			return true;
+		} else if(type.equals("double")||type.equals("double[]")) {
+			return true;
+		} else if(type.equals("float")||type.equals("float[]")) {
+			return true;
+		} else if(type.equals("char")||type.equals("char[]")) {
+			return true;
+		} else if(type.equals("byte")||type.equals("byte[]")) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 	
 	public static boolean isBasicOrBasicArray(Class<?> type) {
@@ -57,7 +80,7 @@ public abstract class TypeHelper extends BasicHelper {
 
 	}
 	
-	
+	@MethodArgs
 	public static int parseComplex(int flag) {
 		
 		if(flag == 0) {
@@ -172,6 +195,7 @@ public abstract class TypeHelper extends BasicHelper {
 		return value;
 	}
 	
+	@MethodArgs
 	public static Object getRequiredValue(int origin_value, String requiredType) {
 		int require_flag = parseType(requiredType);
 		Object value = null;

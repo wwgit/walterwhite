@@ -8,13 +8,13 @@
 */
 package agents;
 
+import handy.tools.helpers.JavassistHelper;
+
 import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-import agents.annotations.AnnoVerifyHandler;
-import agents.aop.JavassistHelper;
 import javassist.CannotCompileException;
 import javassist.CtClass;
 
@@ -42,29 +42,29 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 
 			theCtClazz = JavassistHelper.getClassPool().makeClass(new java.io.ByteArrayInputStream(  
 			        classfileBuffer));
-//			System.out.println("making class:" + theCtClazz);
 			if(theCtClazz.getName().startsWith("java")) {
-//				System.out.println("return because: sys class:" + theCtClazz.getName());
 				return classfileBuffer;
 			}
 			if(theCtClazz.getName().startsWith("sun")) {
-//				System.out.println("return because: sys class:" + theCtClazz.getName());
 				return classfileBuffer;
 			}
 			if(theCtClazz.isInterface() == false) {
 				System.out.println("ready to modify class Name:" + theCtClazz.getName());
-				AnnoVerifyHandler.MethodAnnoChk(theCtClazz.getName());
+				if(theCtClazz.getName().endsWith("Helper")) {
+					JavassistHelper.classMethodAddBefore(theCtClazz.getName(),
+								"{handy.tools.aop.AspectsHandler.argCheck($$);}");
+				}
 			}
+			System.out.println("save the modification !");
 			tranformed = theCtClazz.toBytecode();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CannotCompileException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

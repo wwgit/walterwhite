@@ -1,6 +1,8 @@
 package handy.tools.helpers;
 
+import handy.tools.annotations.MethodArgs;
 import handy.tools.db.ComplexValue;
+
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Connection;
@@ -19,6 +21,7 @@ public abstract class DbHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
+	@MethodArgs
 	private static void setValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
 		
 		switch(dataType) {
@@ -104,6 +107,7 @@ public abstract class DbHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
+	@MethodArgs
 	public static void setValuesForSql(PreparedStatement statement, 
 									Map data, String[] dbColumnNames, int[] dataTypes) throws SQLException {
 		
@@ -214,6 +218,7 @@ public abstract class DbHelper extends BasicHelper {
 	 * 
 	 * 
 	 * */
+	@MethodArgs
 	public static Map<String, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
 		
 		List<Object> rowData = null;

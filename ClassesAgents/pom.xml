@@ -83,6 +83,11 @@
 		    <artifactId>javassist</artifactId>
 		    <version>3.18.1-GA</version>
 		</dependency>
+	    <dependency>
+		    <groupId>handy</groupId>
+	  		<artifactId>UsefulTool</artifactId>
+	  		<version>0.0.1-SNAPSHOT</version>
+        </dependency>
       
   </dependencies>
   

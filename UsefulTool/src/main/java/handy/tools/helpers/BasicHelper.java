@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import handy.tools.annotations.MethodArgs;
 import handy.tools.constants.DataTypes;
 import handy.tools.constants.FileFormat;
 import handy.tools.constants.TxTFile;
@@ -28,6 +29,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 	* @return String   
 	* @throws 
 	*/
+	@MethodArgs
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;
@@ -61,7 +63,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		
 	}
 	
-	
+	@MethodArgs
 	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
 		
 		Class<?> requiredClz = null;
@@ -112,7 +114,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		
 	}
 	
-	
+	@MethodArgs
 	public static Map<String,String> StrArrayToHashMap(String[] keys, String[] values) throws Exception {
 		Map<String,String> rtnMap = null;
 		if(keys.length != values.length) {

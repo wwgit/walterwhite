@@ -30,22 +30,12 @@ public class ToolMain {
 //				, new String[]{}, "java.util.List");
 		
 		//JavassistHelper.test();
-		String clazName = "handy.tools.helpers.TypeHelper";
+		String clazName = "handy.tools.helpers.DbHelper";
 		//Class<?> claaz = Class.forName(clazName).getM
-		//String relativePath = Class.forName(clazName).getPackage().getName().replaceAll("\\.", "/");
-		//String path = Class.forName(clazName).getClassLoader().getResource(
-		//		clazName.replaceAll("\\.", "/")+".class").getPath();
-		//System.out.println(relativePath);
-		//System.out.println(path);
-		//String classRootPath = ToolMain.class.getResource("/").getPath();
-//		System.out.println(classRootPath);
-		//JavassistHelper.getClassPool().get("handy.tools.aop.AspectsHandler");
-		//JavassistHelper.getClassPool().appendClassPath(classRootPath);
-		//System.out.println("classpath root:" + ToolMain.class.getResource("/").getPath());
-		//System.out.println(path.replaceFirst("\\/[^./]*\\.class", ""));
-		//String folderPath = path.replaceFirst("\\/[^./]*\\.class", "");
-		//System.out.println(folderPath);
+
 		JavassistHelper.InitNonDefPool();
+		JavassistHelper.classMethodAddBefore(clazName,
+											"{handy.tools.aop.AspectsHandler.argCheck($$);}");
 //		JavassistHelper.getClassPool().appendClassPath(classRootPath);
 		//JavassistHelper.testInsertBefore(clazName, "- a mark of insert before data ",classRootPath);
 		

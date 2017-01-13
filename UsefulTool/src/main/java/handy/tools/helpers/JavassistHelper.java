@@ -3,14 +3,16 @@ package handy.tools.helpers;
 import handy.tools.annotations.MethodArgs;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
+import javassist.CtBehavior;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
+import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 
 
 
@@ -91,6 +93,38 @@ public abstract class JavassistHelper {
 		return theCtClazzes;
 	}
 	
+	
+	public static void classMethodAddBefore(String clazName, String aspect) throws Exception {
+		
+		CtClass theCtClazz = cp.get(clazName);
+		
+		CtMethod[] methods = theCtClazz.getDeclaredMethods();
+		for(CtMethod method : methods) {
+			Object anno = method.getAnnotation(MethodArgs.class);
+			if(anno instanceof MethodArgs) {
+				System.out.println("anno MethodArgs found, calling methodInsert:" + method.getName());
+				methodInsert(method,aspect);
+			}
+		}
+		
+	}
+	
+	public static void methodInsert(CtMethod method, String aspect) throws Exception {
+		
+		CtClass[] paramTypes = method.getParameterTypes();
+      	
+		if(paramTypes.length < 1) {
+    		throw new Exception("For method argument check, "
+    				+ "it must at least contained one argument !");
+    	}
+		for(CtClass paramType : paramTypes) {
+			System.out.println("printing param types:" + paramType.getName());
+			if(TypeHelper.isBasicOrBasicArray(paramType.getName())) return;			
+		}
+		method.insertBefore(aspect);
+      	
+	}
+	
 
     public static void oneMethodArgVerify(CtClass ctClazz, String methodName, CtClass[] paramTypes) throws Exception {
     	
@@ -98,9 +132,7 @@ public abstract class JavassistHelper {
     		throw new Exception("For method argument check, "
     				+ "it must at least contained one argument !");
     	}
-      	
-      	
-    	
+      	  	
       	CtMethod method = ctClazz.getDeclaredMethod(methodName, paramTypes);
       
     	String aspects = "handy.tools.aop.AspectsHandler.";  
