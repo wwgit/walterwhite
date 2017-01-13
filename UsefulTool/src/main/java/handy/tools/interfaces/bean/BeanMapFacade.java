@@ -1,13 +1,14 @@
 package handy.tools.interfaces.bean;
 
+
+
 /** 
 * @ClassName: BeanMapFacade 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:21:18 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:12:21 
 *  
 */
-
 public abstract class BeanMapFacade extends BeanCommons implements IBeanMapFacade {
 
 	private IBeanInfoMapParser beanParser;

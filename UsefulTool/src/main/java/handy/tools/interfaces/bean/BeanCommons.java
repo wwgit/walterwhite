@@ -9,14 +9,15 @@ import handy.tools.helpers.TypeHelper;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 /** 
 * @ClassName: BeanCommons 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:09:40 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:11:42 
 *  
 */
-
 public abstract class BeanCommons extends PathHelper implements Bean {
 
 	

@@ -3,18 +3,15 @@ package handy.main;
 import java.util.HashMap;
 import java.util.Map;
 
-import handy.tools.annotations.AnnoFieldTest;
-import handy.tools.annotations.AnnoMethodTest;
-import handy.tools.annotations.AnnoTypeTest;
-import handy.tools.annotations.ParseObjAnno;
-import handy.tools.db.TestBean;
-import handy.tools.factorties.PropertiesBeanFactory;
-import handy.tools.factorties.XmlBeanFactory;
-import handy.tools.helpers.BasicHelper;
 import handy.tools.helpers.JavassistHelper;
-import handy.tools.helpers.TypeHelper;
-import handy.tools.interfaces.bean.BeanFactory;
 
+/** 
+* @ClassName: ToolMain 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017Âπ¥1Êúà13Êó• ‰∏ãÂçà2:09:45 
+*  
+*/
 public class ToolMain {
 
 	public static void main(String[] args) throws Exception {
@@ -148,9 +145,7 @@ public class ToolMain {
 		//ParseObjAnno.parseFieldAnnotation(refBeanChk3, AnnoFieldTest.class);
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("≥Ã–Ú‘À–– ±º‰£∫" + (endTime - startTime) + "ms");
-		//System.out.println("≥Ã–Ú‘À–– ±º‰£∫" + (endTime - startTime) + "ms");
-		
+		System.out.println("time" + (endTime - startTime) + "ms");	
 		
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		

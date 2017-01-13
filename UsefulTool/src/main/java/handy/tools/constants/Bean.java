@@ -1,10 +1,11 @@
 package handy.tools.constants;
 
+
 /** 
 * @ClassName: Bean 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:25:02 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:14:22 
 *  
 */
 public interface Bean {

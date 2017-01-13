@@ -19,9 +19,10 @@ import handy.tools.interfaces.bean.BeanFactory;
  * </beans>
 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:25:58 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:14:04 
 *  
 */
+
 public class XmlBeanFactory extends BeanFactory {
 
 	

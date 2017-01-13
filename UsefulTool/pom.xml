@@ -5,9 +5,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Tool</name>
   <description>basic tools</description>
-  <!--<properties>
+  <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>-->
+  </properties>
   <build>
      <resources>
             <!-- 控制资源文件的拷贝 -->
@@ -17,7 +17,7 @@
             </resource>
       </resources>
       <plugins>
-             <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -25,7 +25,7 @@
                     <target>1.6</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>-->
+            </plugin>
           	<!-- The configuration of maven-jar-plugin -->
           	<plugin>
           	    <groupId>org.apache.maven.plugins</groupId>

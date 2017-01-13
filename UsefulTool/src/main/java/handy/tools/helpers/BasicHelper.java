@@ -9,11 +9,12 @@ import handy.tools.constants.DataTypes;
 import handy.tools.constants.FileFormat;
 import handy.tools.constants.TxTFile;
 
+
 /** 
 * @ClassName: BasicHelper 
-* @Description: TODO(some very basic needs - and very general functions) 
+* @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç5:30:57 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:13:10 
 *  
 */
 public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {

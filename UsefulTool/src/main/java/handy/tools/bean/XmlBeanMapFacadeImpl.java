@@ -6,11 +6,12 @@ import handy.tools.interfaces.templates.XmlBeanTemplate;
 import handy.tools.parser.XmlBeanMapParser;
 
 
+
 /** 
 * @ClassName: XmlBeanMapFacadeImpl 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:24:43 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:16:28 
 *  
 */
 public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTemplate {

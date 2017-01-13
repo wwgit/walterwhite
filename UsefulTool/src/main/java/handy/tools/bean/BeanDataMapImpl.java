@@ -7,15 +7,16 @@ import java.util.Map;
 
 import handy.tools.interfaces.bean.BeanDataMap;
 
+
+
+
 /** 
 * @ClassName: BeanDataMapImpl 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:22:56 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:16:08 
 *  
 */
-
-
 public class BeanDataMapImpl extends BeanDataMap {
 
 

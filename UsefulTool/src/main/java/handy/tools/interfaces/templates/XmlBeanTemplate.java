@@ -4,9 +4,11 @@ package handy.tools.interfaces.templates;
 * @ClassName: XmlBeanTemplate 
 * @Description: TODO(provides xml bean template for initializing ) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:28:43 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:18:14 
 *  
 */
+
+
 public interface XmlBeanTemplate {
 	
 	/** 

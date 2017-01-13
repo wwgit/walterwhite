@@ -2,11 +2,12 @@ package handy.tools.parser;
 
 import handy.tools.helpers.XmlHelper;
 
+
 /** 
 * @ClassName: XmlParser 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:45:02 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:09:33 
 *  
 */
 public abstract class XmlParser extends XmlHelper {

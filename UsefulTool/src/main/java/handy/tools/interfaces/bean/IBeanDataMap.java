@@ -3,11 +3,12 @@ package handy.tools.interfaces.bean;
 import java.util.List;
 import java.util.Map;
 
+
 /** 
 * @ClassName: IBeanDataMap 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:16:56 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:12:35 
 *  
 */
 public interface IBeanDataMap {

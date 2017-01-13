@@ -1,20 +1,14 @@
-/**   
-* @Title: AnnoVerifyHandler.java 
-* @Package handy.tools.annotations.verify 
-* @Description: TODO(what to do) 
-* @author walterwhite
-* @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç8:49:49 
-* @version V1.0   
-*/
+
 package handy.tools.annotations.verify;
 
+
 /** 
- * @ClassName: AnnoVerifyHandler 
- * @Description: TODO(what to do) 
- * @author walterwhite
- * @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç8:49:49 
- *  
- */
+* @ClassName: AnnoVerifyHandler 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:16:40 
+*  
+*/
 public abstract class AnnoVerifyHandler {
 	
 	

@@ -12,9 +12,10 @@ package handy.tools.interfaces.templates;
  *   user1.Test.User.name=example
 * 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:30:58 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:10:56
 *  
 */
+
 public interface IPropBeanTemplate {
 	
 	/** 

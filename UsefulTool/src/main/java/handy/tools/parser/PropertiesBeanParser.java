@@ -29,9 +29,11 @@ import handy.tools.interfaces.templates.IPropBeanTemplate;
 * user1.Test.User.name=example
 * 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:43:34 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:10:23 
 *  
 */
+
+
 public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapParser, IPropBeanTemplate, IPropBeanTempSetter {
 
 	private String beanIdTab;

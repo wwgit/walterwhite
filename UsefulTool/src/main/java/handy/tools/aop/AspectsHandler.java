@@ -3,18 +3,19 @@
 * @Package handy.tools.aop 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç6:28:42 
+* @date 2017ï¿½ï¿½1ï¿½ï¿½10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½6:28:42 
 * @version V1.0   
 */
 package handy.tools.aop;
 
+
 /** 
- * @ClassName: AspectsHandler 
- * @Description: TODO(what to do) 
- * @author walterwhite
- * @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç6:28:42 
- *  
- */
+* @ClassName: AspectsHandler 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:15:01 
+*  
+*/
 public abstract class AspectsHandler {
 	
 	public static void argCheck(Object args) throws Exception {

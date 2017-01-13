@@ -1,11 +1,13 @@
 package handy.tools.interfaces.templates;
 
 
+
+
 /** 
 * @ClassName: IPropBeanTempSetter 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:32:58 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:11:13 
 *  
 */
 public interface IPropBeanTempSetter {

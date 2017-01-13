@@ -3,7 +3,7 @@
 * @Package handy.tools.annotations 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç7:56:38 
+* @date 2017ï¿½ï¿½1ï¿½ï¿½10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½7:56:38 
 * @version V1.0   
 */
 package handy.tools.annotations;
@@ -13,14 +13,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/** 
- * @ClassName: MethodArgs 
- * @Description: TODO(what to do) 
- * @author walterwhite
- * @date 2017Äê1ÔÂ10ÈÕ ÏÂÎç7:56:38 
- *  
- */
 
+
+/** 
+* @ClassName: MethodArgs 
+* @Description: TODO(what to do) 
+* @author walterwhite
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:15:13 
+*  
+*/
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MethodArgs {

@@ -5,11 +5,12 @@ import handy.tools.constants.Bean;
 import java.util.List;
 import java.util.Map;
 
+
 /** 
 * @ClassName: BeanDataMap 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:13:35 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:11:55 
 *  
 */
 public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, Bean {

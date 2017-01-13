@@ -1,11 +1,12 @@
 package handy.tools.interfaces.bean;
 
 
+
 /** 
 * @ClassName: IBeanMapFacade 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:16:46 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:12:52 
 *  
 */
 public interface IBeanMapFacade {

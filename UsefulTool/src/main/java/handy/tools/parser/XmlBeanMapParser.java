@@ -17,12 +17,12 @@ import handy.tools.interfaces.templates.IXmlBeanTempSetter;
 import handy.tools.interfaces.templates.XmlBeanTemplate;
 
 
+
 /** 
 * @ClassName: XmlBeanMapParser 
 * @Description: TODO(what to do) 
-*
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:34:09 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:10:02 
 *  
 */
 public class XmlBeanMapParser extends XmlParser implements Bean, 

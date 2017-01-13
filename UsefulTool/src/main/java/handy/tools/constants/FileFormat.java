@@ -1,10 +1,11 @@
 package handy.tools.constants;
 
+
 /** 
 * @ClassName: FileFormat 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:25:22 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:14:38 
 *  
 */
 public interface FileFormat {

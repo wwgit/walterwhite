@@ -3,11 +3,12 @@ package handy.tools.interfaces.bean;
 import java.util.List;
 import java.util.Map;
 
+
 /** 
 * @ClassName: IBeanInfoMapParser 
-* @Description: TODO(provides reading and writing methods for visitors) 
+* @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:16:35 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:17:39 
 *  
 */
 public interface IBeanInfoMapParser {

@@ -4,11 +4,12 @@ import handy.tools.bean.PropBeanMapFacadeImpl;
 import handy.tools.interfaces.bean.BeanFactory;
 
 
+
 /** 
 * @ClassName: PropertiesBeanFactory 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:25:49 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:13:54 
 *  
 */
 public class PropertiesBeanFactory extends BeanFactory {

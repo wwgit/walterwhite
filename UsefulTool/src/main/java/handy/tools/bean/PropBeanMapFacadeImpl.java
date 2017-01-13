@@ -6,11 +6,12 @@ import handy.tools.interfaces.templates.IPropBeanTemplate;
 import handy.tools.parser.PropertiesBeanParser;
 
 
+
 /** 
 * @ClassName: PropBeanMapFacadeImpl 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:24:37 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:16:22 
 *  
 */
 public class PropBeanMapFacadeImpl extends BeanMapFacade implements IPropBeanTemplate {

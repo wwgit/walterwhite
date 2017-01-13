@@ -3,11 +3,12 @@ package handy.tools.bean;
 import handy.tools.interfaces.bean.BeanInfoMapCommon;
 
 
+
 /** 
 * @ClassName: BeanInfoMapImpl 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:24:29 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:16:16 
 *  
 */
 public class BeanInfoMapImpl extends BeanInfoMapCommon {

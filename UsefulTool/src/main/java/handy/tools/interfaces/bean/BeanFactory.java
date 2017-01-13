@@ -7,7 +7,7 @@ package handy.tools.interfaces.bean;
 * @ClassName: BeanFactory 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç2:17:29 
+* @date 2017å¹´1æœˆ13æ—¥ ä¸‹åˆ2:12:05 
 *  
 */
 public abstract class BeanFactory {
