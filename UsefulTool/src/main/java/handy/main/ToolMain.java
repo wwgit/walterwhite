@@ -30,12 +30,12 @@ public class ToolMain {
 //				, new String[]{}, "java.util.List");
 		
 		//JavassistHelper.test();
-		String clazName = "handy.tools.helpers.DbHelper";
+//		String clazName = "handy.tools.helpers.BasicHelper";
 		//Class<?> claaz = Class.forName(clazName).getM
 
-		JavassistHelper.InitNonDefPool();
-		JavassistHelper.classMethodAddBefore(clazName,
-											"{handy.tools.aop.AspectsHandler.argCheck($$);}");
+//		JavassistHelper.InitNonDefPool();
+//		JavassistHelper.classMethodAddBefore(clazName,
+//											"{handy.tools.aop.AspectsHandler.argCheck($$);}");
 //		JavassistHelper.getClassPool().appendClassPath(classRootPath);
 		//JavassistHelper.testInsertBefore(clazName, "- a mark of insert before data ",classRootPath);
 		

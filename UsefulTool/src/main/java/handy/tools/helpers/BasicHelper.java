@@ -54,6 +54,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		return path;
 	}
 	
+	@MethodArgs
 	public static String UpperCaseFirstChar(String str) {
 		
 		StringBuilder sb = new StringBuilder(str);
@@ -99,6 +100,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		return requiredClz;
 	}
 	
+	@MethodArgs
 	public int getFileSuffix(String filePath) {
 		
 		if(filePath.endsWith("properties")) {
@@ -135,6 +137,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		return rtnMap;
 	}
 	
+	@MethodArgs
 	public static Map<String,Object> StrObjArrayToHashMap(String[] keys, Object[] values) throws Exception {
 		Map<String,Object> rtnMap = null;
 		if(keys.length != values.length) {

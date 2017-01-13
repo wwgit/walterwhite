@@ -52,7 +52,7 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 				System.out.println("ready to modify class Name:" + theCtClazz.getName());
 				if(theCtClazz.getName().endsWith("Helper")) {
 					JavassistHelper.classMethodAddBefore(theCtClazz.getName(),
-								"{handy.tools.aop.AspectsHandler.argCheck($$);}");
+							"{handy.tools.aop.AspectsHandler.argCheck($$);}");
 				}
 			}
 			System.out.println("save the modification !");
@@ -66,8 +66,7 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}	
 		
 		return tranformed;
 	}

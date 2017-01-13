@@ -103,7 +103,8 @@ public abstract class JavassistHelper {
 			Object anno = method.getAnnotation(MethodArgs.class);
 			if(anno instanceof MethodArgs) {
 				System.out.println("anno MethodArgs found, calling methodInsert:" + method.getName());
-				methodInsert(method,aspect);
+				methodInsert(method,
+						aspect);
 			}
 		}
 		
