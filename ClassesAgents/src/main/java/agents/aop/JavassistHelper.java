@@ -1,4 +1,4 @@
-package aop;
+package agents.aop;
 
 import java.io.IOException;
 import javassist.CannotCompileException;

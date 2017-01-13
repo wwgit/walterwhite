@@ -6,7 +6,7 @@
 * @date 2017��1��10�� ����7:56:38 
 * @version V1.0   
 */
-package annotations;
+package agents.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

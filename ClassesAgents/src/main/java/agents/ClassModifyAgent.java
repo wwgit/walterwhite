@@ -32,7 +32,8 @@ public class ClassModifyAgent {
 	 * @throws 
 	 */
 	public static void premain(String agentArgs, Instrumentation _inst) {
-
+		
+		System.out.println("agentArgs: " + agentArgs);
 		// Initialize the static variables we use to track information.  
 		Instrumentation inst = _inst;
 		ClassFileTransformer trans = new ClassModifyTransformer();

@@ -3,6 +3,7 @@ package handy.main;
 import java.util.HashMap;
 import java.util.Map;
 
+import handy.tools.helpers.BasicHelper;
 import handy.tools.helpers.JavassistHelper;
 
 /** 
@@ -50,7 +51,7 @@ public class ToolMain {
 		
 		//JavassistHelper.testInsertAfter(clazName, "- a mark of insert after data ",classRootPath);
 		//TRY TEST AFTER INSERT
-		//BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
+		BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
 		//TypeHelper.getRequiredValue(1, "java.lang.String");
 		//TypeHelper.parseType("asdf");
 		
