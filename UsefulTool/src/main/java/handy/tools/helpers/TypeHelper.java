@@ -33,6 +33,30 @@ public abstract class TypeHelper extends BasicHelper {
 		return types;
 	}
 	
+	public static boolean isBasicOrBasicArray(Class<?> type) {
+		
+		if(type.isPrimitive()) {
+			return true;
+		} else {
+			if(type.equals(int[].class)) {
+				return true;
+			} else if(type.equals(long[].class)) {
+				return true;
+			} else if(type.equals(double[].class)) {
+				return true;
+			} else if(type.equals(float[].class)) {
+				return true;
+			} else if(type.equals(byte[].class)) {
+				return true;
+			} else if(type.equals(char[].class)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
+	
 	
 	public static int parseComplex(int flag) {
 		

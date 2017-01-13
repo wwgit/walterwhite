@@ -1,10 +1,9 @@
 
-package handy.tools.annotations.verify;
-
-import handy.tools.annotations.MethodArgs;
-import handy.tools.helpers.JavassistHelper;
+package annotations;
 
 import java.lang.reflect.Method;
+
+import aop.JavassistHelper;
 
 
 /** 

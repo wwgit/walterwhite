@@ -8,6 +8,7 @@
 */
 package agents;
 
+import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 
 /** 
@@ -34,8 +35,9 @@ public class ClassModifyAgent {
 
 		// Initialize the static variables we use to track information.  
 		Instrumentation inst = _inst;
-		
-		
+		ClassFileTransformer trans = new ClassModifyTransformer();
+		System.out.println("Adding a ClassModifyTransformer instance to the JVM.");
+		inst.addTransformer(trans);
 	}
 
 }

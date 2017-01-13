@@ -8,9 +8,15 @@
 */
 package agents;
 
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+
+import javassist.CannotCompileException;
+import javassist.CtClass;
+import annotations.AnnoVerifyHandler;
+import aop.JavassistHelper;
 
 /** 
  * @ClassName: ClassModifyTransform 
@@ -28,7 +34,31 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 			Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
 			byte[] classfileBuffer) throws IllegalClassFormatException {
 		
-		return null;
+		JavassistHelper.InitNonDefPool();
+		CtClass theCtClazz = null;
+		byte[] tranformed = null;
+		
+		try {
+			theCtClazz = JavassistHelper.getClassPool().makeClass(new java.io.ByteArrayInputStream(  
+			        classfileBuffer));
+			if(theCtClazz.isInterface() == false) {
+				AnnoVerifyHandler.MethodAnnoChk(theCtClazz.getName());
+			}
+			tranformed = theCtClazz.toBytecode();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CannotCompileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return tranformed;
 	}
 	
 	
