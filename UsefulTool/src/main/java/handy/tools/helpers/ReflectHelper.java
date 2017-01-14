@@ -1,5 +1,7 @@
 package handy.tools.helpers;
 
+import handy.tools.annotations.MethodArgs;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.Map;
 
 public abstract class ReflectHelper extends FundationHelper {
 	
-	
+	@MethodArgs
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
@@ -15,7 +17,7 @@ public abstract class ReflectHelper extends FundationHelper {
 		doOneDeclareMethodCall(beanObj, setterName, requiredType, propertyValue);
 		
 	}
-	
+	@MethodArgs
 	public static void callSetter(Object beanObj, String propertyName, Map<Object, Class<?>> values) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
@@ -29,6 +31,7 @@ public abstract class ReflectHelper extends FundationHelper {
 	/*type,value,type,value,type.value....
 	 * 
 	 * */
+	@MethodArgs
 	public static void doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
 		
 		Class<?>[] typeClazzes = null;
@@ -43,7 +46,7 @@ public abstract class ReflectHelper extends FundationHelper {
 			
 			for(int i = 0,j = 0; i < paramPairs.length; i+=2,j++) {
 				
-				typeClazzes[i] = getRequireClass(paramPairs[i]);				
+				typeClazzes[i] = TypeHelper.getRequireClass(paramPairs[i]);				
 				//flag = TypeHelper.parseType(paramPairs[i]);
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);
 			}
@@ -88,6 +91,7 @@ public abstract class ReflectHelper extends FundationHelper {
 	/*map structure of one bean property: key-value = property name(key) - property type(value)
 	 * 
 	 * */
+	@MethodArgs
 	public static Map<String, Class<?>> retrieveBeanPropertyTypes(Class<?> beanClaz) {
 
 		Field[] fields = beanClaz.getDeclaredFields();

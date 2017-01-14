@@ -8,6 +8,7 @@ import handy.tools.db.TestBean;
 import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.JavassistHelper;
 import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.ReflectHelper;
 
 /** 
 * @ClassName: ToolMain 
@@ -27,9 +28,11 @@ public class ToolMain {
 		 * 
 		 * */
 		FundationHelper.UpperCaseFirstChar("helloWorld !");
+		TestBean bean = new TestBean();
+		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
 		PathHelper.resolveAbsolutePath("config/db.properties");
 		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
-		TestBean bean = new TestBean();
+		
 		bean.setTestAnno("test aop");
 		bean.getFileSuffix("abc.xml");
 		//System.out.println(bean.getTestAnno());

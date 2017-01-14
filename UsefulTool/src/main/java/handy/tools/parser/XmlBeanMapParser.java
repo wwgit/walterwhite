@@ -10,7 +10,7 @@ import org.dom4j.Element;
 
 import handy.tools.constants.Bean;
 import handy.tools.helpers.FundationHelper;
-import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.TypeHelper;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.bean.IBeanInfoMapParser;
 import handy.tools.interfaces.templates.IXmlBeanTempSetter;
@@ -207,7 +207,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 			for(int i = 0; i < myBeanElements.size(); i++) {
 				Element e = myBeanElements.get(i);
 				beansClazzes.put(createUniqBeanIdWithAttri(e,uniqueStr),
-								XmlHelper.getRequireClass(e.attributeValue(
+								TypeHelper.getRequireClass(e.attributeValue(
 														  this.getXmlAttriBeanClazzTab())));
 			}
 		} catch(Exception e) {

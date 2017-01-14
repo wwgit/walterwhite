@@ -49,7 +49,7 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 				return classfileBuffer;
 			}
 			if(theCtClazz.isInterface() == false) {
-				System.out.println("ready to modify class Name: " + theCtClazz.getName());
+//				System.out.println("ready to modify class Name: " + theCtClazz.getName());
 				if(theCtClazz.getName().startsWith("handy")) {
 					JavassistHelper.classMethodAddBefore(theCtClazz,
 							"{handy.tools.aop.AspectsHandler.argCheck($$);}");

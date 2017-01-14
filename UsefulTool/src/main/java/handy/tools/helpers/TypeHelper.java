@@ -1,6 +1,7 @@
 package handy.tools.helpers;
 
 import handy.tools.annotations.MethodArgs;
+import handy.tools.constants.DataTypes;
 import handy.tools.db.ComplexValue;
 
 import java.math.BigDecimal;
@@ -9,9 +10,9 @@ import java.util.Map;
 
 import javafx.util.converter.BigDecimalStringConverter;
 
-public abstract class TypeHelper extends FundationHelper {
+public abstract class TypeHelper implements DataTypes {
 	
-	@MethodArgs
+//	@MethodArgs
 	public static int[] getDataTypes(Map<?,?> data) {
 		
 		int[] types = new int[data.size()];
@@ -24,7 +25,7 @@ public abstract class TypeHelper extends FundationHelper {
 		return types;
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static int[] getDataTypes(Object[] data) {
 		
 		int[] types = new int[data.length];
@@ -80,7 +81,7 @@ public abstract class TypeHelper extends FundationHelper {
 
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static int parseComplex(int flag) {
 		
 		if(flag == 0) {
@@ -195,7 +196,7 @@ public abstract class TypeHelper extends FundationHelper {
 		return value;
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static Object getRequiredValue(int origin_value, String requiredType) {
 		int require_flag = parseType(requiredType);
 		Object value = null;
@@ -243,6 +244,42 @@ public abstract class TypeHelper extends FundationHelper {
 		
 		Object value = getRequiredValue(str, requiredType);		
 		return value;
+	}
+	
+//	@MethodArgs
+	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
+		
+		Class<?> requiredClz = null;
+		int dataType = parseType(type);
+		
+		switch(dataType) {
+		case DataTypes.JAVA_BASIC_INT:
+			requiredClz = int.class;
+			break;
+		case DataTypes.JAVA_BASIC_DOUBLE:
+			requiredClz = double.class;
+			break;
+		case DataTypes.JAVA_BASIC_LONG:
+			requiredClz = long.class;
+			break;
+		case DataTypes.JAVA_LANG_INTEGER:
+			requiredClz = Integer.class;
+			break;
+		case DataTypes.JAVA_LANG_DOUBLE:
+			requiredClz = Double.class;
+			break;
+		case DataTypes.JAVA_LANG_LONG:
+			requiredClz = Long.class;
+			break;	
+		case DataTypes.JAVA_LANG_STRING:
+			requiredClz = String.class;
+			break;	
+		default:
+			requiredClz = Class.forName(type);
+			break;
+		}
+		System.out.println("checkpoint before return !");
+		return requiredClz;
 	}
 
 }

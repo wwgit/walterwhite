@@ -3,7 +3,7 @@ package store.db.sql;
 import static org.junit.Assert.*;
 import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.factorties.XmlBeanFactory;
-import handy.tools.helpers.BasicHelper;
+import handy.tools.helpers.FundationHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ import store.db.sql.testdata.TestDataCreator;
 * @ClassName: SQLknowledgeTest 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç6:36:37 
+* @date 2017ï¿½ï¿½1ï¿½ï¿½9ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½6:36:37 
 *  
 */
 public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
@@ -111,8 +111,8 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		Map<String,String> columns_types = null;
 		List<Map<String,Object>> batchData = null;
 		try {
-			columns_values = BasicHelper.StrObjArrayToHashMap(condColumns, condValues);
-			columns_types = BasicHelper.StrArrayToHashMap(condColumns, colTypes);
+			columns_values = FundationHelper.StrObjArrayToHashMap(condColumns, condValues);
+			columns_types = FundationHelper.StrArrayToHashMap(condColumns, colTypes);
 			batchData = TestDataCreator.rowDataGenerateUTF8(500000, columns_types);
 		} catch (Exception e) {
 			reportFailure(e);
