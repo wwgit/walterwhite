@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class DbHelper extends BasicHelper {
+public abstract class DbHelper extends FundationHelper {
 		
 	/*Debug has been done
 	 * 

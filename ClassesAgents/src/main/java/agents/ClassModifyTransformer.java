@@ -49,13 +49,15 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 				return classfileBuffer;
 			}
 			if(theCtClazz.isInterface() == false) {
-				System.out.println("ready to modify class Name:" + theCtClazz.getName());
-				if(theCtClazz.getName().endsWith("Helper")) {
-					JavassistHelper.classMethodAddBefore(theCtClazz.getName(),
+				System.out.println("ready to modify class Name: " + theCtClazz.getName());
+				if(theCtClazz.getName().startsWith("handy")) {
+					JavassistHelper.classMethodAddBefore(theCtClazz,
 							"{handy.tools.aop.AspectsHandler.argCheck($$);}");
 				}
+				/*JavassistHelper.classMethodAddBefore(theCtClazz,
+						"{handy.tools.aop.AspectsHandler.argCheck($$);}");*/
 			}
-			System.out.println("save the modification !");
+			
 			tranformed = theCtClazz.toBytecode();
 			
 		} catch (IOException e) {

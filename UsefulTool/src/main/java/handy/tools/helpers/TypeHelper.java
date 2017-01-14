@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javafx.util.converter.BigDecimalStringConverter;
 
-public abstract class TypeHelper extends BasicHelper {
+public abstract class TypeHelper extends FundationHelper {
 	
 	@MethodArgs
 	public static int[] getDataTypes(Map<?,?> data) {

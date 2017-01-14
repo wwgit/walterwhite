@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ReflectHelper extends BasicHelper {
+public abstract class ReflectHelper extends FundationHelper {
 	
 	
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {

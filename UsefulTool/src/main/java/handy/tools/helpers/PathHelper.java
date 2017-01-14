@@ -1,11 +1,14 @@
 package handy.tools.helpers;
 
+import handy.tools.annotations.MethodArgs;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public abstract class PathHelper extends FileHelper {
 	
+	@MethodArgs
 	public static String resolveAbsolutePath(String relativePath) {
 				
 		String path = null;

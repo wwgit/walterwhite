@@ -3,8 +3,11 @@ package handy.main;
 import java.util.HashMap;
 import java.util.Map;
 
-import handy.tools.helpers.BasicHelper;
+import handy.tools.bean.XmlBeanMapFacadeImpl;
+import handy.tools.db.TestBean;
+import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.JavassistHelper;
+import handy.tools.helpers.PathHelper;
 
 /** 
 * @ClassName: ToolMain 
@@ -23,7 +26,13 @@ public class ToolMain {
 		 * example of using javassist - aop programing
 		 * 
 		 * */
-		
+		FundationHelper.UpperCaseFirstChar("helloWorld !");
+		PathHelper.resolveAbsolutePath("config/db.properties");
+		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
+		TestBean bean = new TestBean();
+		bean.setTestAnno("test aop");
+		bean.getFileSuffix("abc.xml");
+		//System.out.println(bean.getTestAnno());
 		
 //		ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 
 //				"newInstance","{List obj = new ArrayList<>();return obj;}"
@@ -41,7 +50,8 @@ public class ToolMain {
 		
 		//JavassistHelper.testInsertAfter(clazName, "- a mark of insert after data ",classRootPath);
 		//TRY TEST AFTER INSERT
-		BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
+		//BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
+		
 		//TypeHelper.getRequiredValue(1, "java.lang.String");
 		//TypeHelper.parseType("asdf");
 		

@@ -4,11 +4,13 @@ import handy.tools.annotations.AnnoFieldTest;
 import handy.tools.annotations.AnnoMethodTest;
 import handy.tools.annotations.AnnoTypeTest;
 import handy.tools.annotations.AnnoTypeTest.EnumData;
+import handy.tools.annotations.MethodArgs;
+import handy.tools.helpers.FundationHelper;
 
 @AnnoTypeTest(testString = "overrides default value",
 			  testInt=1,
 			  testClazz=TestBean.class, testEnum=EnumData.ENUM3)
-public class TestBean {
+public class TestBean extends FundationHelper {
 	
 	//@AnnoFieldTest
 	private Testing config;
@@ -31,6 +33,7 @@ public class TestBean {
 		return testAnno;
 	}
 
+	@MethodArgs
 	public void setTestAnno(String testAnno) {
 		this.testAnno = testAnno;
 	}

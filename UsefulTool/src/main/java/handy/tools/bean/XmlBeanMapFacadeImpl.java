@@ -1,5 +1,6 @@
 package handy.tools.bean;
 
+import handy.tools.annotations.MethodArgs;
 import handy.tools.interfaces.bean.BeanMapFacade;
 import handy.tools.interfaces.templates.IXmlBeanTempSetter;
 import handy.tools.interfaces.templates.XmlBeanTemplate;
@@ -30,6 +31,7 @@ public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTempla
 		} 
 	}
 	
+	
 	public XmlBeanMapFacadeImpl(String filePath) {
 		setBeanData(new BeanDataMapImpl(filePath));
 		loadBeans(filePath);
@@ -48,7 +50,7 @@ public class XmlBeanMapFacadeImpl extends BeanMapFacade implements XmlBeanTempla
 		setBeanData(new BeanDataMapImpl());
 	}
 
-	@Override
+	@Override @MethodArgs
 	protected void loadBeanTemplate(String filePath) {
 		
 		IXmlBeanTempSetter setter = (IXmlBeanTempSetter) this.getBeanParser();

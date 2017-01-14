@@ -10,7 +10,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-public abstract class ExcelHelper extends BasicHelper {
+public abstract class ExcelHelper extends FundationHelper {
 	
 	public static boolean isXls(String excelPath) {
 		

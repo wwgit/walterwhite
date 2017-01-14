@@ -18,7 +18,7 @@ import handy.tools.constants.TxTFile;
 * @date 2017年1月13日 下午2:13:10 
 *  
 */
-public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
+public abstract class FundationHelper implements TxTFile, FileFormat, DataTypes {
 	
 
 	/** 
@@ -29,7 +29,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 	* @return String   
 	* @throws 
 	*/
-	@MethodArgs
+//	@MethodArgs
 	public static String GetAbsoluteFilePath(String filePath) {
 		
 		String path = null;
@@ -59,12 +59,12 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		
 		StringBuilder sb = new StringBuilder(str);
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-		
+		System.out.println(sb.toString());
 		return sb.toString();
 		
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
 		
 		Class<?> requiredClz = null;
@@ -100,7 +100,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		return requiredClz;
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public int getFileSuffix(String filePath) {
 		
 		if(filePath.endsWith("properties")) {
@@ -116,7 +116,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static Map<String,String> StrArrayToHashMap(String[] keys, String[] values) throws Exception {
 		Map<String,String> rtnMap = null;
 		if(keys.length != values.length) {
@@ -137,7 +137,7 @@ public abstract class BasicHelper implements TxTFile, FileFormat, DataTypes {
 		return rtnMap;
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static Map<String,Object> StrObjArrayToHashMap(String[] keys, Object[] values) throws Exception {
 		Map<String,Object> rtnMap = null;
 		if(keys.length != values.length) {

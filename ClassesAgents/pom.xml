@@ -35,7 +35,8 @@
           	        <!-- Configuration of the archiver -->
           	        <archive>
           	            <manifestEntries>
-          	                <Premain-Class>agents.ClassModifyAgent</Premain-Class> 
+          	                <Premain-Class>agents.ClassModifyAgent</Premain-Class>
+          	                 <Can-Redefine-Classes>true</Can-Redefine-Classes>
           	            </manifestEntries>
           	        </archive>
           	    </configuration>
@@ -55,12 +56,12 @@
           	        <archive>
           	            <manifestEntries>
           	                <Premain-Class>agents.ClassModifyAgent</Premain-Class> 
-        	              
+        	              	<Can-Redefine-Classes>true</Can-Redefine-Classes>
           	            </manifestEntries>
           	        </archive>
                     <descriptorRefs>
           				<descriptorRef>jar-with-dependencies</descriptorRef>
-        			</descriptorRefs>				
+        			</descriptorRefs>			
                	</configuration>
                	<executions>
 	                    <execution>

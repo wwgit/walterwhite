@@ -110,6 +110,20 @@ public abstract class JavassistHelper {
 		
 	}
 	
+	public static void classMethodAddBefore(CtClass ctClazz, String aspect) throws Exception {
+		
+		CtMethod[] methods = ctClazz.getDeclaredMethods();
+		for(CtMethod method : methods) {
+			Object anno = method.getAnnotation(MethodArgs.class);
+			if(anno instanceof MethodArgs) {
+				System.out.println("anno MethodArgs found, calling methodInsert:" + method.getName());
+				methodInsert(method,
+						aspect);
+			}
+		}
+		
+	}
+	
 	public static void methodInsert(CtMethod method, String aspect) throws Exception {
 		
 		CtClass[] paramTypes = method.getParameterTypes();
@@ -123,7 +137,7 @@ public abstract class JavassistHelper {
 			if(TypeHelper.isBasicOrBasicArray(paramType.getName())) return;			
 		}
 		method.insertBefore(aspect);
-      	
+		System.out.println("save the modification !");
 	}
 	
 

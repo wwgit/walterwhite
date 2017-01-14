@@ -9,7 +9,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import handy.tools.constants.Bean;
-import handy.tools.helpers.BasicHelper;
+import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.XmlHelper;
 import handy.tools.interfaces.bean.IBeanInfoMapParser;
@@ -467,7 +467,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 	}
 	
 	private void loadBeanTemplate() {
-		BasicHelper.GetAbsoluteFilePath("/");
+		FundationHelper.GetAbsoluteFilePath("/");
 		//load bean related template
 		setXmlBeansTab(XML_BEANS_TAB);
 		setXmlBeanTab(XML_BEAN_TAB);		
