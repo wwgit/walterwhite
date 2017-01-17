@@ -85,7 +85,7 @@ public abstract class SQLDefinition {
 		return sb.toString();
 	}
 	
-	public String generateSimpleFieldsForUpdate(Object[] updateValues) {
+	private String generateSimpleFieldsForUpdate(Object[] updateValues) {
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -101,7 +101,14 @@ public abstract class SQLDefinition {
 			sb.append(" ");
 			sb.append(generateSimpleFieldsForUpdate(updateValues));
 		}
-		
+		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
+			sb.append(" ");
+			sb.append(this.generateSQLTail());
+		}
+		if(null != this.getWhereConditions()) {
+			sb.append(" ");
+			sb.append(this.getWhereConditions().generateSimpleWhere(whereValues));
+		}	
 		return sb.toString();
 	}
 	

@@ -18,7 +18,7 @@ package store.db.sql.beans;
 public class WhereDefinition {
 	
 	/** 
-	* @Fields whereConditions :  where field-a= and/or, field-b<> and/or, field-c< and/or, field-d in, field-e=
+	* @Fields whereConditions :  where field-a= and/or, field-b<> and/or, field-c< and/or, field-e=
 	*/ 
 	private String whereConditions;
 	
@@ -41,7 +41,7 @@ public class WhereDefinition {
 	* @throws 
 	*/
 	public String generateWhereConditions() {
-		
+		String[] conds = whereConditions.split(",");
 		return whereConditions;
 		
 	}
