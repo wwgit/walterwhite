@@ -15,7 +15,6 @@ import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 
-
 /** 
 * @ClassName: JavassistHelper 
 * @Description: TODO(what to do) 
@@ -157,72 +156,5 @@ public abstract class JavassistHelper {
     	method.insertBefore(aspects);
     	
     }
-   
-	
-	public static void testInsertBefore(String clazName, String mark, String absolutePath) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException {
-		//ClassPool cp = new ClassPool(true);
-		CtClass ctClaz = cp.getCtClass(clazName);
-		CtMethod[] ctMethods = ctClaz.getDeclaredMethods();
-		CtClass[] ctInterfaces = ctClaz.getInterfaces();
-		String insertAspect = "{ System.out.println(\"" + mark + "\" + $1); }";
-		String argChkAspect = "{ handy.tools.aop.AspectsHandler.argCheck($$);}";
-		
-		String methodFlag = "markToAvoidDuplicateModificationBefore";
-		for(CtMethod method : ctMethods) {
-				
-			if(methodFlag.equals(method.getName())) {
-				System.out.println("finding method: " + method.getName());
-				System.out.println("has inserted");
-				return;
-			}
-		}
-		
-		CtMethod newCtMethodFlag = CtNewMethod.make("public void " + methodFlag + "(int arg1){}", ctClaz);
-		ctClaz.addMethod(newCtMethodFlag);
-		
-		for(CtMethod method : ctMethods) {
-			System.out.println("inserting aspect: to " + method.getName());
-			//System.out.println(insertAspect);
-
-			method.insertBefore(insertAspect);
-			method.insertBefore(argChkAspect);
-		}
-
-		ctClaz.writeFile(absolutePath);
-		ctClaz.defrost();
-		
-	}
-	
-	public static void testInsertAfter(String clazName, String mark, String absolutePath) throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException {
-		//ClassPool cp = new ClassPool(true);
-		CtClass ctClaz = cp.getCtClass(clazName);
-		CtMethod[] ctMethods = ctClaz.getDeclaredMethods();
-		CtClass[] ctInterfaces = ctClaz.getInterfaces();
-		String insertAspect = "{ System.out.println(\"" + mark + "\"  + $class.getName()); }";
-		String argChkAspect = "{ AspectsHandler.argCheck($$);}";
-		
-		String methodFlag = "markToAvoidDuplicateModificationAfter";
-		for(CtMethod method : ctMethods) {
-				
-			if(methodFlag.equals(method.getName())) {
-				System.out.println("finding method: " + method.getName());
-				System.out.println("has inserted");
-				return;
-			}
-		}
-		
-		CtMethod newCtMethodFlag = CtNewMethod.make("public void " + methodFlag + "(int arg1){}", ctClaz);
-		ctClaz.addMethod(newCtMethodFlag);
-		
-		for(CtMethod method : ctMethods) {
-			System.out.println("inserting aspect: to " + method.getName());
-			//System.out.println(insertAspect);
-			method.insertAfter(insertAspect,true);
-		}
-
-		ctClaz.writeFile(absolutePath);
-		ctClaz.defrost();
-		
-	}	
 	
 }
