@@ -46,4 +46,17 @@ public class WhereDefinition {
 		
 	}
 	
+	/** 
+	* @Title: generateSimpleWhere 
+	* @Description: TODO(what to do) 
+	* @param @param values
+	* @param @return  
+	* @return String   
+	* @throws 
+	*/
+	public String generateSimpleWhere(Object[] values) {
+		
+		return whereConditions;
+	}
+	
 }

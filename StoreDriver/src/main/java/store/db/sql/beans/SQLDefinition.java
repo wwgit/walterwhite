@@ -38,6 +38,8 @@ public abstract class SQLDefinition {
 	private WhereDefinition whereConditions;
 	
 	public abstract String generateUsedFieldsStatment();
+	public abstract String generateSQLTail();
+	public abstract String generateSimpleSQL();
 	
 	/** 
 	* @Title: generateSQLHeader 
@@ -62,13 +64,64 @@ public abstract class SQLDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public String generateSQLStatment() {
+	public String generatePrepareSQLStatment() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(this.generateSQLHeader());		
+		if(null != this.getUsedFields()) {
+			sb.append(" ");
+			sb.append(this.generateUsedFieldsStatment());
+		}
+		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
+			sb.append(" ");
+			sb.append(this.generateSQLTail());
+		}
+		if(null != this.getWhereConditions()) {
+			sb.append(" ");
+			sb.append(this.getWhereConditions().generateWhereConditions());
+		}	
+		
+		return sb.toString();
+	}
+	
+	public String generateSimpleFieldsForUpdate(Object[] updateValues) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		return sb.toString();
+	}
+	
+	public String generateSimpleSQL(Object[] updateValues, Object[] whereValues) {
 		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(this.generateSQLHeader());
-		sb.append(" ");
+		if(null != this.getUsedFields()) {
+			sb.append(" ");
+			sb.append(generateSimpleFieldsForUpdate(updateValues));
+		}
 		
+		return sb.toString();
+	}
+	
+	public String generateSimpleSQL(Object[] whereValues) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(this.generateSQLHeader());		
+		if(null != this.getUsedFields()) {
+			sb.append(" ");
+			sb.append(this.generateUsedFieldsStatment());
+		}
+		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
+			sb.append(" ");
+			sb.append(this.generateSQLTail());
+		}
+		if(null != this.getWhereConditions()) {
+			sb.append(" ");
+			sb.append(this.getWhereConditions().generateSimpleWhere(whereValues));
+		}	
 		
 		return sb.toString();
 	}
