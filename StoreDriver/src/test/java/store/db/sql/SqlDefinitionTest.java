@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import store.db.sql.beans.DbConfig;
+import store.db.sql.beans.InsertSQL;
 import store.db.sql.beans.SQLDefinition;
 import store.db.sql.beans.SelectSQL;
 import store.db.sql.beans.WhereDefinition;
@@ -80,6 +81,18 @@ public class SqlDefinitionTest {
 		System.out.println("select SQL test: " + selectSQL.generatePrepareSQLStatment());
 		System.out.println("select SQL test: " + selectSQL.generateSimpleSQL(values));	
 		
+	}
+	
+	@Test
+	public void InsertSQLTest() {
+		String usedFields = "field-a,field-b,field-c,field-d";
+		
+		SQLDefinition insertSQL = new InsertSQL();
+		insertSQL.setDbName("testperf");
+		insertSQL.setTableName("user_base_info");
+		insertSQL.setUsedFields(usedFields);
+		
+		System.out.println(insertSQL.generatePrepareSQLStatment());
 	}
 	
 

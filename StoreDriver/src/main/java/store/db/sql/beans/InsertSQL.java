@@ -17,6 +17,8 @@ package store.db.sql.beans;
  */
 public class InsertSQL extends SQLDefinition {
 
+	private int howManyFields;	
+	
 	public void setSQLKeyword() {
 		this.setSQLKeyword("INSERT");
 	}
@@ -24,15 +26,22 @@ public class InsertSQL extends SQLDefinition {
 	public InsertSQL() {
 		this.setSQLKeyword();
 	}
-	
-	
+		
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateUsedFieldsStatment()
 	 */
 	@Override
 	public String generateUsedFieldsStatment() {
+		StringBuilder sb = new StringBuilder();
+		if(null != this.getUsedFields()) {
+			sb.append("(");
+			sb.append(this.getUsedFields());
+			sb.append(") VALUES");
+		} else {
+			sb.append(" VALUES");
+		}
 		
-		return null;
+		return sb.toString();
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +50,23 @@ public class InsertSQL extends SQLDefinition {
 	@Override
 	public String generateSQLTail() {
 		
-		return null;
+		int fieldsCnt = 0;
+		if(null != this.getUsedFields()) {
+			fieldsCnt = this.getUsedFields().split(",").length;
+		} else {
+			fieldsCnt = howManyFields;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		for(int i = 0; i < fieldsCnt; i++) {
+			sb.append("?");
+			if(i < fieldsCnt-1) {
+				sb.append(",");
+			}
+		}
+		sb.append(")");
+		return sb.toString();
 	}
 
 	/* (non-Javadoc)
@@ -69,6 +94,14 @@ public class InsertSQL extends SQLDefinition {
 		sb.append(this.getTableName());
 		
 		return sb.toString();
+	}
+
+	public int getHowManyFields() {
+		return howManyFields;
+	}
+
+	public void setHowManyFields(int howManyFields) {
+		this.howManyFields = howManyFields;
 	}
 
 }
