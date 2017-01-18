@@ -68,11 +68,9 @@ public abstract class SQLDefinition {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(this.generateSQLHeader());		
-		if(null != this.getUsedFields()) {
-			sb.append(" ");
-			sb.append(this.generateUsedFieldsStatment());
-		}
+		sb.append(this.generateSQLHeader());	
+		sb.append(" ");
+		sb.append(this.generateUsedFieldsStatment());
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
 			sb.append(" ");
 			sb.append(this.generateSQLTail());
@@ -85,42 +83,15 @@ public abstract class SQLDefinition {
 		return sb.toString();
 	}
 	
-	private String generateSimpleFieldsForUpdate(Object[] updateValues) {
-		
-		StringBuilder sb = new StringBuilder();
-		
-		return sb.toString();
-	}
 	
-	public String generateSimpleSQL(Object[] updateValues, Object[] whereValues) {
+	public String generateSimpleSQL(Object[] whereValues) throws Exception {
 		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(this.generateSQLHeader());
-		if(null != this.getUsedFields()) {
-			sb.append(" ");
-			sb.append(generateSimpleFieldsForUpdate(updateValues));
-		}
-		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
-			sb.append(" ");
-			sb.append(this.generateSQLTail());
-		}
-		if(null != this.getWhereConditions()) {
-			sb.append(" ");
-			sb.append(this.getWhereConditions().generateSimpleWhere(whereValues));
-		}	
-		return sb.toString();
-	}
-	
-	public String generateSimpleSQL(Object[] whereValues) {
-		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(this.generateSQLHeader());		
-		if(null != this.getUsedFields()) {
-			sb.append(" ");
-			sb.append(this.generateUsedFieldsStatment());
-		}
+		sb.append(" ");
+		sb.append(this.generateUsedFieldsStatment());
+
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
 			sb.append(" ");
 			sb.append(this.generateSQLTail());

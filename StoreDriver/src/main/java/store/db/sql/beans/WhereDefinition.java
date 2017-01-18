@@ -22,8 +22,6 @@ public class WhereDefinition {
 	*/ 
 	private String whereConditions;
 	
-	
-	
 	public String getWhereConditions() {
 		return whereConditions;
 	}
@@ -41,12 +39,26 @@ public class WhereDefinition {
 	* @throws 
 	*/
 	public String generateWhereConditions() {
-		String[] conds = whereConditions.split(",");
-		return whereConditions;
 		
+		String[] conds = whereConditions.split(",");
+		StringBuilder sb = new StringBuilder();
+		sb.append("where ");
+		
+		for(int i = 0; i < conds.length; i++) {
+			String[] singleCond = conds[i].trim().split(" ");
+			sb.append(singleCond[0]);
+			sb.append("?");
+			if(singleCond.length > 1) {
+				sb.append(" ");
+				sb.append(singleCond[1]);
+				sb.append(" ");
+			}
+		}	
+		return sb.toString();		
 	}
 	
-	/** 
+	/**
+	 * @throws Exception  
 	* @Title: generateSimpleWhere 
 	* @Description: TODO(what to do) 
 	* @param @param values
@@ -54,9 +66,25 @@ public class WhereDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public String generateSimpleWhere(Object[] values) {
+	public String generateSimpleWhere(Object[] values) throws Exception {
 		
-		return whereConditions;
+		String[] conds = whereConditions.split(",");
+		if(values.length != conds.length) throw new Exception (" input param number does Not match the conds !");
+		StringBuilder sb = new StringBuilder();
+		sb.append("where ");
+		
+		for(int i = 0; i < conds.length; i++) {
+			String[] singleCond = conds[i].trim().split(" ");
+			sb.append(singleCond[0]);
+			sb.append(values[i]);
+			if(singleCond.length > 1) {
+				sb.append(" ");
+				sb.append(singleCond[1]);
+				sb.append(" ");
+			}
+		}	
+		
+		return sb.toString();
 	}
 	
 }

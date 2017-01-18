@@ -32,7 +32,7 @@ import store.db.sql.testdata.TestDataCreator;
 public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 
 	
-	@Before
+//	@Before
 	public void setUp() throws Exception {
 		this.setBeanCreator(new PropertiesBeanFactory("configs/db_config_test.properties"));
 		this.setConfig((DbConfig) this.getBeanCreator().getBean("dbConfig"));
@@ -40,7 +40,7 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		this.getPool().initConnections(this.getConfig(), this);
 	}
 	
-	@Test
+//	@Test
 	public void testSimpleSql() {
 		System.out.println("\ntesting doSimpleSql inserting");
 		String phone = "31010101010";

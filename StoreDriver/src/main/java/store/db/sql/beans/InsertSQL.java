@@ -1,28 +1,27 @@
 /**   
-* @Title: SelectSQL.java 
+* @Title: InsertSQL.java 
 * @Package store.db.sql.beans 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017年1月17日 下午12:54:41 
+* @date 2017年1月18日 下午6:11:11 
 * @version V1.0   
 */
 package store.db.sql.beans;
 
 /** 
- * @ClassName: SelectSQL 
+ * @ClassName: InsertSQL 
  * @Description: TODO(what to do) 
  * @author walterwhite
- * @date 2017年1月17日 下午12:54:41 
+ * @date 2017年1月18日 下午6:11:11 
  *  
  */
-public class SelectSQL extends SQLDefinition {
+public class InsertSQL extends SQLDefinition {
 
-	
 	public void setSQLKeyword() {
-		this.setSQLKeyword("SELECT");
+		this.setSQLKeyword("INSERT");
 	}
 	
-	public SelectSQL() {
+	public InsertSQL() {
 		this.setSQLKeyword();
 	}
 	
@@ -31,8 +30,9 @@ public class SelectSQL extends SQLDefinition {
 	 * @see store.db.sql.beans.SQLDefinition#generateUsedFieldsStatment()
 	 */
 	@Override
-	public String generateUsedFieldsStatment() {		
-		return null != this.getUsedFields() ? this.getUsedFields() : "*";
+	public String generateUsedFieldsStatment() {
+		
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -40,14 +40,8 @@ public class SelectSQL extends SQLDefinition {
 	 */
 	@Override
 	public String generateSQLTail() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("from ");
-		if(null != this.getDbName()) {
-			sb.append(this.getDbName());
-			sb.append(".");
-		}
-		sb.append(this.getTableName());
-		return sb.toString();
+		
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -65,7 +59,16 @@ public class SelectSQL extends SQLDefinition {
 	@Override
 	public String generateSQLHeader() {
 		
-		return this.getSQLKeyword();
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getSQLKeyword());
+		sb.append(" INTO ");
+		if(null != this.getDbName()) {
+			sb.append(this.getDbName());
+			sb.append(".");
+		}
+		sb.append(this.getTableName());
+		
+		return sb.toString();
 	}
 
 }
