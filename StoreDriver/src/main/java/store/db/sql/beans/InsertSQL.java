@@ -51,7 +51,7 @@ public class InsertSQL extends SQLDefinition {
 		
 		int fieldsCnt = 0;
 		if(null != this.getUsedFields()) {
-			fieldsCnt = this.getUsedFields().split(",").length;
+			fieldsCnt = this.getUsedFields().length;
 		} else {
 			fieldsCnt = howManyFields;
 		}
@@ -70,7 +70,7 @@ public class InsertSQL extends SQLDefinition {
 		
 		int fieldsCnt = 0;
 		if(null != this.getUsedFields()) {
-			fieldsCnt = this.getUsedFields().split(",").length;
+			fieldsCnt = this.getUsedFields().length;
 		} else {
 			fieldsCnt = howManyFields;
 		}

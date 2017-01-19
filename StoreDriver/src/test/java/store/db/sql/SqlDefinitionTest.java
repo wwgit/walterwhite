@@ -11,8 +11,10 @@ package store.db.sql;
 import org.junit.Before;
 import org.junit.Test;
 
+import store.db.sql.beans.CreateTableSQL;
 import store.db.sql.beans.DeleteSQL;
 import store.db.sql.beans.InsertSQL;
+import store.db.sql.beans.MySqlFieldsDesc;
 import store.db.sql.beans.SQLDefinition;
 import store.db.sql.beans.SelectSQL;
 import store.db.sql.beans.UpdateSQL;
@@ -35,7 +37,7 @@ public class SqlDefinitionTest {
 	@Test
 	public void SelectSQLTest() throws Exception {
 		
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";		
+		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
 		
@@ -61,7 +63,7 @@ public class SqlDefinitionTest {
 	
 	@Test
 	public void InsertSQLTest() throws Exception {
-		String usedFields = "field-a,field-b,field-c,field-d,field-e";
+		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
 		
 		SQLDefinition insertSQL = new InsertSQL();
 		insertSQL.setDbName("testperf");
@@ -84,8 +86,8 @@ public class SqlDefinitionTest {
 	@Test
 	public void UpdateSQLTest() throws Exception {
 		
-		String usedFields = "field-a,field-b,field-c,field-d,field-e";
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
+		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
+		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");
 		
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
@@ -118,7 +120,7 @@ public class SqlDefinitionTest {
 	
 	@Test
 	public void DeleteSQLTest() throws Exception {
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";		
+		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
 		SQLDefinition deleteSQL = new DeleteSQL();
@@ -136,6 +138,30 @@ public class SqlDefinitionTest {
 		
 		System.out.println(deleteSQL.generatePrepareSQLStatment());
 		System.out.println(deleteSQL.generateSimpleSQL(values));
+		
+	}
+	
+	@Test
+	public void CreateTableSQLTest() throws Exception {
+		
+		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
+		String[] fieldsTypes = "INT,VARCHAR(255),VARCHAR(255),VARCHAR(255),VARCHAR(255)".split(",");
+		String[] nullDescs = "YES,NO,DEFAULT,YES,YES".split(",");
+		String[] autoIncrDesc = "YES,NO,NO,NO,NO".split(",");
+		String[] primFields = "field-a,field-b,field-c,field-d,field-e".split(",");
+		
+		CreateTableSQL createSql = new CreateTableSQL();
+		createSql.setSqlFieldsDesc(new MySqlFieldsDesc());
+		createSql.setUsedFields(usedFields);
+		createSql.setFieldsTypes(fieldsTypes);
+		createSql.setIsFieldNull(nullDescs);
+		createSql.setIsAutoIncr(autoIncrDesc);
+		createSql.setDbName("testperf");
+		createSql.setTableName("user_base_info");
+		createSql.setPrimaryFields(primFields);
+		
+		
+		System.out.println(createSql.generateCreateTableSQL());
 		
 	}
 	

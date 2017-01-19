@@ -13,7 +13,7 @@ public abstract class SQLDefinition {
 	
 	
 	/** 
-	* @Fields SQLKeyword expected to support: SELECT,INSERT,UPDATE,DELETE,RIGHTJOIN,LEFTJOIN,CREATE  
+	* @Fields SQLKeyword expected to support: SELECT,INSERT,UPDATE,DELETE,RIGHT JOIN,LEFT JOIN,CREATE TABLE  
 	*/ 
 	private String SQLKeyword;
 	
@@ -33,7 +33,7 @@ public abstract class SQLDefinition {
 	* for insert statement: INSERT INTO dbName.tableName (field-a,field-b,field-c,field-d) values (?,?,?,?)
 	* by default: usedFields = null e.g INSERT INTO dbName.tableName values (?,?,?,?...)
 	*/ 
-	private String usedFields;
+	private String[] usedFields;
 	
 	private List<Object[]> fieldsValues;
 	
@@ -61,9 +61,9 @@ public abstract class SQLDefinition {
 	* SELECT
 	* INSERT INTO dbName.tableName
 	* INSERT INTO dbName.tableName VALUES
-	* CREATE TABLE dbName.tableName ( 
+	* CREATE TABLE IF NOT EXISTS dbName.tableName ( 
 	* @param @return  
-	* @return String   
+	* @return void   
 	* @throws 
 	*/
 	protected abstract void generateSQLHeader();
@@ -140,11 +140,11 @@ public abstract class SQLDefinition {
 		this.tableName = tableName;
 	}
 
-	public String getUsedFields() {
+	public String[] getUsedFields() {
 		return usedFields;
 	}
 
-	public void setUsedFields(String usedFields) {
+	public void setUsedFields(String[] usedFields) {
 		this.usedFields = usedFields;
 	}
 

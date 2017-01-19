@@ -20,13 +20,13 @@ public class WhereDefinition {
 	/** 
 	* @Fields whereConditions :  where field-a= and/or, field-b<> and/or, field-c< and/or, field-e=
 	*/ 
-	private String whereConditions;
+	private String[] whereConditions;
 	
-	public String getWhereConditions() {
+	public String[] getWhereConditions() {
 		return whereConditions;
 	}
 
-	public void setWhereConditions(String whereConditions) {
+	public void setWhereConditions(String[] whereConditions) {
 		this.whereConditions = whereConditions;
 	}
 	
@@ -40,11 +40,11 @@ public class WhereDefinition {
 	*/
 	public void generateWhereConditions(StringBuilder sb) {
 		
-		String[] conds = whereConditions.split(",");
+//		String[] conds = whereConditions.split(",");
 		sb.append("where ");
 		
-		for(int i = 0; i < conds.length; i++) {
-			String[] singleCond = conds[i].trim().split(" ");
+		for(int i = 0; i < whereConditions.length; i++) {
+			String[] singleCond = whereConditions[i].trim().split(" ");
 			sb.append(singleCond[0]);
 			sb.append("?");
 			if(singleCond.length > 1) {
@@ -66,12 +66,12 @@ public class WhereDefinition {
 	*/
 	public void generateSimpleWhere(StringBuilder sb, Object[] values) throws Exception {
 		
-		String[] conds = whereConditions.split(",");
-		if(values.length != conds.length) throw new Exception (" input param number does Not match the conds !");
+//		String[] conds = whereConditions.split(",");
+		if(values.length != whereConditions.length) throw new Exception (" input param number does Not match the conds !");
 		sb.append("where ");
 		
-		for(int i = 0; i < conds.length; i++) {
-			String[] singleCond = conds[i].trim().split(" ");
+		for(int i = 0; i < whereConditions.length; i++) {
+			String[] singleCond = whereConditions[i].trim().split(" ");
 			sb.append(singleCond[0]);
 			sb.append(values[i]);
 			if(singleCond.length > 1) {

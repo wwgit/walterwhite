@@ -32,7 +32,7 @@ public class UpdateSQL extends SQLDefinition {
 	public void generateUsedFieldsStatment() throws Exception {
 	
 		if(null == this.getUsedFields()) throw new Exception("No fields setted for UPDATE !");
-		String[] fields = this.getUsedFields().split(",");
+		String[] fields = this.getUsedFields();
 		
 		for(int i = 0; i < fields.length; i++) {
 			this.getSb().append(fields[i]);
@@ -72,7 +72,7 @@ public class UpdateSQL extends SQLDefinition {
 	
 	public String generateSimpleUpdate(Object[] updateValues, Object[] whereValues) throws Exception {
 		
-		String[] fields = this.getUsedFields().split(",");
+		String[] fields = this.getUsedFields();
 		if(fields.length != updateValues.length) throw new Exception("update values num does Not match field num !");
 		
 		if(this.getSb().length() > 0 ) this.getSb().delete(0, this.getSb().length());
