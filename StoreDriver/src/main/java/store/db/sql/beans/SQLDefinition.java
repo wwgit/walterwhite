@@ -37,9 +37,8 @@ public abstract class SQLDefinition {
 	
 	private WhereDefinition whereConditions;
 	
-	public abstract String generateUsedFieldsStatment();
+	public abstract String generateUsedFieldsStatment() throws Exception;
 	public abstract String generateSQLTail();
-	public abstract String generateSimpleSQL();
 	
 	/** 
 	* @Title: generateSQLHeader 
@@ -57,14 +56,15 @@ public abstract class SQLDefinition {
 	public abstract String generateSQLHeader();
 //	public abstract String generateSQLStatment();
 	
-	/** 
+	/**
+	 * @throws Exception  
 	* @Title: generateSQLStatment 
 	* @Description: TODO(what to do) 
 	* @param @return  
 	* @return String   
 	* @throws 
 	*/
-	public String generatePrepareSQLStatment() {
+	public String generatePrepareSQLStatment() throws Exception {
 		
 		StringBuilder sb = new StringBuilder();
 		

@@ -50,14 +50,6 @@ public class SelectSQL extends SQLDefinition {
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see store.db.sql.beans.SQLDefinition#generateSimpleSQL()
-	 */
-	@Override
-	public String generateSimpleSQL() {
-		
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLHeader()

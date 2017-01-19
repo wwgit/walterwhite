@@ -38,7 +38,7 @@ public class InsertSQL extends SQLDefinition {
 			sb.append(this.getUsedFields());
 			sb.append(") VALUES");
 		} else {
-			sb.append(" VALUES");
+			sb.append("VALUES");
 		}
 		
 		return sb.toString();
@@ -68,14 +68,43 @@ public class InsertSQL extends SQLDefinition {
 		sb.append(")");
 		return sb.toString();
 	}
+	
+	private String generateSimpleTail(Object[] values) {
+		
+		int fieldsCnt = 0;
+		if(null != this.getUsedFields()) {
+			fieldsCnt = this.getUsedFields().split(",").length;
+		} else {
+			fieldsCnt = howManyFields;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		for(int i = 0; i < fieldsCnt; i++) {
+			sb.append(values[i]);
+			if(i < fieldsCnt-1) {
+				sb.append(",");
+			}
+		}
+		sb.append(")");
+		return sb.toString();
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSimpleSQL()
 	 */
-	@Override
-	public String generateSimpleSQL() {
+	public String generateSimpleSQL(Object[] values) {
 		
-		return null;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(this.generateSQLHeader());	
+		sb.append(" ");
+		sb.append(this.generateUsedFieldsStatment());
+		sb.append(" ");
+		sb.append(generateSimpleTail(values));
+		
+		return sb.toString();
 	}
 
 	/* (non-Javadoc)
