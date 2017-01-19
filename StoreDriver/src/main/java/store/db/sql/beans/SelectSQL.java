@@ -31,23 +31,27 @@ public class SelectSQL extends SQLDefinition {
 	 * @see store.db.sql.beans.SQLDefinition#generateUsedFieldsStatment()
 	 */
 	@Override
-	public String generateUsedFieldsStatment() {		
-		return null != this.getUsedFields() ? this.getUsedFields() : "*";
+	public void generateUsedFieldsStatment() {	
+		
+		if(null != this.getUsedFields()) {
+			this.getSb().append(this.getUsedFields());	
+		} else {
+			this.getSb().append("*");
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLTail()
 	 */
 	@Override
-	public String generateSQLTail() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("from ");
+	public void generateSQLTail() {
+
+		this.getSb().append("from ");
 		if(null != this.getDbName()) {
-			sb.append(this.getDbName());
-			sb.append(".");
+			this.getSb().append(this.getDbName());
+			this.getSb().append(".");
 		}
-		sb.append(this.getTableName());
-		return sb.toString();
+		this.getSb().append(this.getTableName());
 	}
 
 
@@ -55,9 +59,8 @@ public class SelectSQL extends SQLDefinition {
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLHeader()
 	 */
 	@Override
-	public String generateSQLHeader() {
-		
-		return this.getSQLKeyword();
+	public void generateSQLHeader() {
+		this.getSb().append(this.getSQLKeyword());
 	}
 
 }

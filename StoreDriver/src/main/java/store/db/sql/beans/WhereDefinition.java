@@ -38,10 +38,9 @@ public class WhereDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public String generateWhereConditions() {
+	public void generateWhereConditions(StringBuilder sb) {
 		
 		String[] conds = whereConditions.split(",");
-		StringBuilder sb = new StringBuilder();
 		sb.append("where ");
 		
 		for(int i = 0; i < conds.length; i++) {
@@ -54,7 +53,6 @@ public class WhereDefinition {
 				sb.append(" ");
 			}
 		}	
-		return sb.toString();		
 	}
 	
 	/**
@@ -66,11 +64,10 @@ public class WhereDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public String generateSimpleWhere(Object[] values) throws Exception {
+	public void generateSimpleWhere(StringBuilder sb, Object[] values) throws Exception {
 		
 		String[] conds = whereConditions.split(",");
 		if(values.length != conds.length) throw new Exception (" input param number does Not match the conds !");
-		StringBuilder sb = new StringBuilder();
 		sb.append("where ");
 		
 		for(int i = 0; i < conds.length; i++) {
@@ -84,7 +81,6 @@ public class WhereDefinition {
 			}
 		}	
 		
-		return sb.toString();
 	}
 	
 }

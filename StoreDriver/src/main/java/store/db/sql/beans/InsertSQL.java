@@ -31,24 +31,23 @@ public class InsertSQL extends SQLDefinition {
 	 * @see store.db.sql.beans.SQLDefinition#generateUsedFieldsStatment()
 	 */
 	@Override
-	public String generateUsedFieldsStatment() {
-		StringBuilder sb = new StringBuilder();
+	protected void generateUsedFieldsStatment() {
+
 		if(null != this.getUsedFields()) {
-			sb.append("(");
-			sb.append(this.getUsedFields());
-			sb.append(") VALUES");
+			this.getSb().append("(");
+			this.getSb().append(this.getUsedFields());
+			this.getSb().append(") VALUES");
 		} else {
-			sb.append("VALUES");
+			this.getSb().append("VALUES");
 		}
 		
-		return sb.toString();
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLTail()
 	 */
 	@Override
-	public String generateSQLTail() {
+	protected void generateSQLTail() {
 		
 		int fieldsCnt = 0;
 		if(null != this.getUsedFields()) {
@@ -57,19 +56,17 @@ public class InsertSQL extends SQLDefinition {
 			fieldsCnt = howManyFields;
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("(");
+		this.getSb().append("(");
 		for(int i = 0; i < fieldsCnt; i++) {
-			sb.append("?");
+			this.getSb().append("?");
 			if(i < fieldsCnt-1) {
-				sb.append(",");
+				this.getSb().append(",");
 			}
 		}
-		sb.append(")");
-		return sb.toString();
+		this.getSb().append(")");
 	}
 	
-	private String generateSimpleTail(Object[] values) {
+	private void generateSimpleTail(Object[] values) {
 		
 		int fieldsCnt = 0;
 		if(null != this.getUsedFields()) {
@@ -78,16 +75,14 @@ public class InsertSQL extends SQLDefinition {
 			fieldsCnt = howManyFields;
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("(");
+		this.getSb().append("(");
 		for(int i = 0; i < fieldsCnt; i++) {
-			sb.append(values[i]);
+			this.getSb().append(values[i]);
 			if(i < fieldsCnt-1) {
-				sb.append(",");
+				this.getSb().append(",");
 			}
 		}
-		sb.append(")");
-		return sb.toString();
+		this.getSb().append(")");
 		
 	}
 
@@ -96,33 +91,31 @@ public class InsertSQL extends SQLDefinition {
 	 */
 	public String generateSimpleSQL(Object[] values) {
 		
-		StringBuilder sb = new StringBuilder();
+		if(this.getSb().length() > 0 ) this.getSb().delete(0, this.getSb().length());
 		
-		sb.append(this.generateSQLHeader());	
-		sb.append(" ");
-		sb.append(this.generateUsedFieldsStatment());
-		sb.append(" ");
-		sb.append(generateSimpleTail(values));
+		this.generateSQLHeader();
+		this.getSb().append(" ");
+		this.generateUsedFieldsStatment();
+		this.getSb().append(" ");
+		generateSimpleTail(values);
 		
-		return sb.toString();
+		return this.getSb().toString();
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLHeader()
 	 */
 	@Override
-	public String generateSQLHeader() {
+	public void generateSQLHeader() {
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.getSQLKeyword());
-		sb.append(" INTO ");
+		this.getSb().append(this.getSQLKeyword());
+		this.getSb().append(" INTO ");
 		if(null != this.getDbName()) {
-			sb.append(this.getDbName());
-			sb.append(".");
+			this.getSb().append(this.getDbName());
+			this.getSb().append(".");
 		}
-		sb.append(this.getTableName());
+		this.getSb().append(this.getTableName());
 		
-		return sb.toString();
 	}
 
 	public int getHowManyFields() {

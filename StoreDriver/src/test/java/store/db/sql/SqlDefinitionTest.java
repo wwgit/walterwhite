@@ -35,30 +35,6 @@ public class SqlDefinitionTest {
 	}
 	
 	@Test
-	public void whereDefineTest() {
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
-		WhereDefinition wd = new WhereDefinition();
-		wd.setWhereConditions(where);
-		System.out.println(wd.generateWhereConditions());
-	}
-	
-	@Test
-	public void whereDefineSimpleSqlTest() throws Exception {
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
-		Object[] values = new Object[5];
-		values[0] = "field-a_value";
-		values[1] = 1;
-		values[2] = 2;
-		values[3] = 3;
-		values[4] = 4;
-		
-		WhereDefinition wd = new WhereDefinition();
-		wd.setWhereConditions(where);
-		
-		System.out.println(wd.generateSimpleWhere(values));
-	}
-	
-	@Test
 	public void SelectSQLTest() throws Exception {
 		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
 		

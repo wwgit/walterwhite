@@ -16,7 +16,6 @@ package store.db.sql.beans;
  *  
  */
 public class UpdateSQL extends SQLDefinition {
-
 	
 	public void setSQLKeyword() {
 		this.setSQLKeyword("UPDATE");
@@ -30,50 +29,45 @@ public class UpdateSQL extends SQLDefinition {
 	 * @see store.db.sql.beans.SQLDefinition#generateUsedFieldsStatment()
 	 */
 	@Override
-	public String generateUsedFieldsStatment() throws Exception {
+	public void generateUsedFieldsStatment() throws Exception {
+	
 		if(null == this.getUsedFields()) throw new Exception("No fields setted for UPDATE !");
-		StringBuilder sb = new StringBuilder();
 		String[] fields = this.getUsedFields().split(",");
 		
 		for(int i = 0; i < fields.length; i++) {
-			sb.append(fields[i]);
-			sb.append("=?");
+			this.getSb().append(fields[i]);
+			this.getSb().append("=?");
 			if(i < fields.length-1) {
-				sb.append(",");
+				this.getSb().append(",");
 			}
 		}
 		
-		return sb.toString();
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLTail()
 	 */
 	@Override
-	public String generateSQLTail() {
+	public void generateSQLTail() {
 		
-		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLHeader()
 	 */
 	@Override
-	public String generateSQLHeader() {
+	public void generateSQLHeader() {
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.getSQLKeyword());
-		sb.append(" ");
+		this.getSb().append(this.getSQLKeyword());
+		this.getSb().append(" ");
 		if(null != this.getDbName()) {
-			sb.append(this.getDbName());
-			sb.append(".");
+			this.getSb().append(this.getDbName());
+			this.getSb().append(".");
 		}
 		
-		sb.append(this.getTableName());
-		sb.append(" SET");
+		this.getSb().append(this.getTableName());
+		this.getSb().append(" SET");
 		
-		return sb.toString();
-	
 	}
 	
 	public String generateSimpleUpdate(Object[] updateValues, Object[] whereValues) throws Exception {
@@ -81,23 +75,23 @@ public class UpdateSQL extends SQLDefinition {
 		String[] fields = this.getUsedFields().split(",");
 		if(fields.length != updateValues.length) throw new Exception("update values num does Not match field num !");
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.generateSQLHeader());
-		sb.append(" ");
+		if(this.getSb().length() > 0 ) this.getSb().delete(0, this.getSb().length());
+		this.generateSQLHeader();
+		this.getSb().append(" ");
 		
 		for(int i = 0; i < updateValues.length; i++) {
-			sb.append(fields[i]);
-			sb.append("=");
-			sb.append(updateValues[i]);
+			this.getSb().append(fields[i]);
+			this.getSb().append("=");
+			this.getSb().append(updateValues[i]);
 			if(i < fields.length-1) {
-				sb.append(",");
+				this.getSb().append(",");
 			}
 		}
 		if(null != this.getWhereConditions()) {
-			sb.append(" ");
-			sb.append(this.getWhereConditions().generateSimpleWhere(whereValues));
+			this.getSb().append(" ");
+			this.getWhereConditions().generateSimpleWhere(this.getSb(), whereValues);
 		}		
-		return sb.toString();
+		return this.getSb().toString();
 		
 	}
 

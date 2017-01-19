@@ -21,6 +21,8 @@ public abstract class SQLDefinition {
 	
 	private String tableName;
 	
+	private StringBuilder sb;
+	
 	/** 
 	* @Fields usedFields :  
 	* e.g field-a,field-b,field-c,field-d
@@ -37,8 +39,21 @@ public abstract class SQLDefinition {
 	
 	private WhereDefinition whereConditions;
 	
-	public abstract String generateUsedFieldsStatment() throws Exception;
-	public abstract String generateSQLTail();
+	
+
+	/** 
+	* @Title: generateUsedFieldsStatment 
+	* @Description: TODO(what to do) 
+	* @param @throws Exception  
+	* @return void   
+	* @throws 
+	*/
+	protected abstract void generateUsedFieldsStatment() throws Exception;
+	protected abstract void generateSQLTail();
+	
+	public SQLDefinition() {
+		this.setSb(new StringBuilder());
+	}
 	
 	/** 
 	* @Title: generateSQLHeader 
@@ -53,8 +68,7 @@ public abstract class SQLDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public abstract String generateSQLHeader();
-//	public abstract String generateSQLStatment();
+	protected abstract void generateSQLHeader();
 	
 	/**
 	 * @throws Exception  
@@ -64,20 +78,22 @@ public abstract class SQLDefinition {
 	* @return String   
 	* @throws 
 	*/
+
 	public String generatePrepareSQLStatment() throws Exception {
 		
-		StringBuilder sb = new StringBuilder();
+//		initialize string builder first
+		if(sb.length() > 0 ) sb.delete(0, sb.length());
 		
-		sb.append(this.generateSQLHeader());	
+		this.generateSQLHeader();
 		sb.append(" ");
-		sb.append(this.generateUsedFieldsStatment());
+		this.generateUsedFieldsStatment();
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
 			sb.append(" ");
-			sb.append(this.generateSQLTail());
+			this.generateSQLTail();
 		}
 		if(null != this.getWhereConditions()) {
 			sb.append(" ");
-			sb.append(this.getWhereConditions().generateWhereConditions());
+			this.getWhereConditions().generateWhereConditions(sb);
 		}	
 		
 		return sb.toString();
@@ -86,19 +102,19 @@ public abstract class SQLDefinition {
 	
 	public String generateSimpleSQL(Object[] whereValues) throws Exception {
 		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(this.generateSQLHeader());
+//		initialize string builder first
+		if(sb.length() > 0 ) sb.delete(0, sb.length());
+		this.generateSQLHeader();
 		sb.append(" ");
-		sb.append(this.generateUsedFieldsStatment());
+		this.generateUsedFieldsStatment();
 
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
 			sb.append(" ");
-			sb.append(this.generateSQLTail());
+			this.generateSQLTail();
 		}
 		if(null != this.getWhereConditions()) {
 			sb.append(" ");
-			sb.append(this.getWhereConditions().generateSimpleWhere(whereValues));
+			this.getWhereConditions().generateSimpleWhere(sb, whereValues);
 		}	
 		
 		return sb.toString();
@@ -151,8 +167,12 @@ public abstract class SQLDefinition {
 	public void setFieldsValues(List<Object[]> fieldsValues) {
 		this.fieldsValues = fieldsValues;
 	}
-
-	
+	public StringBuilder getSb() {
+		return sb;
+	}
+	public void setSb(StringBuilder sb) {
+		this.sb = sb;
+	}
 	
 
 }

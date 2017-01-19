@@ -10,7 +10,7 @@ public class StoreMain {
 		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
-		System.out.println(wd.generateWhereConditions());
+//		System.out.println(wd.generateWhereConditions());
 		
 	}
 
