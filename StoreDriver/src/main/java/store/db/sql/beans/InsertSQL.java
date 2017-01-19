@@ -40,7 +40,7 @@ public class InsertSQL extends SQLDefinition {
 		} else {
 			this.getSb().append("VALUES");
 		}
-		
+		this.getSb().append(" ");
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +96,6 @@ public class InsertSQL extends SQLDefinition {
 		this.generateSQLHeader();
 		this.getSb().append(" ");
 		this.generateUsedFieldsStatment();
-		this.getSb().append(" ");
 		generateSimpleTail(values);
 		
 		return this.getSb().toString();

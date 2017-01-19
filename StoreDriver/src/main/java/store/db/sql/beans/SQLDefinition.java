@@ -37,9 +37,7 @@ public abstract class SQLDefinition {
 	
 	private List<Object[]> fieldsValues;
 	
-	private WhereDefinition whereConditions;
-	
-	
+	private WhereDefinition whereConditions;	
 
 	/** 
 	* @Title: generateUsedFieldsStatment 
@@ -88,7 +86,6 @@ public abstract class SQLDefinition {
 		sb.append(" ");
 		this.generateUsedFieldsStatment();
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
-			sb.append(" ");
 			this.generateSQLTail();
 		}
 		if(null != this.getWhereConditions()) {
@@ -109,7 +106,6 @@ public abstract class SQLDefinition {
 		this.generateUsedFieldsStatment();
 
 		if(false == this.getSQLKeyword().equalsIgnoreCase("UPDATE")) {
-			sb.append(" ");
 			this.generateSQLTail();
 		}
 		if(null != this.getWhereConditions()) {

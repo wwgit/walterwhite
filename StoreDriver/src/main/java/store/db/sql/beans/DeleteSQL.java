@@ -15,14 +15,14 @@ package store.db.sql.beans;
  * @date 2017年1月17日 下午12:54:41 
  *  
  */
-public class SelectSQL extends SQLDefinition {
+public class DeleteSQL extends SQLDefinition {
 
 	
 	public void setSQLKeyword() {
-		this.setSQLKeyword("SELECT");
+		this.setSQLKeyword("DELETE");
 	}
 	
-	public SelectSQL() {
+	public DeleteSQL() {
 		this.setSQLKeyword();
 	}
 	
@@ -33,12 +33,6 @@ public class SelectSQL extends SQLDefinition {
 	@Override
 	public void generateUsedFieldsStatment() {	
 		
-		if(null != this.getUsedFields()) {
-			this.getSb().append(this.getUsedFields());	
-		} else {
-			this.getSb().append("*");
-		}
-		this.getSb().append(" ");
 	}
 
 	/* (non-Javadoc)

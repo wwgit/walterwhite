@@ -8,12 +8,10 @@
 */
 package store.db.sql;
 
-import handy.tools.factorties.PropertiesBeanFactory;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import store.db.sql.beans.DbConfig;
+import store.db.sql.beans.DeleteSQL;
 import store.db.sql.beans.InsertSQL;
 import store.db.sql.beans.SQLDefinition;
 import store.db.sql.beans.SelectSQL;
@@ -36,10 +34,11 @@ public class SqlDefinitionTest {
 	
 	@Test
 	public void SelectSQLTest() throws Exception {
-		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";
 		
+		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";		
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
+		
 		Object[] values = new Object[5];
 		values[0] = "field-a_value";
 		values[1] = 1;
@@ -48,15 +47,15 @@ public class SqlDefinitionTest {
 		values[4] = 4;
 		
 		SQLDefinition selectSQL = new SelectSQL();
-//		selectSQL.setDbName("testperf");
+		selectSQL.setDbName("testperf");
 		selectSQL.setTableName("user_base_info");
 		selectSQL.setWhereConditions(wd);
 		
 		String usedFields = "field-a,field-b,field-c,field-d";
-		selectSQL.setUsedFields(usedFields);
+//		selectSQL.setUsedFields(usedFields);
 		
-		System.out.println("select SQL test: " + selectSQL.generatePrepareSQLStatment());
-		System.out.println("select SQL test: " + selectSQL.generateSimpleSQL(values));	
+		System.out.println(selectSQL.generatePrepareSQLStatment());
+		System.out.println(selectSQL.generateSimpleSQL(values));	
 		
 	}
 	
@@ -65,7 +64,7 @@ public class SqlDefinitionTest {
 		String usedFields = "field-a,field-b,field-c,field-d,field-e";
 		
 		SQLDefinition insertSQL = new InsertSQL();
-//		insertSQL.setDbName("testperf");
+		insertSQL.setDbName("testperf");
 		insertSQL.setTableName("user_base_info");
 		insertSQL.setUsedFields(usedFields);
 		((InsertSQL)insertSQL).setHowManyFields(5);
@@ -77,7 +76,7 @@ public class SqlDefinitionTest {
 		values[3] = 3;
 		values[4] = 4;
 		
-//		System.out.println(insertSQL.generatePrepareSQLStatment());
+		System.out.println(insertSQL.generatePrepareSQLStatment());
 		System.out.println(insertSQL.generateSimpleSQL(values));
 		
 	}
@@ -91,7 +90,7 @@ public class SqlDefinitionTest {
 		WhereDefinition wd = new WhereDefinition();
 		wd.setWhereConditions(where);
 		SQLDefinition updateSQL = new UpdateSQL();
-//		updateSQL.setDbName("testperf");
+		updateSQL.setDbName("testperf");
 		updateSQL.setTableName("user_base_info");
 		updateSQL.setWhereConditions(wd);
 		updateSQL.setUsedFields(usedFields);
@@ -117,5 +116,28 @@ public class SqlDefinitionTest {
 		
 	}
 	
-
+	@Test
+	public void DeleteSQLTest() throws Exception {
+		String where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>";		
+		WhereDefinition wd = new WhereDefinition();
+		wd.setWhereConditions(where);
+		SQLDefinition deleteSQL = new DeleteSQL();
+		
+		deleteSQL.setDbName("testperf");
+		deleteSQL.setTableName("user_base_info");
+		deleteSQL.setWhereConditions(wd);
+		
+		Object[] values = new Object[5];
+		values[0] = "field-a_value";
+		values[1] = 1;
+		values[2] = 2;
+		values[3] = 3;
+		values[4] = 4;
+		
+		System.out.println(deleteSQL.generatePrepareSQLStatment());
+		System.out.println(deleteSQL.generateSimpleSQL(values));
+		
+	}
+	
+	
 }
