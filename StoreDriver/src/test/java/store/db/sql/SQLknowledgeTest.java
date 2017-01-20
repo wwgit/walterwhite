@@ -119,8 +119,8 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		}
 //		List<Map<String,Object>> data = new ArrayList<Map<String,Object>>();
 //		data.add(columns_values);
-		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
-		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
+//		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
+//		this.doInsert(this.getPool().retrieveConnection(), "user_base_info", batchData);
 	}
 	
 //	@Test

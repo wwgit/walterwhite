@@ -1,7 +1,7 @@
 package store.db.sql.commons;
 
+import handy.tools.constants.ComplexValue;
 import handy.tools.constants.DataTypes;
-import handy.tools.db.ComplexValue;
 import handy.tools.helpers.TypeHelper;
 
 import java.math.BigDecimal;
@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import store.db.sql.interfaces.ISQLReporter;
 
 
@@ -22,7 +23,7 @@ import store.db.sql.interfaces.ISQLReporter;
 * @ClassName: SqlCommons 
 * @Description: TODO(sql basics) 
 * @author walterwhite
-* @date 2017Äê1ÔÂ9ÈÕ ÏÂÎç5:54:47 
+* @date 2017ï¿½ï¿½1ï¿½ï¿½9ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½5:54:47 
 *  
 */
 public abstract class SqlCommons {

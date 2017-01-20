@@ -1,8 +1,8 @@
 package handy.tools.helpers;
 
 import handy.tools.annotations.MethodArgs;
+import handy.tools.constants.ComplexValue;
 import handy.tools.constants.DataTypes;
-import handy.tools.db.ComplexValue;
 
 import java.math.BigDecimal;
 import java.util.Iterator;

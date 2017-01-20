@@ -70,10 +70,11 @@ public class UpdateSQL extends SQLDefinition {
 		
 	}
 	
-	public String generateSimpleUpdate(Object[] updateValues, Object[] whereValues) throws Exception {
+	public String generateSimpleUpdate(Object[] updateValues) throws Exception {
 		
 		String[] fields = this.getUsedFields();
-		if(fields.length != updateValues.length) throw new Exception("update values num does Not match field num !");
+		if(fields.length != updateValues.length) 
+			throw new Exception("update values num does Not match field num !");
 		
 		if(this.getSb().length() > 0 ) this.getSb().delete(0, this.getSb().length());
 		this.generateSQLHeader();
@@ -89,7 +90,7 @@ public class UpdateSQL extends SQLDefinition {
 		}
 		if(null != this.getWhereConditions()) {
 			this.getSb().append(" ");
-			this.getWhereConditions().generateSimpleWhere(this.getSb(), whereValues);
+			this.getWhereConditions().generateSimpleWhere(this.getSb());
 		}		
 		return this.getSb().toString();
 		

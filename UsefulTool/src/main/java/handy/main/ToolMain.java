@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import handy.tools.bean.XmlBeanMapFacadeImpl;
-import handy.tools.db.TestBean;
 import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.JavassistHelper;
 import handy.tools.helpers.PathHelper;
@@ -28,13 +27,13 @@ public class ToolMain {
 		 * 
 		 * */
 		FundationHelper.UpperCaseFirstChar("helloWorld !");
-		TestBean bean = new TestBean();
-		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
+//		TestBean bean = new TestBean();
+//		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
 		PathHelper.resolveAbsolutePath("config/db.properties");
 		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
 		
-		bean.setTestAnno("test aop");
-		bean.getFileSuffix("abc.xml");
+//		bean.setTestAnno("test aop");
+//		bean.getFileSuffix("abc.xml");
 		//System.out.println(bean.getTestAnno());
 		
 //		ClassFactory.getInstance().replaceMethod("handy.tools.aop.InstGenerator", 

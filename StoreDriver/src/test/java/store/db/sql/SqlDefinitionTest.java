@@ -44,15 +44,16 @@ public class SqlDefinitionTest {
 	public void SelectSQLTest() throws Exception {
 		
 		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
-		WhereDefinition wd = new WhereDefinition();
-		wd.setWhereConditions(where);
-		
 		Object[] values = new Object[5];
 		values[0] = "field-a_value";
 		values[1] = 1;
 		values[2] = 2;
 		values[3] = 3;
 		values[4] = 4;
+		
+		WhereDefinition wd = new WhereDefinition();
+		wd.setWhereValues(values);
+		wd.setWhereConditions(where);
 		
 		SQLDefinition selectSQL = new SelectSQL();
 		selectSQL.setDbName("testperf");
@@ -95,14 +96,6 @@ public class SqlDefinitionTest {
 		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
 		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");
 		
-		WhereDefinition wd = new WhereDefinition();
-		wd.setWhereConditions(where);
-		SQLDefinition updateSQL = new UpdateSQL();
-		updateSQL.setDbName("testperf");
-		updateSQL.setTableName("user_base_info");
-		updateSQL.setWhereConditions(wd);
-		updateSQL.setUsedFields(usedFields);
-		
 		Object[] values = new Object[5];
 		values[0] = "where_values";
 		values[1] = 1;
@@ -110,6 +103,15 @@ public class SqlDefinitionTest {
 		values[3] = 3;
 		values[4] = 4;
 		
+		WhereDefinition wd = new WhereDefinition();
+		wd.setWhereValues(values);
+		wd.setWhereConditions(where);
+		SQLDefinition updateSQL = new UpdateSQL();
+		updateSQL.setDbName("testperf");
+		updateSQL.setTableName("user_base_info");
+		updateSQL.setWhereConditions(wd);
+		updateSQL.setUsedFields(usedFields);
+			
 		Object[] fields_values = new Object[5];
 		fields_values[0] = "fields_values";
 		fields_values[1] = 1;
@@ -119,7 +121,7 @@ public class SqlDefinitionTest {
 		
 		System.out.println(updateSQL.generatePrepareSQLStatment());
 		System.out.println(
-				((UpdateSQL)updateSQL).generateSimpleUpdate(fields_values, values)
+				((UpdateSQL)updateSQL).generateSimpleUpdate(fields_values)
 				);
 		
 	}
@@ -127,7 +129,15 @@ public class SqlDefinitionTest {
 	@Test
 	public void DeleteSQLTest() throws Exception {
 		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
+		Object[] values = new Object[5];
+		values[0] = "field-a_value";
+		values[1] = 1;
+		values[2] = 2;
+		values[3] = 3;
+		values[4] = 4;
+		
 		WhereDefinition wd = new WhereDefinition();
+		wd.setWhereValues(values);
 		wd.setWhereConditions(where);
 		SQLDefinition deleteSQL = new DeleteSQL();
 		
@@ -135,12 +145,7 @@ public class SqlDefinitionTest {
 		deleteSQL.setTableName("user_base_info");
 		deleteSQL.setWhereConditions(wd);
 		
-		Object[] values = new Object[5];
-		values[0] = "field-a_value";
-		values[1] = 1;
-		values[2] = 2;
-		values[3] = 3;
-		values[4] = 4;
+
 		
 		System.out.println(deleteSQL.generatePrepareSQLStatment());
 		System.out.println(deleteSQL.generateSimpleSQL(values));

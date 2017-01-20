@@ -110,7 +110,7 @@ public abstract class SQLDefinition {
 		}
 		if(null != this.getWhereConditions()) {
 			sb.append(" ");
-			this.getWhereConditions().generateSimpleWhere(sb, whereValues);
+			this.getWhereConditions().generateSimpleWhere(sb);
 		}	
 		
 		return sb.toString();

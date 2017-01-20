@@ -1,4 +1,4 @@
-package handy.tools.db;
+package handy.tools.constants;
 
 import handy.tools.constants.DataTypes;
 

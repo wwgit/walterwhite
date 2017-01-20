@@ -22,6 +22,8 @@ public class WhereDefinition {
 	*/ 
 	private String[] whereConditions;
 	
+	private Object[] whereValues;
+	
 	public String[] getWhereConditions() {
 		return whereConditions;
 	}
@@ -64,16 +66,17 @@ public class WhereDefinition {
 	* @return String   
 	* @throws 
 	*/
-	public void generateSimpleWhere(StringBuilder sb, Object[] values) throws Exception {
+	public void generateSimpleWhere(StringBuilder sb) throws Exception {
 		
 //		String[] conds = whereConditions.split(",");
-		if(values.length != whereConditions.length) throw new Exception (" input param number does Not match the conds !");
+		if(this.whereValues.length != whereConditions.length) 
+			throw new Exception (" input param number does Not match the conds !");
 		sb.append("where ");
 		
 		for(int i = 0; i < whereConditions.length; i++) {
 			String[] singleCond = whereConditions[i].trim().split(" ");
 			sb.append(singleCond[0]);
-			sb.append(values[i]);
+			sb.append(this.whereValues[i]);
 			if(singleCond.length > 1) {
 				sb.append(" ");
 				sb.append(singleCond[1]);
@@ -81,6 +84,14 @@ public class WhereDefinition {
 			}
 		}	
 		
+	}
+
+	public Object[] getWhereValues() {
+		return whereValues;
+	}
+
+	public void setWhereValues(Object[] whereValues) {
+		this.whereValues = whereValues;
 	}
 	
 }

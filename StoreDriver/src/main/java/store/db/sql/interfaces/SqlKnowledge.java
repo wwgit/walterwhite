@@ -1,26 +1,21 @@
 package store.db.sql.interfaces;
 
-import handy.tools.helpers.TypeHelper;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import store.db.sql.commons.SqlCommons;
+
 
 /** 
 * @ClassName: SqlKnowledge 
 * @Description: TODO(what to do) 
 * @author walterwhite
-* @date 2017ƒÍ1‘¬9»’ œ¬ŒÁ2:47:32 
+* @date 2017Âπ¥1Êúà20Êó• ‰∏ãÂçà2:23:42 
 *  
 */
-
 public abstract class SqlKnowledge extends SqlCommons {
 
 	public abstract void reportFailure(Exception e);
@@ -30,26 +25,20 @@ public abstract class SqlKnowledge extends SqlCommons {
 	public abstract void returnResources(Connection conn, PreparedStatement statement);
 	public abstract void returnResources(Connection conn, Statement statement);
 	
+
 	/** 
 	* @Title: doInsert 
-	* @Description: TODO(for batch insert)  debug is done
+	* @Description: TODO(what to do) 
 	* @param @param conn
-	* @param @param tableName
-	* @param @param rowsData - column,value
-	* @param @param DataTypes  
+	* @param @param sql
+	* @param @param rowsData  
 	* @return void   
 	* @throws 
 	*/
-	public void doInsert(Connection conn, String tableName, List<Map<String,Object>> rowsData) {
-		
-		Iterator<?> it = rowsData.get(0).keySet().iterator();
-		String[] columns = new String[rowsData.get(0).size()];
-		for(int i = 0; it.hasNext(); i++) {
-			columns[i] = (String) it.next();
-		}
-		String sql =  prepareInsertSql(columns,tableName);
+	public void doInsert(Connection conn, String sql, List<Object[]> rowsData) {
+
 		int cnt = rowsData.size();
-		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
+//		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
 			
 		reportExecuteProcess("ready to execute sql:" + sql);
 		PreparedStatement statement = null;
@@ -57,7 +46,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 			conn.setAutoCommit(false);		
 			statement = conn.prepareStatement(sql);
 			for(int i = 0; i < cnt; i++) {		
-				setValuesForSql(statement, rowsData.get(i), columns, dataTypes);
+				setValuesForSql(statement,rowsData.get(i));
 				statement.addBatch();
 				if(i%2000 == 0) {			
 					statement.executeBatch();
