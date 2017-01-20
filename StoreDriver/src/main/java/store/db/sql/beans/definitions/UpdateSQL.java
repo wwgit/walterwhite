@@ -6,7 +6,7 @@
 * @date 2017年1月19日 上午10:31:10 
 * @version V1.0   
 */
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 /** 
  * @ClassName: UpdateSQL 

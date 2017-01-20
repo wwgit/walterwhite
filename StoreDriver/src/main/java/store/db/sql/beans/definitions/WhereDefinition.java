@@ -6,7 +6,7 @@
 * @date 2017年1月17日 上午10:52:40 
 * @version V1.0   
 */
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 /** 
  * @ClassName: WhereDefinition 

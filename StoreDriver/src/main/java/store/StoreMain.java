@@ -1,6 +1,6 @@
 package store;
 
-import store.db.sql.beans.WhereDefinition;
+import store.db.sql.beans.definitions.WhereDefinition;
 
 public class StoreMain {
 

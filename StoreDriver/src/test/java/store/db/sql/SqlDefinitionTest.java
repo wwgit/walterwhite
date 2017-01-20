@@ -11,14 +11,14 @@ package store.db.sql;
 import org.junit.Before;
 import org.junit.Test;
 
-import store.db.sql.beans.CreateTableSQL;
-import store.db.sql.beans.DeleteSQL;
-import store.db.sql.beans.InsertSQL;
 import store.db.sql.beans.MySqlFieldsDesc;
-import store.db.sql.beans.SQLDefinition;
-import store.db.sql.beans.SelectSQL;
-import store.db.sql.beans.UpdateSQL;
-import store.db.sql.beans.WhereDefinition;
+import store.db.sql.beans.definitions.SQLDefinition;
+import store.db.sql.beans.definitions.CreateTableSQL;
+import store.db.sql.beans.definitions.DeleteSQL;
+import store.db.sql.beans.definitions.InsertSQL;
+import store.db.sql.beans.definitions.SelectSQL;
+import store.db.sql.beans.definitions.UpdateSQL;
+import store.db.sql.beans.definitions.WhereDefinition;
 
 /** 
  * @ClassName: SqlDefinitionTest 

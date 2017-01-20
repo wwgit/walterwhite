@@ -6,7 +6,7 @@
 * @date 2017年1月19日 下午2:04:09 
 * @version V1.0   
 */
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@
 * @date 2017年1月18日 下午6:11:11 
 * @version V1.0   
 */
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 /** 
  * @ClassName: InsertSQL 

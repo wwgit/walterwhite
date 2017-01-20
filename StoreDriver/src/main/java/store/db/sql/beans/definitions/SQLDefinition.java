@@ -1,4 +1,4 @@
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 import java.util.List;
 

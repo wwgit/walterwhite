@@ -6,7 +6,7 @@
 * @date 2017年1月17日 下午12:54:41 
 * @version V1.0   
 */
-package store.db.sql.beans;
+package store.db.sql.beans.definitions;
 
 /** 
  * @ClassName: SelectSQL 
