@@ -8,10 +8,13 @@
 */
 package store.db.sql;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import store.db.sql.beans.MySqlFieldsDesc;
+import store.db.sql.beans.definitions.MySqlCreateSQL;
 import store.db.sql.beans.definitions.SQLDefinition;
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.DeleteSQL;
@@ -19,6 +22,9 @@ import store.db.sql.beans.definitions.InsertSQL;
 import store.db.sql.beans.definitions.SelectSQL;
 import store.db.sql.beans.definitions.UpdateSQL;
 import store.db.sql.beans.definitions.WhereDefinition;
+import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.ForeignKey;
+import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 /** 
  * @ClassName: SqlDefinitionTest 
@@ -150,16 +156,28 @@ public class SqlDefinitionTest {
 		String[] autoIncrDesc = "YES,NO,NO,NO,NO".split(",");
 		String[] primFields = "field-a,field-b,field-c,field-d,field-e".split(",");
 		
-		CreateTableSQL createSql = new CreateTableSQL();
-		createSql.setSqlFieldsDesc(new MySqlFieldsDesc());
+		List<Constraint> constrs = new ArrayList<Constraint>();
+		PrimaryKey pk = new PrimaryKey();
+		pk.setConstrName("this_pk");
+		pk.setConstrFields("field-a,field-b".split(","));
+		
+		ForeignKey fk = new ForeignKey();
+		fk.setConstrName("this_fk");
+		fk.setConstrFields("field-c,field-d".split(","));
+		fk.setRefTableName("reference_table");
+		fk.setRefTableFields("ref_field1,ref_field2".split(","));
+		
+		constrs.add(pk);
+		constrs.add(fk);
+		
+		CreateTableSQL createSql = new MySqlCreateSQL();
 		createSql.setUsedFields(usedFields);
 		createSql.setFieldsTypes(fieldsTypes);
 		createSql.setIsFieldNull(nullDescs);
 		createSql.setIsAutoIncr(autoIncrDesc);
 		createSql.setDbName("testperf");
 		createSql.setTableName("user_base_info");
-		createSql.setPrimaryFields(primFields);
-		
+		createSql.setConstraints(constrs);
 		
 		System.out.println(createSql.generateCreateTableSQL());
 		

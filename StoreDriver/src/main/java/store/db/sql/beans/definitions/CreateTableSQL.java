@@ -11,6 +11,7 @@ package store.db.sql.beans.definitions;
 import java.util.List;
 
 import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.ForeignKey;
 import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 
@@ -23,6 +24,11 @@ import store.db.sql.beans.definitions.constraints.PrimaryKey;
 */
 public abstract class CreateTableSQL extends SQLDefinition {
 
+	
+	/** 
+	* @Fields isPrimaryKeyDefine : one table should only have one primary key
+	*/ 
+	private boolean isPrimaryKeyDefine;
 	
 	/** 
 	* @Fields fieldsTypes : INT,VARCHAR(32),VARCHAR(255),DATE.... 
@@ -53,7 +59,7 @@ public abstract class CreateTableSQL extends SQLDefinition {
 		this.setSQLKeyword();
 	}
 	
-	public abstract void setAutoIncr(StringBuilder sb);
+	protected abstract void setAutoIncr(StringBuilder sb);
 	
 	
 	/* (non-Javadoc)
@@ -109,19 +115,32 @@ public abstract class CreateTableSQL extends SQLDefinition {
 			this.getSb().append(" PRIMARY KEY");
 		}
 		for(int i = 0; i < this.constraints.size(); i++) {
-			if(this.constraints.get(i) instanceof PrimaryKey) {
-				
+			
+			Constraint constr = this.constraints.get(i);
+			
+//			handling primary key
+			if(constr instanceof PrimaryKey) {
+				if(this.isPrimaryKeyDefine) {
+					throw new Exception("CREATE TABLE SQL statement creating error\n primary key has been defined !");
+				} else {
+					PrimaryKey pk = (PrimaryKey) constr;
+					pk.generateConstraint(this.getSb());
+					this.isPrimaryKeyDefine = true;
+				}				
+			}
+			
+//			handling foreign key
+			if(constr instanceof ForeignKey) {
+				ForeignKey fk = (ForeignKey) constr;
+				fk.generateConstraint(this.getSb());
+			}
+			if(i < this.constraints.size() - 1) {
+				this.getSb().append(",");
 			}
 		}
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see store.db.sql.beans.SQLDefinition#generateSQLTail()
-	 */
-	@Override
-	protected void generateSQLTail() {
-	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.beans.SQLDefinition#generateSQLHeader()
@@ -182,6 +201,14 @@ public abstract class CreateTableSQL extends SQLDefinition {
 
 	public void setConstraints(List<Constraint> constraints) {
 		this.constraints = constraints;
+	}
+
+	public boolean isPrimaryKeyDefine() {
+		return isPrimaryKeyDefine;
+	}
+
+	public void setPrimaryKeyDefine(boolean isPrimaryKeyDefine) {
+		this.isPrimaryKeyDefine = isPrimaryKeyDefine;
 	}
 
 }

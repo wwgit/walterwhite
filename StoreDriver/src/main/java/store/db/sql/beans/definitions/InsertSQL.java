@@ -33,9 +33,14 @@ public class InsertSQL extends SQLDefinition {
 	@Override
 	protected void generateUsedFieldsStatment() {
 
-		if(null != this.getUsedFields()) {
+		if(null != this.getUsedFields() && this.getUsedFields().length >= 1) {
 			this.getSb().append("(");
-			this.getSb().append(this.getUsedFields());
+			for(int i = 0; i < this.getUsedFields().length; i++) {
+				this.getSb().append(this.getUsedFields()[i]);
+				if(i < this.getUsedFields().length - 1) {
+					this.getSb().append(",");
+				}
+			}
 			this.getSb().append(") VALUES");
 		} else {
 			this.getSb().append("VALUES");

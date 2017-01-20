@@ -25,4 +25,13 @@ public class MySqlCreateSQL extends CreateTableSQL {
 		sb.append("AUTO_INCREMENT");
 	}
 
+	/* (non-Javadoc)
+	 * @see store.db.sql.beans.definitions.SQLDefinition#generateSQLTail()
+	 */
+	@Override
+	protected void generateSQLTail() {
+		this.getSb().append(")");
+		
+	}
+
 }

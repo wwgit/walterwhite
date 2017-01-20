@@ -19,8 +19,6 @@ public abstract class Constraint {
 	
 	private String constrName;
 	
-	private String constrType;
-	
 	/** 
 	* @Fields constrFields :  
 	* PRIMARY KEY(field1,field2,field3...)-> constrFields = field1,field2,field3...
@@ -38,14 +36,6 @@ public abstract class Constraint {
 
 	public void setConstrName(String constrName) {
 		this.constrName = constrName;
-	}
-
-	public String getConstrType() {
-		return constrType;
-	}
-
-	public void setConstrType(String constrType) {
-		this.constrType = constrType;
 	}
 
 	public String[] getConstrFields() {
