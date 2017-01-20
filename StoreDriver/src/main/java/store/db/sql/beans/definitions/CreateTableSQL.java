@@ -10,7 +10,8 @@ package store.db.sql.beans.definitions;
 
 import java.util.List;
 
-import store.db.sql.interfaces.SQLFieldsDesc;
+import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 
 /** 
@@ -20,7 +21,7 @@ import store.db.sql.interfaces.SQLFieldsDesc;
 * @date 2017年1月19日 下午3:52:06 
 *  
 */
-public class CreateTableSQL extends SQLDefinition {
+public abstract class CreateTableSQL extends SQLDefinition {
 
 	
 	/** 
@@ -33,30 +34,15 @@ public class CreateTableSQL extends SQLDefinition {
 	*/ 
 	private String[] isFieldNull;
 	
-	private String primaryKeyName;
-	
-	/** 
-	* @Fields primaryFields : primaryField1,primaryField2.... 
-	*/ 
-	private String[] primaryFields;
-	
-	private String[] foreignKeyNames;
-	
-	/** 
-	* @Fields foreignFields : (foreignField1,foreignField2),(foreignField3,foreignField4).... 
-	*/ 
-	private List<String[]> foreignFields;
-	
-	private List<String[]> foreignRefTables;
-	
-	private List<String[]> refTableFields;
-	
 	/** 
 	* @Fields isAutoIncr : YES,NO,DEFAULT,YES,NO,DEFAULT... 
 	*/ 
 	private String[] isAutoIncr;
 	
-	private SQLFieldsDesc sqlFieldsDesc;
+	/** 
+	* @Fields constraints : PRIMARY KEY, FOREIGN KEY 
+	*/ 
+	private List<Constraint> constraints;
 	
 	
 	public void setSQLKeyword() {
@@ -66,6 +52,8 @@ public class CreateTableSQL extends SQLDefinition {
 	public CreateTableSQL() {
 		this.setSQLKeyword();
 	}
+	
+	public abstract void setAutoIncr(StringBuilder sb);
 	
 	
 	/* (non-Javadoc)
@@ -83,6 +71,8 @@ public class CreateTableSQL extends SQLDefinition {
 			throw new Exception("CREATE TABLE SQL statement creating error\n some field description missing !");
 		if(this.getUsedFields().length != this.getIsFieldNull().length) 
 			throw new Exception("CREATE TABLE SQL statement creating error\n some field description missing !");
+		if(null == this.constraints || this.constraints.size() < 1) 
+			throw new Exception("CREATE TABLE SQL statement creating error\n primary key description missing !");
 		
 		for(int i = 0; i < this.getUsedFields().length; i++) {
 			
@@ -91,23 +81,17 @@ public class CreateTableSQL extends SQLDefinition {
 			this.getSb().append(this.getFieldsTypes()[i]);
 			
 //			NULL/NOT NULL DESCRIPTION Handling
-			if(this.getIsFieldNull()[i].equalsIgnoreCase("DEFAULT")) {
-				this.getSqlFieldsDesc().setNullAsDefault(this.getSb());
-			} else if(this.getIsFieldNull()[i].equalsIgnoreCase("YES")) {
-				this.getSb().append(" ");
-				this.getSqlFieldsDesc().setNull(this.getSb());
+			if(this.getIsFieldNull()[i].equalsIgnoreCase("YES")) {
+				this.getSb().append(" NULL");
 			} else if(this.getIsFieldNull()[i].equalsIgnoreCase("NO")) {
-				this.getSb().append(" ");
-				this.getSqlFieldsDesc().setNotNull(this.getSb());
-			} else {
-				this.getSqlFieldsDesc().setNullAsDefault(this.getSb());
+				this.getSb().append(" NOT NULL");
 			}
 			
 //			AUTO INCREMENT DESCRIPTION Handling
 			if(this.getIsAutoIncr()[i].equalsIgnoreCase("YES")) {
 				this.getSb().append(" ");
-				this.getSqlFieldsDesc().setAutoIncr(this.getSb());
-			} 
+				setAutoIncr(this.getSb());
+			}
 			if(i < this.getUsedFields().length-1) {
 				this.getSb().append(",");
 			}
@@ -115,28 +99,17 @@ public class CreateTableSQL extends SQLDefinition {
 		}
 		
 		this.getSb().append(",");
-		if(null == this.getPrimaryFields() || this.getPrimaryFields().length < 1) {
-			
-			this.getSb().append("primary_id INT ");
-			this.getSqlFieldsDesc().setAutoIncr(this.getSb());
-			this.getSb().append(" ");
-			this.getSqlFieldsDesc().setPrimaryKey(this.getSb());
-		}
-		if(this.primaryKeyName == null) {
-			this.getSqlFieldsDesc().setTablePrimaryKey(this.getSb(), this.getPrimaryFields());
-		} else {
-			this.getSqlFieldsDesc().setTablePrimaryKey(this.getSb(), this.getPrimaryFields(),this.primaryKeyName);
-		}
 		
-		if(this.foreignFields.size() >= 1) {
-			if(this.foreignFields.size() != this.foreignRefTables.size()) 
-				throw new Exception("CREATE TABLE SQL statement creating error\n some constraints description missing !");
-			if(this.refTableFields.size() != this.foreignRefTables.size()) 
-				throw new Exception("CREATE TABLE SQL statement creating error\n some constraints description missing !");
-			
-			this.getSb().append(",");
-			
-			for(int i = 0; i < this.foreignFields.size(); i++) {
+//		handling constraints
+		if(null == this.constraints || this.constraints.size() < 1) {
+			this.getSb().append(this.getTableName().toLowerCase());
+			this.getSb().append("_pky_id");
+			this.getSb().append(" INT ");
+			setAutoIncr(this.getSb());
+			this.getSb().append(" PRIMARY KEY");
+		}
+		for(int i = 0; i < this.constraints.size(); i++) {
+			if(this.constraints.get(i) instanceof PrimaryKey) {
 				
 			}
 		}
@@ -195,22 +168,6 @@ public class CreateTableSQL extends SQLDefinition {
 		this.isFieldNull = isFieldNull;
 	}
 
-	public SQLFieldsDesc getSqlFieldsDesc() {
-		return sqlFieldsDesc;
-	}
-
-	public void setSqlFieldsDesc(SQLFieldsDesc sqlFieldsDesc) {
-		this.sqlFieldsDesc = sqlFieldsDesc;
-	}
-
-	public String[] getPrimaryFields() {
-		return primaryFields;
-	}
-
-	public void setPrimaryFields(String[] primaryFields) {
-		this.primaryFields = primaryFields;
-	}
-
 	public String[] getIsAutoIncr() {
 		return isAutoIncr;
 	}
@@ -219,44 +176,12 @@ public class CreateTableSQL extends SQLDefinition {
 		this.isAutoIncr = isAutoIncr;
 	}
 
-	public String getPrimaryKeyName() {
-		return primaryKeyName;
+	public List<Constraint> getConstraints() {
+		return constraints;
 	}
 
-	public void setPrimaryKeyName(String primaryKeyName) {
-		this.primaryKeyName = primaryKeyName;
-	}
-
-	public String[] getForeignKeyNames() {
-		return foreignKeyNames;
-	}
-
-	public void setForeignKeyNames(String[] foreignKeyNames) {
-		this.foreignKeyNames = foreignKeyNames;
-	}
-
-	public List<String[]> getForeignFields() {
-		return foreignFields;
-	}
-
-	public void setForeignFields(List<String[]> foreignFields) {
-		this.foreignFields = foreignFields;
-	}
-
-	public List<String[]> getForeignRefTables() {
-		return foreignRefTables;
-	}
-
-	public void setForeignRefTables(List<String[]> foreignRefTables) {
-		this.foreignRefTables = foreignRefTables;
-	}
-
-	public List<String[]> getRefTableFields() {
-		return refTableFields;
-	}
-
-	public void setRefTableFields(List<String[]> refTableFields) {
-		this.refTableFields = refTableFields;
+	public void setConstraints(List<Constraint> constraints) {
+		this.constraints = constraints;
 	}
 
 }
