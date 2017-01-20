@@ -150,7 +150,7 @@ public class SqlDefinitionTest {
 	@Test
 	public void CreateTableSQLTest() throws Exception {
 		
-		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
+		String[] usedFields = "field1,field2,field3,field4,field5".split(",");
 		String[] fieldsTypes = "INT,VARCHAR(255),VARCHAR(255),VARCHAR(255),VARCHAR(255)".split(",");
 		String[] nullDescs = "YES,NO,DEFAULT,YES,YES".split(",");
 		String[] autoIncrDesc = "YES,NO,NO,NO,NO".split(",");
@@ -159,13 +159,13 @@ public class SqlDefinitionTest {
 		List<Constraint> constrs = new ArrayList<Constraint>();
 		PrimaryKey pk = new PrimaryKey();
 		pk.setConstrName("this_pk");
-		pk.setConstrFields("field-a,field-b".split(","));
+		pk.setConstrFields("field1".split(","));
 		
 		ForeignKey fk = new ForeignKey();
 		fk.setConstrName("this_fk");
-		fk.setConstrFields("field-c,field-d".split(","));
-		fk.setRefTableName("reference_table");
-		fk.setRefTableFields("ref_field1,ref_field2".split(","));
+		fk.setConstrFields("field1".split(","));
+		fk.setRefTableName("user_base_info3");
+		fk.setRefTableFields("field1".split(","));
 		
 		constrs.add(pk);
 		constrs.add(fk);
@@ -176,7 +176,7 @@ public class SqlDefinitionTest {
 		createSql.setIsFieldNull(nullDescs);
 		createSql.setIsAutoIncr(autoIncrDesc);
 		createSql.setDbName("testperf");
-		createSql.setTableName("user_base_info");
+		createSql.setTableName("user_base_info4");
 		createSql.setConstraints(constrs);
 		
 		System.out.println(createSql.generateCreateTableSQL());
