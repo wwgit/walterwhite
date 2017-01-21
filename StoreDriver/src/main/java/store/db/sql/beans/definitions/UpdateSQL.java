@@ -16,6 +16,8 @@ package store.db.sql.beans.definitions;
  *  
  */
 public class UpdateSQL extends SQLDefinition {
+
+	private Object[] setFieldValues;
 	
 	private void setSQLKeyword() {
 		this.setSQLKeyword("UPDATE");
@@ -94,6 +96,14 @@ public class UpdateSQL extends SQLDefinition {
 		}		
 		return this.getSb().toString();
 		
+	}
+
+	public Object[] getSetFieldValues() {
+		return setFieldValues;
+	}
+
+	public void setSetFieldValues(Object[] setFieldValues) {
+		this.setFieldValues = setFieldValues;
 	}
 
 }

@@ -35,8 +35,6 @@ public abstract class SQLDefinition {
 	*/ 
 	private String[] usedFields;
 	
-	private List<Object[]> fieldsValues;
-	
 	private WhereDefinition whereConditions;	
 
 	/** 
@@ -156,17 +154,11 @@ public abstract class SQLDefinition {
 		this.whereConditions = whereConditions;
 	}
 
-	public List<Object[]> getFieldsValues() {
-		return fieldsValues;
-	}
 
-	public void setFieldsValues(List<Object[]> fieldsValues) {
-		this.fieldsValues = fieldsValues;
-	}
-	public StringBuilder getSb() {
+	protected StringBuilder getSb() {
 		return sb;
 	}
-	public void setSb(StringBuilder sb) {
+	protected void setSb(StringBuilder sb) {
 		this.sb = sb;
 	}
 	

@@ -8,6 +8,8 @@
 */
 package store.db.sql.beans.definitions;
 
+import java.util.List;
+
 /** 
  * @ClassName: InsertSQL 
  * @Description: TODO(what to do) 
@@ -18,6 +20,8 @@ package store.db.sql.beans.definitions;
 public class InsertSQL extends SQLDefinition {
 
 	private int howManyFields;	
+	
+	private List<Object[]> fieldsValues;
 	
 	private void setSQLKeyword() {
 		this.setSQLKeyword("INSERT");
@@ -128,6 +132,14 @@ public class InsertSQL extends SQLDefinition {
 
 	public void setHowManyFields(int howManyFields) {
 		this.howManyFields = howManyFields;
+	}
+	
+	public List<Object[]> getFieldsValues() {
+		return fieldsValues;
+	}
+
+	public void setFieldsValues(List<Object[]> fieldsValues) {
+		this.fieldsValues = fieldsValues;
 	}
 
 }

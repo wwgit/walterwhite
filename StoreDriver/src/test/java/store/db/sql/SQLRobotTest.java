@@ -75,7 +75,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 //		this.printReports();
 	}
 	
-	@Test
+//	@Test
 	public void mySqlInsert() {
 		
 		InsertSQL insertSQL = new InsertSQL();
@@ -96,6 +96,12 @@ public class SQLRobotTest extends TestCaseAbstract {
 		this.robot.Insert(insertSQL);
 		long endTime = System.currentTimeMillis();
 		System.out.println("time:" + (endTime - startTime)/1000 + "s");
+		
+	}
+	
+	@Test
+	public void mySqlUpdate() {
+		
 		
 	}
 

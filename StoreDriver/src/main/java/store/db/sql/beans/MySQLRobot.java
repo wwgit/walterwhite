@@ -85,7 +85,7 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 		Object[] whereValues = null; Connection conn = null;	
 		conn = getConnectionFrmQueue();
 		
-		if(null != selectSQL.getWhereConditions() || 
+		if(null != selectSQL.getWhereConditions() && 
 		   selectSQL.getWhereConditions().getWhereConditions().length >= 1) {
 		   whereValues = selectSQL.getWhereConditions().getWhereValues();
 		}
@@ -102,6 +102,22 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 	 * @see store.db.sql.interfaces.ISQLRobot#Update(store.db.sql.beans.definitions.UpdateSQL)
 	 */
 	public void Update(UpdateSQL updateSQL) {
+		
+		Object[] whereValues = null; Connection conn = null;
+		Object[] fieldValues = null;
+		conn = getConnectionFrmQueue();
+		
+		if(null != updateSQL.getWhereConditions() && 
+				   updateSQL.getWhereConditions().getWhereConditions().length >= 1) {
+			whereValues = updateSQL.getWhereConditions().getWhereValues();
+		}
+		if(null != updateSQL.getSetFieldValues() &&
+				   updateSQL.getSetFieldValues().length >=1 ) {
+			fieldValues = updateSQL.getSetFieldValues();
+		}
+		Object[] allValues = new Object[fieldValues.length + whereValues.length];
+		System.arraycopy(fieldValues, 0, allValues, 0, fieldValues.length);
+		
 	}
 
 	/* (non-Javadoc)
