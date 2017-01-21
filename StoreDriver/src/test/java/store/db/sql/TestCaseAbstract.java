@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.interfaces.bean.BeanFactory;
@@ -131,6 +133,39 @@ public abstract class TestCaseAbstract extends SqlKnowledge {
 		this.failedMessage = failedMessage;
 	}
 
+	public void returnResources(Connection conn, PreparedStatement statement) {
+		/*try {
+			statement.close();
+			this.getPool().returnConnection(conn);
+		} catch (SQLException e) {
+			reportFailure(e);
+		}*/
+		this.getPool().returnConnection(conn);
+	}
+
+	@Override
+	public void returnResources(Connection conn, Statement statement) {
+		/*try {
+			statement.close();
+			this.getPool().returnConnection(conn);
+		} catch (SQLException e) {
+			reportFailure(e);
+		}*/
+		this.getPool().returnConnection(conn);
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLReporter#reportQueryResults(java.util.Map)
+	 */
+	public void reportQueryResults(Map<Object, List<List<Object>>> result) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLReporter#reportUpdateResults(int)
+	 */
+	public void reportUpdateResults(int doneCnt) {
+	}
+	
 	/* (non-Javadoc)
 	 * @see store.db.sql.interfaces.SqlKnowledge#reportFailure(java.lang.Exception)
 	 */
@@ -157,20 +192,6 @@ public abstract class TestCaseAbstract extends SqlKnowledge {
 	 */
 	@Override
 	protected void reportResults(int doneCnt) {
-	}
-
-	/* (non-Javadoc)
-	 * @see store.db.sql.interfaces.SqlKnowledge#returnResources(java.sql.Connection, java.sql.PreparedStatement)
-	 */
-	@Override
-	protected void returnResources(Connection conn, PreparedStatement statement) {
-	}
-
-	/* (non-Javadoc)
-	 * @see store.db.sql.interfaces.SqlKnowledge#returnResources(java.sql.Connection, java.sql.Statement)
-	 */
-	@Override
-	protected void returnResources(Connection conn, Statement statement) {
 	}
 
 }

@@ -13,6 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -81,7 +85,27 @@ public abstract class SQLRobot extends SqlKnowledge {
 	 */
 	@Override
 	protected void reportResults(ResultSet result) {
-		this.reporterQueue.add(result);
+		
+		Map<Object, List<List<Object>>> queryResults = null;
+		if(null != result) {
+			try {
+				queryResults = parseQueryResult(result);
+			} catch (SQLException e) {
+				reportFailure(e);
+			}
+		}
+		try {
+			int cnt = result.getMetaData().getColumnCount();
+			while(result.next()) {
+				for(int i = 0; i < cnt; i++) {
+					System.out.println(result.getObject(i));
+				}				
+			}
+		} catch (SQLException e) {
+			reportFailure(e);
+		}
+		
+		this.reporterQueue.add(queryResults);
 	}
 
 	/* (non-Javadoc)
@@ -134,6 +158,54 @@ public abstract class SQLRobot extends SqlKnowledge {
 
 	public void setReporterQueue(LinkedBlockingQueue<Object> reporterQueue) {
 		this.reporterQueue = reporterQueue;
+	}
+	
+
+	/** 
+	* @Title: parseQueryResult 
+	* @Description: TODO(what to do) 
+	* debug has been done before
+	* TreeMap returned: key is the first column value returned
+	* returned Map is ordered by key by default
+	* 
+	* @param @param sqlRet
+	* @param @return
+	* @param @throws SQLException  
+	* @return Map<Object,List<List<Object>>>   
+	* @throws 
+	*/
+	private Map<Object, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
+		
+		List<Object> rowData = null;
+		List<List<Object>> rows = null;
+		Map<Object, List<List<Object>>> result = null;
+		Object key = null;
+		
+		int colCnt = sqlRet.getMetaData().getColumnCount();
+		rows = new LinkedList<List<Object>>();
+		result = new TreeMap<Object, List<List<Object>>>();
+		
+		while(sqlRet.next()) {
+			//first field value as key by default
+			key = sqlRet.getObject(1);
+			//System.out.println("key = " + key);
+			rowData = new LinkedList<Object>();
+			for(int i = 1; i <= colCnt; i++) {
+				rowData.add(sqlRet.getString(i));
+			}
+			
+			if(result.containsKey(key)) {
+				//System.out.println("key found " + key);
+				result.get(key).add(rowData);
+			} else {
+				//System.out.println("key not found " + key);
+				rows = new LinkedList<List<Object>>();
+				rows.add(rowData);
+				result.put(key, rows);
+			}
+		}
+		
+		return result;		
 	}
 	
 

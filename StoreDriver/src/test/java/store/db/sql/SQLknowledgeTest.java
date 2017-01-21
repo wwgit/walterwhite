@@ -169,26 +169,7 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 	}
 
 
-	public void returnResources(Connection conn, PreparedStatement statement) {
-		/*try {
-			statement.close();
-			this.getPool().returnConnection(conn);
-		} catch (SQLException e) {
-			reportFailure(e);
-		}*/
-		this.getPool().returnConnection(conn);
-	}
-
-	@Override
-	public void returnResources(Connection conn, Statement statement) {
-		/*try {
-			statement.close();
-			this.getPool().returnConnection(conn);
-		} catch (SQLException e) {
-			reportFailure(e);
-		}*/
-		this.getPool().returnConnection(conn);
-	}
+	
 
 
 

@@ -2,6 +2,9 @@ package store.db.sql.beans;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import store.db.sql.interfaces.ISQLReporter;
@@ -30,10 +33,10 @@ public class SQLReporter implements ISQLReporter {
 				reportFailure((Exception)report);
 			}
 			if(report instanceof Integer) {
-				reportResults(Integer.parseInt(String.valueOf(report)));
+				reportUpdateResults(Integer.parseInt(String.valueOf(report)));
 			}
-			if(report instanceof ResultSet) {
-				reportResults((ResultSet) report);
+			if(report instanceof TreeMap) {
+				reportQueryResults((Map<Object, List<List<Object>>>) report);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -52,22 +55,13 @@ public class SQLReporter implements ISQLReporter {
 	}
 
 
-	public void reportResults(ResultSet result) {
-		System.out.println("sql reporter reporting  sql result: " + result);
-		try {
-			int cnt = result.getMetaData().getColumnCount();
-			while(result.next()) {
-				for(int i = 0; i < cnt; i++) {
-					System.out.println(result.getObject(i));
-				}				
-			}
-		} catch (SQLException e) {
-			reportFailure(e);
-		}
+	public void reportQueryResults(Map<Object, List<List<Object>>> results) {
+		System.out.println("sql reporter reporting  sql result: " + results);
+		
 	}
 
 
-	public void reportResults(int doneCnt) {
+	public void reportUpdateResults(int doneCnt) {
 		System.out.println("sql reporter reporting  sql result: " + doneCnt);
 	}
 

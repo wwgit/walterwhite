@@ -47,145 +47,24 @@ public abstract class SqlCommons {
 			reporter.reportFailure(e);
 		}
 	}
-	
-	/*Debug has been done
-	 * 
-	 * 
-	 * */
-	public String prepareInsertSql(String[] dbColumns, String tableName) {
-		
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO ");
-			sb.append(tableName);
-			sb.append(" (");
-			
-			for(int i = 0; i < dbColumns.length-1; i++) {
-				sb.append(dbColumns[i] + ",");
-			}
-			sb.append(dbColumns[dbColumns.length-1] + ") VALUES (");
-			
-			for(int j = 0; j < dbColumns.length-1; j++) {
-				sb.append("?,");
-			}
-			sb.append("?)");
-			
-			return sb.toString();
-    }
-	
-	/*Debug has been done
-	 * 
-	 * 
-	 * */
-	public String prepareUpdateSql(String[] dbColumns, String tableName, String[] colPlusOper, String[] andOr) {
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(tableName);
-		sb.append(" ");
-		
-		for(int i = 0; i < dbColumns.length-1; i++) {
-			if(i == 0) {
-				sb.append("SET " + dbColumns[i] + "=?,");
-			} else {
-				sb.append(dbColumns[i] + "=?,");
-			}
-			
-		}
-		sb.append(dbColumns[dbColumns.length-1] + "=? ");
-		
-		if(null == colPlusOper && null == andOr) {
-			return sb.toString();
-		}
-		String whereConds = prepareSimpleWhereConds(colPlusOper, andOr);
-		sb.append(whereConds);
-		
-		return sb.toString();
-	}
-	
 
 	/** 
-	* @Title: prepareSimpleWhereConds 
-	* @Description: TODO(what to do)
-	* does not support embedded conditions combinations like where (a and b) or c
-	* does not support keywords like: 'like', 'is' etc  
-	* returns only conditions like: a=b and d=e or m<>n and k<=y
+	* @Title: setSqlValue 
+	* @Description: TODO(what to do) 
 	* Debug has been done
-	*  
-	* @param @param colPlusOper
-	* @param @param andOr
-	* @param @return  
-	* @return String   
+	* 
+	* @param @param statement
+	* @param @param value
+	* @param @param index
+	* @param @param dataType
+	* @param @throws SQLException  
+	* @return void   
 	* @throws 
 	*/
-	public String prepareSimpleWhereConds(String[] colPlusOper, String[] andOr) {
-		
-		StringBuilder sb = null;
-		if(null != colPlusOper) {
-			sb = new StringBuilder();
-			sb.append(" WHERE ");
-		}
-		if(null != andOr) {
-
-			for(int i = 0; i < andOr.length; i++) {
-				sb.append(colPlusOper[i] + "? ");
-				sb.append(andOr[i] + " ");
-			}
-		}
-		
-		if(null != colPlusOper && colPlusOper.length > 0) {
-			sb.append(colPlusOper[colPlusOper.length-1] + "?");
-			return sb.toString();
-		} else {
-			return null;
-		}
-			
-	}
-	
-	/*Debug has been done
-	 * 
-	 * 
-	 * */
-	public Map<Object, List<List<Object>>> parseQueryResult(ResultSet sqlRet) throws SQLException {
-		
-		List<Object> rowData = null;
-		List<List<Object>> rows = null;
-		Map<Object, List<List<Object>>> result = null;
-		Object key = null;
-		
-		int colCnt = sqlRet.getMetaData().getColumnCount();
-		rows = new LinkedList<List<Object>>();
-		result = new TreeMap<Object, List<List<Object>>>();
-		
-		while(sqlRet.next()) {
-			//first field value as key by default
-			key = sqlRet.getObject(1);
-			//System.out.println("key = " + key);
-			rowData = new LinkedList<Object>();
-			for(int i = 1; i <= colCnt; i++) {
-				rowData.add(sqlRet.getString(i));
-			}
-			
-			if(result.containsKey(key)) {
-				//System.out.println("key found " + key);
-				result.get(key).add(rowData);
-			} else {
-				//System.out.println("key not found " + key);
-				rows = new LinkedList<List<Object>>();
-				rows.add(rowData);
-				result.put(key, rows);
-			}
-		}
-		
-		return result;		
-	}
-	
-
-	/*Debug has been done
-	 * 
-	 * 
-	 * */
 	private void setSqlValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
-		//System.out.println("setting index: " + index);
+		System.out.println("setting index: " + index);
+		System.out.println("setting Obj value: " + value);
+		System.out.println("obj value type: " + value.getClass().getName());
 		switch(dataType) {
 			case DataTypes.JAVA_LANG_STRING:
 				statement.setString(index, (String) value);//System.out.println("setting Str value: " + value);

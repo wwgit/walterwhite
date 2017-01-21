@@ -43,10 +43,10 @@ public class SQLRobotTest extends TestCaseAbstract {
 		this.tableName = "user_base_info";
 		this.setUsedFields("id,acct_name,phone,mail,pwd".split(","));
 		
-		String[] whereFields = "phone= AND,mail=".split(",");		
+		String[] whereFields = "id= AND,phone=".split(",");		
 		Object[] whereObjs = new Object[2];
-		whereObjs[0] = "123456789";
-		whereObjs[1] = "mail_address";
+		whereObjs[0] = 1200000;
+		whereObjs[1] = "autoDataphone";
 		
 		this.whereDefine = new WhereDefinition();
 		this.whereDefine.setWhereConditions(whereFields);
@@ -102,9 +102,6 @@ public class SQLRobotTest extends TestCaseAbstract {
 	public void setWhereDefine(WhereDefinition whereDefine) {
 		this.whereDefine = whereDefine;
 	}
-
-
-
 
 
 }
