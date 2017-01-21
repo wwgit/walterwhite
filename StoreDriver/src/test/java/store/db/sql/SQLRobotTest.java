@@ -38,14 +38,12 @@ public class SQLRobotTest extends TestCaseAbstract {
 	
 	@Before
 	public void setUp() throws Exception {
-		
-		
-		
+			
 		this.dbName = "testperf";
 		this.tableName = "user_base_info";
 		this.setUsedFields("id,acct_name,phone,mail,pwd".split(","));
 		
-		String[] whereFields = "phone=,mail=".split(",");		
+		String[] whereFields = "phone= AND,mail=".split(",");		
 		Object[] whereObjs = new Object[2];
 		whereObjs[0] = "123456789";
 		whereObjs[1] = "mail_address";

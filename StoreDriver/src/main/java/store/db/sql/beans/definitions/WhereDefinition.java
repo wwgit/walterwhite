@@ -43,7 +43,7 @@ public class WhereDefinition {
 	public void generateWhereConditions(StringBuilder sb) {
 		
 //		String[] conds = whereConditions.split(",");
-		sb.append("where ");
+		sb.append("WHERE ");
 		
 		for(int i = 0; i < whereConditions.length; i++) {
 			String[] singleCond = whereConditions[i].trim().split(" ");
