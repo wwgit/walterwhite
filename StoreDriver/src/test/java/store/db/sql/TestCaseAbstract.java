@@ -1,9 +1,15 @@
 package store.db.sql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
+import handy.tools.factorties.PropertiesBeanFactory;
 import handy.tools.interfaces.bean.BeanFactory;
 import store.db.sql.beans.DbConfig;
+import store.db.sql.beans.SQLReporter;
+import store.db.sql.interfaces.ISQLReporter;
 import store.db.sql.interfaces.SqlKnowledge;
 
 public abstract class TestCaseAbstract extends SqlKnowledge {
@@ -13,6 +19,24 @@ public abstract class TestCaseAbstract extends SqlKnowledge {
 	private BeanFactory beanCreator;
 	private Object currentResult;
 	private String failedMessage;
+	
+	private SQLReporter reporter;
+	
+	
+	public TestCaseAbstract() {
+		
+		this.reporter = new SQLReporter();
+		this.setBeanCreator(new PropertiesBeanFactory("configs/db_config_test.properties"));
+		this.setConfig((DbConfig) this.getBeanCreator().getBean("dbConfig"));
+		this.setPool(new DbPool());
+		this.getPool().initConnections(this.getConfig(),reporter);
+	}
+	
+	public void printReports() {
+		while(this.reporter.getReporterQueue().isEmpty() == false) {
+			this.reporter.reportsHandling();
+		}
+	}
 	
 	
 	public Object getCurrentResult() {
@@ -52,6 +76,13 @@ public abstract class TestCaseAbstract extends SqlKnowledge {
 		this.beanCreator = beanCreator;
 	}
 	
+	public SQLReporter getReporter() {
+		return reporter;
+	}
+
+	public void setReporter(SQLReporter reporter) {
+		this.reporter = reporter;
+	}
 	
 	public boolean areColumnsReturned(String[] colNames) throws Exception {
 		
@@ -100,5 +131,46 @@ public abstract class TestCaseAbstract extends SqlKnowledge {
 		this.failedMessage = failedMessage;
 	}
 
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#reportFailure(java.lang.Exception)
+	 */
+	@Override
+	protected void reportFailure(Exception e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#reportExecuteProcess(java.lang.String)
+	 */
+	@Override
+	protected void reportExecuteProcess(String info) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#reportResults(java.sql.ResultSet)
+	 */
+	@Override
+	protected void reportResults(ResultSet result) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#reportResults(int)
+	 */
+	@Override
+	protected void reportResults(int doneCnt) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#returnResources(java.sql.Connection, java.sql.PreparedStatement)
+	 */
+	@Override
+	protected void returnResources(Connection conn, PreparedStatement statement) {
+	}
+
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.SqlKnowledge#returnResources(java.sql.Connection, java.sql.Statement)
+	 */
+	@Override
+	protected void returnResources(Connection conn, Statement statement) {
+	}
 
 }

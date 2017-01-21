@@ -18,12 +18,12 @@ import store.db.sql.commons.SqlCommons;
 */
 public abstract class SqlKnowledge extends SqlCommons {
 
-	public abstract void reportFailure(Exception e);
-	public abstract void reportExecuteProcess(String info);
-	public abstract void reportResults(ResultSet result);
-	public abstract void reportResults(int doneCnt);
-	public abstract void returnResources(Connection conn, PreparedStatement statement);
-	public abstract void returnResources(Connection conn, Statement statement);
+	protected abstract void reportFailure(Exception e);
+	protected abstract void reportExecuteProcess(String info);
+	protected abstract void reportResults(ResultSet result);
+	protected abstract void reportResults(int doneCnt);
+	protected abstract void returnResources(Connection conn, PreparedStatement statement);
+	protected abstract void returnResources(Connection conn, Statement statement);
 	
 
 	/** 
@@ -86,10 +86,12 @@ public abstract class SqlKnowledge extends SqlCommons {
 		PreparedStatement statement = null;
 		int result = 0;
 		try {
+			
 			if(!conn.getAutoCommit()) conn.setAutoCommit(true);			
 			statement = conn.prepareStatement(completeSql);
 			setValuesForSql(statement,values);
 			result = statement.executeUpdate();
+			reportResults(result);
 			
 		} catch (SQLException e) {
 			reportFailure(e);
@@ -99,7 +101,6 @@ public abstract class SqlKnowledge extends SqlCommons {
 				reportFailure(e1);
 			}
 		} finally {
-			reportResults(result);
 			returnResources(conn,statement);
 		}
 						
@@ -120,13 +121,14 @@ public abstract class SqlKnowledge extends SqlCommons {
 		int doneCnt = 0;
 		reportExecuteProcess("ready to execute simple sql:" + sql);
 		try {
+			
 			sqlStatement = conn.createStatement();
 			doneCnt = sqlStatement.executeUpdate(sql);
+			reportResults(doneCnt);
 			
 		} catch (SQLException e) {
 			reportFailure(e);
 		} finally {
-			reportResults(doneCnt);
 			returnResources(conn, sqlStatement);
 		}
 		
@@ -150,54 +152,19 @@ public abstract class SqlKnowledge extends SqlCommons {
 		//Map<String,List<List<Object>>> Result = null;
 		ResultSet sqlResult = null;
 		try {
+			
 			statement = conn.prepareStatement(completeSql);			
 			setValuesForSql(statement, condValues);
-			sqlResult = statement.executeQuery();		
+			sqlResult = statement.executeQuery();
+			reportResults(sqlResult);
 			 
 		} catch (SQLException e) {
 			reportFailure(e);
 		} finally {
-			reportResults(sqlResult);
 			returnResources(conn,statement);
 		}
 
 	}
-	
-	
-	/** 
-	* @Title: doMySqlPrepareQuery 
-	* @Description: TODO(query using prepareStatement using mysql stream mode) 
-	* @param @param conn
-	* @param @param completeSql
-	* @param @param condValues  
-	* @return void   
-	* @throws 
-	*/
-	public void doMySqlPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
-		
-		PreparedStatement statement = null;		
-
-		reportExecuteProcess("ready to execute sql:" + completeSql);
-		//Map<String,List<List<Object>>> Result = null;
-		ResultSet sqlResult = null;
-		try {
-			//parepare statement for tons of data coming ~
-			statement = conn.prepareStatement(completeSql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
-			statement.setFetchSize(Integer.MIN_VALUE);
-			statement.setFetchDirection(ResultSet.FETCH_REVERSE);
-			
-			setValuesForSql(statement, condValues);
-			sqlResult = statement.executeQuery();		
-			 
-		} catch (SQLException e) {
-			reportFailure(e);
-		} finally {
-			reportResults(sqlResult);
-			returnResources(conn,statement);
-		}
-
-	}
-	
 	
 	/** 
 	* @Title: doSimpleQuery 
@@ -213,13 +180,14 @@ public abstract class SqlKnowledge extends SqlCommons {
 		Statement sqlStatement = null;
 		reportExecuteProcess("ready to execute simple sql:" + sql);
 		try {
+			
 			sqlStatement = conn.createStatement();
 			sqlResult = sqlStatement.executeQuery(sql);
+			reportResults(sqlResult);
 			
 		} catch (SQLException e) {
 			reportFailure(e);
 		} finally {
-			reportResults(sqlResult);
 			returnResources(conn, sqlStatement);
 		}
 		

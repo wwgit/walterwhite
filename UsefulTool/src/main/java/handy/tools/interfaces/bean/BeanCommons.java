@@ -55,12 +55,8 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 	* @throws 
 	*/
 	public void setDefaultUniqueCode() {
-		String hashCode = null;
-		if(null == this.getDefaultUniqueCode()) {
-			hashCode = loadBeanUniqCode(this.getCurrentFilePath());
-			this.defaultUniqueCode = hashCode;
-		}		
-		
+		String hashCode = loadBeanUniqCode(this.getCurrentFilePath());
+		this.defaultUniqueCode = hashCode;
 	}
 	
 	public boolean isRefBean(Object propertyValue) {

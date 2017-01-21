@@ -32,13 +32,11 @@ public abstract class XmlHelper extends PathHelper {
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				xmlWriter.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -91,7 +89,6 @@ public abstract class XmlHelper extends PathHelper {
 			doc = reader.read(xmlPath);
 			
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		return doc;

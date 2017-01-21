@@ -59,7 +59,7 @@ public abstract class FundationHelper implements TxTFile, FileFormat, DataTypes 
 		
 		StringBuilder sb = new StringBuilder(str);
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-		System.out.println(sb.toString());
+//		System.out.println(sb.toString());
 		return sb.toString();
 		
 	}

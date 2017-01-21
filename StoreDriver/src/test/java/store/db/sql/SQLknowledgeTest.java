@@ -87,7 +87,7 @@ public class SQLknowledgeTest extends TestCaseAbstract implements ISQLReporter {
 		String baseSql = "select * from user_base_info";
 
 		Object[] condValues = new Object[]{"simpleName","steveredd@qq.com"};		
-		this.doMySqlPrepareQuery(this.getPool().retrieveConnection(), baseSql, null);
+//		this.doMySqlPrepareQuery(this.getPool().retrieveConnection(), baseSql, null);
 		boolean colReturned = false;
 		try {
 			colReturned = areColumnsReturned(new String[]{"phone","mail"});

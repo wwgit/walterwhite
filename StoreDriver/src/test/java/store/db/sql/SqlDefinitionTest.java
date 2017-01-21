@@ -35,12 +35,12 @@ import store.db.sql.beans.definitions.constraints.PrimaryKey;
  */
 public class SqlDefinitionTest {
 	
-	@Before
+//	@Before
 	public void setUp() throws Exception {
 		
 	}
 	
-	@Test
+//	@Test
 	public void SelectSQLTest() throws Exception {
 		
 		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
@@ -68,7 +68,7 @@ public class SqlDefinitionTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void InsertSQLTest() throws Exception {
 		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
 		
@@ -90,7 +90,7 @@ public class SqlDefinitionTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void UpdateSQLTest() throws Exception {
 		
 		String[] usedFields = "field-a,field-b,field-c,field-d,field-e".split(",");
@@ -126,7 +126,7 @@ public class SqlDefinitionTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void DeleteSQLTest() throws Exception {
 		String[] where = "field-a= or, field-b= and, field-c> or, field-d> or, field-e<>".split(",");		
 		Object[] values = new Object[5];
@@ -152,7 +152,7 @@ public class SqlDefinitionTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void CreateTableSQLTest() throws Exception {
 		
 		String[] usedFields = "field1,field2,field3,field4,field5".split(",");

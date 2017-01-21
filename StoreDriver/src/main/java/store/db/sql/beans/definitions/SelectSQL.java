@@ -34,7 +34,13 @@ public class SelectSQL extends SQLDefinition {
 	public void generateUsedFieldsStatment() {	
 		
 		if(null != this.getUsedFields()) {
-			this.getSb().append(this.getUsedFields());	
+			for(int i = 0; i < this.getUsedFields().length; i++) {
+				this.getSb().append(this.getUsedFields()[i]);
+				if(i < this.getUsedFields().length - 1) {
+					this.getSb().append(",");
+				}
+			}
+				
 		} else {
 			this.getSb().append("*");
 		}

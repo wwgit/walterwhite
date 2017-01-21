@@ -4,6 +4,7 @@ package store.db.sql;
 import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Vector;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import store.db.sql.beans.DbConfig;
 import store.db.sql.commons.SqlCommons;
@@ -11,15 +12,16 @@ import store.db.sql.interfaces.ISQLReporter;
 
 public class DbPool extends SqlCommons {
 	
-	private Vector<Connection> connetions;
+	/** 
+	* @Fields poolPutQueue : 
+	* SQLDriver initializes this queue  
+	* dbPool initializes connections to this queue 
+	* while robots get connections to from this queue.
+	* After completing tasks, robots return connections to this queue
+	* 
+	*/ 
+	private ArrayBlockingQueue<Connection> connections;
 
-	public Vector<Connection> getConnetions() {
-		return connetions;
-	}
-
-	public void setConnetions(Vector<Connection> connetions) {
-		this.connetions = connetions;
-	}
 	
 	/*debug is done
 	 * 
@@ -27,7 +29,7 @@ public class DbPool extends SqlCommons {
 	 * */
 	public void initConnections(DbConfig config, ISQLReporter reporter) {
 		
-		Vector<Connection> conns = new Vector<Connection>();
+		ArrayBlockingQueue<Connection> conns = new ArrayBlockingQueue<Connection>(config.getPoolSize());
 		Connection conn = null;
 		try {
 			
@@ -35,7 +37,7 @@ public class DbPool extends SqlCommons {
 			for(int i = 0; i < config.getPoolSize(); i++) {
 				conn = createConnection(config.getUrl(), config.getUserName(), config.getPassword());
 				if (null == conn) continue;
-				conns.add(i, conn);
+				conns.add(conn);
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -43,7 +45,7 @@ public class DbPool extends SqlCommons {
 		} catch (Exception e) {
 			reporter.reportFailure(e);
 		}	
-		this.setConnetions(conns);		
+		this.setConnections(conns);		
 	}
 	
 	/*debug is done
@@ -53,7 +55,7 @@ public class DbPool extends SqlCommons {
 	public void closeConnections(ISQLReporter reporter) {
 		
 		Iterator<?> it = null;
-		for(it = getConnetions().iterator(); it.hasNext();) {
+		for(it = getConnections().iterator(); it.hasNext();) {
 			Connection conn = (Connection) it.next();
 			closeConnection(conn, reporter);
 		}
@@ -65,13 +67,13 @@ public class DbPool extends SqlCommons {
 	 * */
 	public Connection retrieveConnection() {
 		Connection conn = null;
-		if(!getConnetions().isEmpty()) {
-			conn = getConnetions().firstElement();
-			getConnetions().remove(0);
-			//System.out.println("pool size: " + this.getConnetions().size());
-			//System.out.println("removed conn: " + conn);
+		try {
+			conn = this.getConnections().take();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			return conn;
 		}
-		return conn;
 	}
 	
 	/*debug is done
@@ -79,7 +81,15 @@ public class DbPool extends SqlCommons {
 	 * 
 	 * */
 	public void returnConnection(Connection conn) {
-		getConnetions().add(conn);
+		getConnections().add(conn);
+	}
+
+	public ArrayBlockingQueue<Connection> getConnections() {
+		return connections;
+	}
+
+	public void setConnections(ArrayBlockingQueue<Connection> connections) {
+		this.connections = connections;
 	}
 	
 

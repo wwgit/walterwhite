@@ -110,7 +110,6 @@ public class BeanDataMapImpl extends BeanDataMap {
 			} 
 			
 			if(null != beanObj) {
-				//System.out.println("removing " + beanIdUniqCode + " after getBean from cache !");
 				//to enhance the performance
 				int i = getBeanGetCnt().get(beanIdUniqCode) + 1;
 				getBeanGetCnt().put(beanIdUniqCode, i);
