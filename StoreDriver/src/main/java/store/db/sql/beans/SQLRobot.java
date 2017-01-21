@@ -69,6 +69,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 	 */
 	@Override
 	protected void reportFailure(Exception e) {
+		System.out.println(e);
 		this.reporterQueue.add(e);
 	}
 
@@ -77,6 +78,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 	 */
 	@Override
 	protected void reportExecuteProcess(String info) {
+		System.out.println(info);
 		this.reporterQueue.add(info);
 	}
 
@@ -206,6 +208,17 @@ public abstract class SQLRobot extends SqlKnowledge {
 		}
 		
 		return result;		
+	}
+	
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLRobot#CreateData(java.lang.Class[])
+	 */
+	public List<Object[]> CreateData(Class<?>[] dataTypes) {
+		
+		List<Object[]> allData = null;
+		
+		
+		return allData;
 	}
 	
 

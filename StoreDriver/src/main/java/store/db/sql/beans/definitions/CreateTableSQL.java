@@ -51,7 +51,7 @@ public abstract class CreateTableSQL extends SQLDefinition {
 	private List<Constraint> constraints;
 	
 	
-	public void setSQLKeyword() {
+	private void setSQLKeyword() {
 		this.setSQLKeyword("CREATE TABLE");
 	}
 	

@@ -8,6 +8,8 @@
 */
 package store.db.sql.interfaces;
 
+import java.util.List;
+
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.DeleteSQL;
 import store.db.sql.beans.definitions.InsertSQL;
@@ -28,5 +30,6 @@ public interface ISQLRobot {
 	public void Update(UpdateSQL updateSQL);
 	public void Delete(DeleteSQL deleteSQL);
 	public void CreateTable(CreateTableSQL createSQL);
+	public List<Object[]> CreateData(Class<?>[] dataTypes);
 
 }

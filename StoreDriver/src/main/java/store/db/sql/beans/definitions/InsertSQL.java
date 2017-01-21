@@ -19,7 +19,7 @@ public class InsertSQL extends SQLDefinition {
 
 	private int howManyFields;	
 	
-	public void setSQLKeyword() {
+	private void setSQLKeyword() {
 		this.setSQLKeyword("INSERT");
 	}
 	

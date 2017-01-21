@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.DeleteSQL;
@@ -67,6 +68,13 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 	 * @see store.db.sql.interfaces.ISQLRobot#Insert(store.db.sql.beans.definitions.InsertSQL)
 	 */
 	public void Insert(InsertSQL insertSQL) {
+		
+		Connection conn = getConnectionFrmQueue();
+		try {
+			this.doInsert(conn, insertSQL.generatePrepareSQLStatment(), insertSQL.getFieldsValues());
+		} catch (Exception e) {
+			reportFailure(e);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -107,6 +115,8 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 	 */
 	public void CreateTable(CreateTableSQL createSQL) {
 	}
+
+
 	
 
 }

@@ -17,7 +17,7 @@ package store.db.sql.beans.definitions;
  */
 public class UpdateSQL extends SQLDefinition {
 	
-	public void setSQLKeyword() {
+	private void setSQLKeyword() {
 		this.setSQLKeyword("UPDATE");
 	}
 	

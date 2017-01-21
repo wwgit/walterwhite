@@ -18,7 +18,7 @@ package store.db.sql.beans.definitions;
 public class DeleteSQL extends SQLDefinition {
 
 	
-	public void setSQLKeyword() {
+	private void setSQLKeyword() {
 		this.setSQLKeyword("DELETE");
 	}
 	

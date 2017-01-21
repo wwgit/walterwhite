@@ -1,7 +1,5 @@
 package store.db.sql.beans;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -33,7 +31,7 @@ public class SQLReporter implements ISQLReporter {
 				reportFailure((Exception)report);
 			}
 			if(report instanceof Integer) {
-				reportUpdateResults(Integer.parseInt(String.valueOf(report)));
+				reportUpdateResults(((Integer)report).intValue());
 			}
 			if(report instanceof TreeMap) {
 				reportQueryResults((Map<Object, List<List<Object>>>) report);

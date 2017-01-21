@@ -45,7 +45,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		String[] whereFields = "id= AND,phone=".split(",");		
 		Object[] whereObjs = new Object[2];
-		whereObjs[0] = 1200000;
+		whereObjs[0] = 1200001;
 		whereObjs[1] = "autoDataphone";
 		
 		this.whereDefine = new WhereDefinition();
@@ -59,7 +59,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		SelectSQL selectSQL = new SelectSQL();
 		selectSQL.setTableName(this.tableName);
-		selectSQL.setUsedFields(this.usedFields);
+//		selectSQL.setUsedFields(this.usedFields);
 		selectSQL.setWhereConditions(this.whereDefine);
 		
 		MySQLRobot robot = new MySQLRobot();
