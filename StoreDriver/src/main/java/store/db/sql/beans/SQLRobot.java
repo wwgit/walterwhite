@@ -93,19 +93,10 @@ public abstract class SQLRobot extends SqlKnowledge {
 		if(null != result) {
 			try {
 				queryResults = parseQueryResult(result);
+				System.out.println(queryResults);
 			} catch (SQLException e) {
 				reportFailure(e);
 			}
-		}
-		try {
-			int cnt = result.getMetaData().getColumnCount();
-			while(result.next()) {
-				for(int i = 0; i < cnt; i++) {
-					System.out.println(result.getObject(i));
-				}				
-			}
-		} catch (SQLException e) {
-			reportFailure(e);
 		}
 		
 		this.reporterQueue.add(queryResults);
@@ -116,6 +107,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 	 */
 	@Override
 	protected void reportResults(int doneCnt) {
+		System.out.println(doneCnt);
 		this.reporterQueue.add(doneCnt);
 	}
 
@@ -207,7 +199,6 @@ public abstract class SQLRobot extends SqlKnowledge {
 				result.put(key, rows);
 			}
 		}
-		
 		return result;		
 	}
 	

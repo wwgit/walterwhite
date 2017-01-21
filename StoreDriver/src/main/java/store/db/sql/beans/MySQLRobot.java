@@ -42,7 +42,6 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 	private void doMySqlPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
 		
 		PreparedStatement statement = null;		
-
 		reportExecuteProcess("ready to execute sql:" + completeSql);
 		//Map<String,List<List<Object>>> Result = null;
 		ResultSet sqlResult = null;
@@ -117,6 +116,13 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 		}
 		Object[] allValues = new Object[fieldValues.length + whereValues.length];
 		System.arraycopy(fieldValues, 0, allValues, 0, fieldValues.length);
+		System.arraycopy(whereValues, 0, allValues, fieldValues.length, whereValues.length);
+		
+		try {
+			this.doPrepareSql(conn, updateSQL.generatePrepareSQLStatment(), allValues);
+		} catch (Exception e) {
+			reportFailure(e);
+		}
 		
 	}
 

@@ -42,10 +42,10 @@ public class SQLRobotTest extends TestCaseAbstract {
 		this.tableName = "user_base_info";
 		this.setUsedFields("id,acct_name,phone,mail,pwd".split(","));
 		
-		String[] whereFields = "id= AND,phone=".split(",");		
-		Object[] whereObjs = new Object[2];
-		whereObjs[0] = 1200001;
-		whereObjs[1] = "autoDataphone";
+		String[] whereFields = "id=".split(",");		
+		Object[] whereObjs = new Object[1];
+		whereObjs[0] = "4000002";
+//		whereObjs[1] = "update";
 		
 		this.whereDefine = new WhereDefinition();
 		this.whereDefine.setWhereConditions(whereFields);
@@ -62,8 +62,16 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		SelectSQL selectSQL = new SelectSQL();
 		selectSQL.setTableName(this.tableName);
-		selectSQL.setUsedFields(this.usedFields);
-		selectSQL.setWhereConditions(this.whereDefine);
+		
+		String[] where = "id=".split(",");		
+		Object[] whereObjects = new Object[1];
+		whereObjects[0] = 2;
+		
+		WhereDefinition whereDefines = new WhereDefinition();
+		whereDefines.setWhereConditions(where);
+		whereDefines.setWhereValues(whereObjects);
+//		selectSQL.setUsedFields(this.usedFields);
+		selectSQL.setWhereConditions(whereDefines);
 		
 		this.robot.Query(selectSQL);
 		
@@ -78,7 +86,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		insertSQL.setUsedFields(this.usedFields);
 		
 		Object[] dataTemplate = new Object[5];
-		dataTemplate[0] = 5600000;
+		dataTemplate[0] = 1;
 		dataTemplate[1] = "insert";
 		dataTemplate[2] = "insert";
 		dataTemplate[3] = "insert";
@@ -105,8 +113,8 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		String[] whereFields = "id= AND,phone=".split(",");		
 		Object[] whereObjs = new Object[2];
-		whereObjs[0] = 4000000;
-		whereObjs[1] = "insert";
+		whereObjs[0] = 3;
+		whereObjs[1] = "insert2";
 		this.whereDefine.setWhereConditions(whereFields);
 		this.whereDefine.setWhereValues(whereObjs);
 		updateSQL.setWhereConditions(this.whereDefine);
