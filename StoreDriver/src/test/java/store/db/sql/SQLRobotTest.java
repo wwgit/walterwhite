@@ -1,10 +1,5 @@
 package store.db.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -19,9 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import store.db.sql.beans.MySQLRobot;
-import store.db.sql.beans.SQLReporter;
 import store.db.sql.beans.definitions.InsertSQL;
 import store.db.sql.beans.definitions.SelectSQL;
+import store.db.sql.beans.definitions.UpdateSQL;
 import store.db.sql.beans.definitions.WhereDefinition;
 
 /** 
@@ -67,7 +62,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		SelectSQL selectSQL = new SelectSQL();
 		selectSQL.setTableName(this.tableName);
-//		selectSQL.setUsedFields(this.usedFields);
+		selectSQL.setUsedFields(this.usedFields);
 		selectSQL.setWhereConditions(this.whereDefine);
 		
 		this.robot.Query(selectSQL);
@@ -102,6 +97,29 @@ public class SQLRobotTest extends TestCaseAbstract {
 	@Test
 	public void mySqlUpdate() {
 		
+		UpdateSQL updateSQL = new UpdateSQL();
+		updateSQL.setTableName(this.tableName);
+		
+		this.setUsedFields("acct_name,phone,mail,pwd".split(","));
+		updateSQL.setUsedFields(this.getUsedFields());
+		
+		String[] whereFields = "id= AND,phone=".split(",");		
+		Object[] whereObjs = new Object[2];
+		whereObjs[0] = 4000000;
+		whereObjs[1] = "insert";
+		this.whereDefine.setWhereConditions(whereFields);
+		this.whereDefine.setWhereValues(whereObjs);
+		updateSQL.setWhereConditions(this.whereDefine);
+		
+		Object[] dataTemplate = new Object[4];
+		dataTemplate[0] = "update";
+		dataTemplate[1] = "update";
+		dataTemplate[2] = "update";
+		dataTemplate[3] = "update";
+		
+		updateSQL.setSetFieldValues(dataTemplate);
+		
+		this.robot.Update(updateSQL);
 		
 	}
 
