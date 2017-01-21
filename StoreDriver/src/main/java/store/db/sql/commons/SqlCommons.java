@@ -62,12 +62,12 @@ public abstract class SqlCommons {
 	* @throws 
 	*/
 	private void setSqlValue(PreparedStatement statement, Object value, int index, int dataType) throws SQLException {
-		System.out.println("setting index: " + index);
-		System.out.println("setting Obj value: " + value);
-		System.out.println("obj value type: " + value.getClass().getName());
+//		System.out.println("setting index: " + index);
+//		System.out.println("setting Obj value: " + value);
+//		System.out.println("obj value type: " + value.getClass().getName());
 		switch(dataType) {
 			case DataTypes.JAVA_LANG_STRING:
-				statement.setString(index, (String) value);//System.out.println("setting Str value: " + value);
+				statement.setString(index, String.valueOf(value));//System.out.println("setting Str value: " + value);
 				break;
 			case DataTypes.JAVA_LANG_INTEGER:
 				int i_val = ((Integer) value).intValue();
@@ -145,6 +145,17 @@ public abstract class SqlCommons {
 		}
 	}
 	
+	public void setValuesForSql(PreparedStatement statement, Object[] data, int[] dataTypes) throws SQLException {
+		
+		if(null == data || data.length < 1) {
+			return;
+		}
+		
+		//System.out.println("data type length: " + dataTypes.length);
+		for(int i = 0; i < data.length; i++) {
+			setSqlValue(statement,data[i], i+1, dataTypes[i]);
+		}
+	}
 	
 	
 }

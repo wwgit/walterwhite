@@ -30,6 +30,6 @@ public interface ISQLRobot {
 	public void Update(UpdateSQL updateSQL);
 	public void Delete(DeleteSQL deleteSQL);
 	public void CreateTable(CreateTableSQL createSQL);
-	public List<Object[]> CreateData(Class<?>[] dataTypes);
+	public List<Object[]> CreateData(Object[] dataTemplate, int totalCnt);
 
 }

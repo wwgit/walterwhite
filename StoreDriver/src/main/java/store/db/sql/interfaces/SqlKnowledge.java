@@ -1,11 +1,14 @@
 package store.db.sql.interfaces;
 
+import handy.tools.helpers.TypeHelper;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
 import store.db.sql.commons.SqlCommons;
 
 
@@ -38,20 +41,21 @@ public abstract class SqlKnowledge extends SqlCommons {
 	public void doInsert(Connection conn, String sql, List<Object[]> rowsData) {
 
 		int cnt = rowsData.size();
-//		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
+		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
 			
 		reportExecuteProcess("ready to execute sql:" + sql);
 		PreparedStatement statement = null;
 		try {
 			conn.setAutoCommit(false);		
 			statement = conn.prepareStatement(sql);
+			
 			for(int i = 0; i < cnt; i++) {		
-				setValuesForSql(statement,rowsData.get(i));
+				setValuesForSql(statement,rowsData.get(i), dataTypes);
 				statement.addBatch();
 				if(i%2000 == 0) {			
 					statement.executeBatch();
 					conn.commit();
-					reportExecuteProcess("committed data: " + rowsData.get(i));
+					reportExecuteProcess("committed data: " + i);
 				}
 		    }			
 			statement.executeBatch();

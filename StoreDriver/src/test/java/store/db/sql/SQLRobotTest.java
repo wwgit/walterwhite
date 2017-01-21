@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 /**   
@@ -18,6 +20,7 @@ import org.junit.Test;
 
 import store.db.sql.beans.MySQLRobot;
 import store.db.sql.beans.SQLReporter;
+import store.db.sql.beans.definitions.InsertSQL;
 import store.db.sql.beans.definitions.SelectSQL;
 import store.db.sql.beans.definitions.WhereDefinition;
 
@@ -34,6 +37,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 	private String dbName;
 	private String[] usedFields;
 	private WhereDefinition whereDefine;
+	private MySQLRobot robot;
 
 	
 	@Before
@@ -51,6 +55,10 @@ public class SQLRobotTest extends TestCaseAbstract {
 		this.whereDefine = new WhereDefinition();
 		this.whereDefine.setWhereConditions(whereFields);
 		this.whereDefine.setWhereValues(whereObjs);
+		
+		this.robot = new MySQLRobot();
+		this.robot.setPoolQueue(this.getPool().getConnections());
+		this.robot.setReporterQueue(this.getReporter().getReporterQueue());
 
 	}
 	
@@ -62,12 +70,33 @@ public class SQLRobotTest extends TestCaseAbstract {
 //		selectSQL.setUsedFields(this.usedFields);
 		selectSQL.setWhereConditions(this.whereDefine);
 		
-		MySQLRobot robot = new MySQLRobot();
-		robot.setPoolQueue(this.getPool().getConnections());
-		robot.setReporterQueue(this.getReporter().getReporterQueue());
-		robot.Query(selectSQL);
+		this.robot.Query(selectSQL);
 		
-		this.printReports();
+//		this.printReports();
+	}
+	
+	@Test
+	public void mySqlInsert() {
+		
+		InsertSQL insertSQL = new InsertSQL();
+		insertSQL.setTableName(this.tableName);
+		insertSQL.setUsedFields(this.usedFields);
+		
+		Object[] dataTemplate = new Object[5];
+		dataTemplate[0] = 5600000;
+		dataTemplate[1] = "insert";
+		dataTemplate[2] = "insert";
+		dataTemplate[3] = "insert";
+		dataTemplate[4] = "insert";
+		
+		List<Object[]> testData = this.robot.CreateData(dataTemplate, 1000000);
+		insertSQL.setFieldsValues(testData);
+		
+		long startTime = System.currentTimeMillis();
+		this.robot.Insert(insertSQL);
+		long endTime = System.currentTimeMillis();
+		System.out.println("time:" + (endTime - startTime)/1000 + "s");
+		
 	}
 
 
@@ -101,6 +130,14 @@ public class SQLRobotTest extends TestCaseAbstract {
 
 	public void setWhereDefine(WhereDefinition whereDefine) {
 		this.whereDefine = whereDefine;
+	}
+
+	public MySQLRobot getRobot() {
+		return robot;
+	}
+
+	public void setRobot(MySQLRobot robot) {
+		this.robot = robot;
 	}
 
 

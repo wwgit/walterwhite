@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 	@Override
 	protected void reportExecuteProcess(String info) {
 		System.out.println(info);
-		this.reporterQueue.add(info);
+//		this.reporterQueue.add(info);
 	}
 
 	/* (non-Javadoc)
@@ -213,12 +214,45 @@ public abstract class SQLRobot extends SqlKnowledge {
 	/* (non-Javadoc)
 	 * @see store.db.sql.interfaces.ISQLRobot#CreateData(java.lang.Class[])
 	 */
-	public List<Object[]> CreateData(Class<?>[] dataTypes) {
+	@SuppressWarnings("null")
+	public List<Object[]> CreateData(Object[] dataTemplate, int totalCnt) {
 		
-		List<Object[]> allData = null;
+		List<Object[]> allData = new ArrayList<Object[]>();
+		StringBuilder sb = new StringBuilder();
+		int cnt = 1;
 		
+		for(int i = 0; i < totalCnt; i++) {
+			Object[] rowData = CreateRowData(dataTemplate,cnt,sb);
+			allData.add(rowData);
+			cnt += 1;
+		}	
 		
 		return allData;
+	}
+	
+	private Object[] CreateRowData(Object[] dataTemplate, int cnt, StringBuilder sb) {
+		
+		Object[] rowData = new Object[dataTemplate.length];
+
+		for(int i = 0; i < dataTemplate.length; i++) {
+			if(dataTemplate[i] instanceof Integer) {
+				rowData[i] = ((Integer)dataTemplate[i]).intValue() + cnt;
+				continue;
+			}
+			if(dataTemplate[i] instanceof Long) {
+				rowData[i] = ((Long)dataTemplate[i]).longValue() + cnt;
+				continue;
+			}
+			if(dataTemplate[i] instanceof String) {
+				sb.append(dataTemplate[i]);
+				sb.append(String.valueOf(cnt));
+				rowData[i] = sb.toString();
+				sb.delete(0, sb.length());
+				continue;
+			}
+			rowData[i] = dataTemplate[i];
+		}	
+		return rowData;
 	}
 	
 

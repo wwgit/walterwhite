@@ -34,7 +34,7 @@ public class SQLReporter implements ISQLReporter {
 				reportUpdateResults(((Integer)report).intValue());
 			}
 			if(report instanceof TreeMap) {
-				reportQueryResults((Map<Object, List<List<Object>>>) report);
+				reportQueryResults((Map<Object,List<List<Object>>>) report);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

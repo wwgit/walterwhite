@@ -123,7 +123,7 @@ public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapPars
 	}
 	
 	public void setProp(String propPath) {
-		System.out.println("who is calling me: " + this.getClass());
+//		System.out.println("who is calling me: " + this.getClass());
 		try {
 			Properties theProp = null;
 			if(null == this.getProp()) {
