@@ -46,6 +46,9 @@ public abstract class SQLDefineHelper {
 		
 		String[] tableFields = tableAnno.fields().split(",");
 		String[] fieldsTypes = tableAnno.fieldsTypes().split(",");
+		String[] allowNull = tableAnno.allowNull().split(",");
+		
+		
 		
 		if(null == tableFields || tableFields.length < 1) {
 			

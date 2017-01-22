@@ -52,5 +52,9 @@ public @interface TableField {
 	* @throws 
 	*/
 	int fieldLength() default 0;
+	
+	boolean allowNull() default true;
+	
+	boolean isAutoIncr() default false;
 
 }
