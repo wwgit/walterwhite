@@ -108,6 +108,7 @@ public abstract class TypeHelper implements DataTypes {
 		return ret;
 	}
 	
+	
 	public static int parseType(String type) {
 		
 		if(type.equals("java.lang.String")) {
@@ -240,7 +241,6 @@ public abstract class TypeHelper implements DataTypes {
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
 		
 		String str = String.valueOf(origin_value);
-		//System.out.println("get required value for " + str);
 		
 		Object value = getRequiredValue(str, requiredType);		
 		return value;
@@ -280,6 +280,52 @@ public abstract class TypeHelper implements DataTypes {
 		}
 //		System.out.println("checkpoint before return !");
 		return requiredClz;
+	}
+	
+	public static String getMysqlTypeDesc(Class<?> javaTypeClaz) throws Exception {
+		
+		if(javaTypeClaz == String.class) {
+			return "VARCHAR";
+		}
+		if(javaTypeClaz == int.class) {
+			return "INT";
+		}
+		if(javaTypeClaz == long.class) {
+			return "INTEGER";
+		}
+		if(javaTypeClaz == float.class) {
+			return "FLOAT";
+		}
+		if(javaTypeClaz == double.class) {
+			return "DOUBLE";
+		}
+		if(javaTypeClaz == byte[].class) {
+			return "BLOB";
+		}
+		if(javaTypeClaz == Long.class) {
+			return "INTEGER";
+		}
+		if(javaTypeClaz == java.math.BigDecimal.class) {
+			return "DECIMAL";
+		}
+		if(javaTypeClaz == Float.class) {
+			return "FLOAT";
+		}
+		if(javaTypeClaz == Double.class) {
+			return "DOUBLE";
+		}
+		if(javaTypeClaz == java.sql.Date.class) {
+			return "DATE";
+		}
+		if(javaTypeClaz == java.sql.Time.class) {
+			return "TIME";
+		}
+		if(javaTypeClaz == java.sql.Timestamp.class) {
+			return "TIMESTAMP";
+		} else {
+			throw new Exception(javaTypeClaz.getName() + " Not supported !");
+		}
+
 	}
 
 }

@@ -8,11 +8,9 @@
 */
 package store.annotations;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
+import handy.tools.helpers.TypeHelper;
 
+import java.lang.reflect.Field;
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.MySqlCreateSQL;
 
@@ -42,22 +40,42 @@ public abstract class SQLDefineHelper {
 		CreateTableSQL createSql = null;
 		if(dbClazName.contains("mysql")) {
 			createSql = new MySqlCreateSQL();
+		} else {
+			throw new Exception("only support mysql for now !");
 		}
 		
 		String[] tableFields = tableAnno.fields().split(",");
 		String[] fieldsTypes = tableAnno.fieldsTypes().split(",");
 		
 		if(null == tableFields || tableFields.length < 1) {
+			
+			StringBuilder sb = new StringBuilder();
 			tableFields = new String[refFields.length];
 			fieldsTypes = new String[refFields.length];
-			
+			for(int i = 0; i < refFields.length; i++) {
+				
+				if(refFields[i].isAnnotationPresent(TableField.class)) {
+					TableField tf = refFields[i].getDeclaredAnnotation(TableField.class);
+					tableFields[i] = tf.fieldName();
+					if(tf.fieldLength() > 0) {
+						sb.append(TypeHelper.getMysqlTypeDesc(tf.fieldType()));
+						sb.append("(");
+						sb.append(tf.fieldLength());
+						sb.append(")");
+						fieldsTypes[i] = sb.toString();
+						sb.delete(0, sb.length());
+					}
+				}
+				
+			}
 			
 		} else {
 			if(null == fieldsTypes || fieldsTypes.length < 1)
 				throw new Exception("fields number and fields Type number does Not match !");
 		}
 
-		
+		createSql.setUsedFields(tableFields);
+		createSql.setFieldsTypes(fieldsTypes);
 		
 		return createSql;
 	}
