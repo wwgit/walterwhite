@@ -108,6 +108,22 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 	}
 	
+	@Test
+	public void mySqlSimple() {
+		String insertSql = "INSERT INTO testTable(id,acct_name) VALUES(800100,'simpleInsert')";
+		this.robot.SimpleSql(insertSql);
+		
+		String updateSql = "UPDATE testperf.user_base_info SET pwd='update5' where id=6";
+		this.robot.SimpleSql(updateSql);
+		
+		String delteSql = "DELETE FROM testperf.user_base_info where id=7";
+		this.robot.SimpleSql(delteSql);
+		
+		String querySql = "SELECT * FROM testperf.user_base_info where id=6";
+		this.robot.SimpleQuery(querySql);	
+		
+	}
+	
 //	@Test
 	public void mySqlUpdate() {
 		

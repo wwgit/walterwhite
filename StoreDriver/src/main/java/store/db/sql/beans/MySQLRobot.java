@@ -73,11 +73,13 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 		
 		Connection conn = getConnectionFrmQueue();
 		try {
-			this.doInsert(conn, insertSQL.generatePrepareSQLStatment(), insertSQL.getFieldsValues());
+			doInsert(conn, insertSQL.generatePrepareSQLStatment(), insertSQL.getFieldsValues());
 		} catch (Exception e) {
 			reportFailure(e);
 		}
 	}
+	
+
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.interfaces.ISQLRobot#Select(store.db.sql.beans.definitions.SelectSQL)

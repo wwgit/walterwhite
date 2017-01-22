@@ -244,5 +244,14 @@ public abstract class SQLRobot extends SqlKnowledge {
 		return rowData;
 	}
 	
+	public void SimpleSql(String sql) {
+		Connection conn = getConnectionFrmQueue();
+		doSimpleSql(conn, sql);	
+	}
+	
+	public void SimpleQuery(String sql) {
+		Connection conn = getConnectionFrmQueue();
+		doSimpleQuery(conn, sql);
+	}
 
 }
