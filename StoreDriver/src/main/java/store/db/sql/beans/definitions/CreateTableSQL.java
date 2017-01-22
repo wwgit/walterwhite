@@ -86,10 +86,15 @@ public abstract class CreateTableSQL extends SQLDefinition {
 		
 		for(int i = 0; i < this.getUsedFields().length; i++) {
 			
-			this.getSb().append(this.getUsedFields()[i]);
-			this.getSb().append(" ");
-			this.getSb().append(this.getFieldsTypes()[i]);
-			
+			if(null != this.getUsedFields()[i]) {
+				this.getSb().append(this.getUsedFields()[i]);
+				if(null == this.getFieldsTypes()[i]) {
+					throw new Exception("CREATE TABLE SQL statement creating error\n some field type missing !");
+				}
+				this.getSb().append(" ");
+				this.getSb().append(this.getFieldsTypes()[i]);
+			}
+
 //			NULL/NOT NULL DESCRIPTION Handling
 			if(null != this.getIsFieldNull()[i]) {
 				if(this.getIsFieldNull()[i].equalsIgnoreCase("YES")) {
