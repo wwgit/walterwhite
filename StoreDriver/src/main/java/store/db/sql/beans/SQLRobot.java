@@ -21,6 +21,10 @@ import java.util.TreeMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import store.db.sql.beans.definitions.DeleteSQL;
+import store.db.sql.beans.definitions.InsertSQL;
+import store.db.sql.beans.definitions.SelectSQL;
+import store.db.sql.beans.definitions.UpdateSQL;
 import store.db.sql.interfaces.SqlKnowledge;
 
 /** 
@@ -253,5 +257,91 @@ public abstract class SQLRobot extends SqlKnowledge {
 		Connection conn = getConnectionFrmQueue();
 		doSimpleQuery(conn, sql);
 	}
+	
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLRobot#Insert(store.db.sql.beans.definitions.InsertSQL)
+	 */
+	public void Insert(InsertSQL insertSQL) {
+		
+		Connection conn = getConnectionFrmQueue();
+		try {
+			doInsert(conn, insertSQL.generatePrepareSQLStatment(), insertSQL.getFieldsValues());
+		} catch (Exception e) {
+			reportFailure(e);
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLRobot#Update(store.db.sql.beans.definitions.UpdateSQL)
+	 */
+	public void Update(UpdateSQL updateSQL) {
+		
+		Object[] whereValues = null; Connection conn = null;
+		Object[] fieldValues = null;
+		conn = getConnectionFrmQueue();
+		
+		if(null != updateSQL.getWhereConditions() && 
+				   updateSQL.getWhereConditions().getWhereConditions().length >= 1) {
+			whereValues = updateSQL.getWhereConditions().getWhereValues();
+		}
+		if(null != updateSQL.getSetFieldValues() &&
+				   updateSQL.getSetFieldValues().length >=1 ) {
+			fieldValues = updateSQL.getSetFieldValues();
+		}
+		Object[] allValues = new Object[fieldValues.length + whereValues.length];
+		System.arraycopy(fieldValues, 0, allValues, 0, fieldValues.length);
+		System.arraycopy(whereValues, 0, allValues, fieldValues.length, whereValues.length);
+		
+		try {
+			this.doPrepareSql(conn, updateSQL.generatePrepareSQLStatment(), allValues);
+		} catch (Exception e) {
+			reportFailure(e);
+		}
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLRobot#Delete(store.db.sql.beans.definitions.DeleteSQL)
+	 */
+	public void Delete(DeleteSQL deleteSQL) {
+		
+		Connection conn = null;
+		conn = getConnectionFrmQueue();
+		
+		Object[] whereValues = null;
+		if(null != deleteSQL.getWhereConditions() && 
+				deleteSQL.getWhereConditions().getWhereConditions().length >= 1) {
+			whereValues = deleteSQL.getWhereConditions().getWhereValues();
+		}
+		
+		try {
+			doPrepareSql(conn, deleteSQL.generatePrepareSQLStatment(), whereValues);
+		} catch (Exception e) {
+			reportFailure(e);
+		}	
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see store.db.sql.interfaces.ISQLRobot#Select(store.db.sql.beans.definitions.SelectSQL)
+	 */
+	public void Query(SelectSQL selectSQL) {
+		
+		Object[] whereValues = null; Connection conn = null;	
+		conn = getConnectionFrmQueue();
+		
+		if(null != selectSQL.getWhereConditions() && 
+		   selectSQL.getWhereConditions().getWhereConditions().length >= 1) {
+		   whereValues = selectSQL.getWhereConditions().getWhereValues();
+		}
+		
+		try {
+			doPrepareQuery(conn,selectSQL.generatePrepareSQLStatment(),whereValues);
+		} catch (Exception e) {
+			reportFailure(e);
+		}
+	}
+	
+	
 
 }
