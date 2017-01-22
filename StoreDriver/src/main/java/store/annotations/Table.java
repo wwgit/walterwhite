@@ -28,6 +28,12 @@ public @interface Table {
 	
 	String tableName();
 	
+	String dbClazName() default "com.mysql.jdbc.Driver";
+	
+	String charSet() default "uft8";
+	
+	int autoIncr() default 1;
+	
 	/** 
 	* @Title: fields 
 	* @Description: TODO(what to do) 
