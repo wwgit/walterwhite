@@ -152,22 +152,22 @@ public class SQLRobotTest extends TestCaseAbstract {
 	public void mySqlCreateTable() {
 		
 		MySqlCreateSQL mysqlCreateSql = new MySqlCreateSQL();
-		mysqlCreateSql.setTableName("testTable4");
+		mysqlCreateSql.setTableName("testTable6");
 		mysqlCreateSql.setUsedFields(this.usedFields);
-		mysqlCreateSql.setFieldsTypes("INT(10),VARCHAR(255),VARCHAR(255),VARCHAR(255),VARCHAR(255)".split(","));
+		mysqlCreateSql.setFieldsTypes("INT(11),VARCHAR(255),VARCHAR(255),VARCHAR(255),VARCHAR(255)".split(","));
 		
 		ForeignKey fk = new ForeignKey();
 		fk.setConstrFields("id".split(","));
-		fk.setConstrName("user_fk");
-		fk.setRefTableName("testtable_pky_id");
-		fk.setRefTableFields("id".split(","));
+		fk.setConstrName("table6_fk");
+		fk.setRefTableName("testTable");
+		fk.setRefTableFields("testtable_pky_id".split(","));
 		
 		PrimaryKey pk = new PrimaryKey();
 		pk.setConstrFields("id".split(","));
 		pk.setConstrName("user_pk");
 		
 		List<Constraint> constr = new ArrayList<Constraint>();
-		constr.add(pk);
+//		constr.add(pk);
 		constr.add(fk);
 		
 		mysqlCreateSql.setConstraints(constr);
