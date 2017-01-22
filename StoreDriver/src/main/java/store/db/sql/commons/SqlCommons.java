@@ -28,7 +28,7 @@ import store.db.sql.interfaces.ISQLReporter;
 */
 public abstract class SqlCommons {
 	
-	public Connection createConnection(String url, String userName, String password) throws SQLException {
+	protected Connection createConnection(String url, String userName, String password) throws SQLException {
 		
 		Connection conn = null;
 		if(null != userName && null != password) {
@@ -40,7 +40,7 @@ public abstract class SqlCommons {
 		return conn;		
 	}
 	
-	public void closeConnection(Connection conn, ISQLReporter reporter) {
+	protected void closeConnection(Connection conn, ISQLReporter reporter) {
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -117,7 +117,7 @@ public abstract class SqlCommons {
 	 * 
 	 * 
 	 * */
-	public void setValuesForSql(PreparedStatement statement, 
+	protected void setValuesForSql(PreparedStatement statement, 
 									Map<String,Object> colName_value, String[] dbColumnNames, int[] dataTypes) throws SQLException {
 		
 		if(null == colName_value || colName_value.size() < 1) {
@@ -128,24 +128,8 @@ public abstract class SqlCommons {
 			setSqlValue(statement,colName_value.get(dbColumnNames[i]), i+1, dataTypes[i]);
 		}
 	}
-	/*Debug has been done
-	 * 
-	 * 
-	 * */
-	public void setValuesForSql(PreparedStatement statement, Object[] data) throws SQLException {
-		
-		if(null == data || data.length < 1) {
-			return;
-		}
-		
-		int[] dataTypes = TypeHelper.getDataTypes(data);
-		//System.out.println("data type length: " + dataTypes.length);
-		for(int i = 0; i < dataTypes.length; i++) {
-			setSqlValue(statement,data[i], i+1, dataTypes[i]);
-		}
-	}
 	
-	public void setValuesForSql(PreparedStatement statement, Object[] data, int[] dataTypes) throws SQLException {
+	protected void setValuesForSql(PreparedStatement statement, Object[] data, int[] dataTypes) throws SQLException {
 		
 		if(null == data || data.length < 1) {
 			return;

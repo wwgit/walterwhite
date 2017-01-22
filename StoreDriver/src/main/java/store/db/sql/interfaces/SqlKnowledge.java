@@ -38,7 +38,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doInsert(Connection conn, String sql, List<Object[]> rowsData) {
+	protected void doInsert(Connection conn, String sql, List<Object[]> rowsData) {
 
 		int cnt = rowsData.size();
 		int[] dataTypes = TypeHelper.getDataTypes(rowsData.get(0));
@@ -84,16 +84,20 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doPrepareSql(Connection conn, String completeSql, Object[] values) {
+	protected void doPrepareSql(Connection conn, String completeSql, Object[] values) {
 			
 		reportExecuteProcess("ready to execute sql:" + completeSql);
 		PreparedStatement statement = null;
+		
 		int result = 0;
 		try {
 			
 			if(!conn.getAutoCommit()) conn.setAutoCommit(true);			
 			statement = conn.prepareStatement(completeSql);
-			setValuesForSql(statement,values);
+			if(null != values) {
+				int[] dataTypes = TypeHelper.getDataTypes(values);
+				setValuesForSql(statement,values,dataTypes);
+			}
 			result = statement.executeUpdate();
 			reportResults(result);
 			
@@ -118,7 +122,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doSimpleSql(Connection conn, String sql) {
+	protected void doSimpleSql(Connection conn, String sql) {
 		
 		Statement sqlStatement = null;
 		
@@ -148,17 +152,20 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
+	protected void doPrepareQuery(Connection conn, String completeSql, Object[] condValues) {
 	
 		PreparedStatement statement = null;		
 
 		reportExecuteProcess("ready to execute sql:" + completeSql);
-		//Map<String,List<List<Object>>> Result = null;
+		
 		ResultSet sqlResult = null;
 		try {
 			
-			statement = conn.prepareStatement(completeSql);			
-			setValuesForSql(statement, condValues);
+			statement = conn.prepareStatement(completeSql);
+			if(null != condValues) {
+				int[] dataTypes = TypeHelper.getDataTypes(condValues);
+				setValuesForSql(statement, condValues,dataTypes);
+			}
 			sqlResult = statement.executeQuery();
 			reportResults(sqlResult);
 			 
@@ -178,7 +185,7 @@ public abstract class SqlKnowledge extends SqlCommons {
 	* @return void   
 	* @throws 
 	*/
-	public void doSimpleQuery(Connection conn, String sql) {
+	protected void doSimpleQuery(Connection conn, String sql) {
 		
 		ResultSet sqlResult = null;
 		Statement sqlStatement = null;

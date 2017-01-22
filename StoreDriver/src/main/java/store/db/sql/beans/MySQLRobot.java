@@ -8,15 +8,16 @@
 */
 package store.db.sql.beans;
 
+import handy.tools.helpers.TypeHelper;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.DeleteSQL;
 import store.db.sql.beans.definitions.InsertSQL;
+import store.db.sql.beans.definitions.MySqlCreateSQL;
 import store.db.sql.beans.definitions.SelectSQL;
 import store.db.sql.beans.definitions.UpdateSQL;
 import store.db.sql.interfaces.ISQLRobot;
@@ -43,15 +44,17 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 		
 		PreparedStatement statement = null;		
 		reportExecuteProcess("ready to execute sql:" + completeSql);
-		//Map<String,List<List<Object>>> Result = null;
+		
 		ResultSet sqlResult = null;
 		try {
-			//parepare statement for tons of data coming ~
 			statement = conn.prepareStatement(completeSql,ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
 			statement.setFetchSize(Integer.MIN_VALUE);
 			statement.setFetchDirection(ResultSet.FETCH_REVERSE);
 			
-			setValuesForSql(statement, condValues);
+			if(null != condValues) {
+				int[] dataTypes = TypeHelper.getDataTypes(condValues);
+				setValuesForSql(statement, condValues, dataTypes);
+			}
 			sqlResult = statement.executeQuery();
 			reportResults(sqlResult);
 			 
@@ -91,6 +94,7 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 		
 		try {
 			doMySqlPrepareQuery(conn,selectSQL.generatePrepareSQLStatment(),whereValues);
+//			doPrepareQuery(conn,selectSQL.generatePrepareSQLStatment(),whereValues);
 		} catch (Exception e) {
 			reportFailure(e);
 		}
@@ -130,15 +134,40 @@ public class MySQLRobot extends SQLRobot implements ISQLRobot {
 	 * @see store.db.sql.interfaces.ISQLRobot#Delete(store.db.sql.beans.definitions.DeleteSQL)
 	 */
 	public void Delete(DeleteSQL deleteSQL) {
+		
+		Connection conn = null;
+		conn = getConnectionFrmQueue();
+		
+		Object[] whereValues = null;
+		if(null != deleteSQL.getWhereConditions() && 
+				deleteSQL.getWhereConditions().getWhereConditions().length >= 1) {
+			whereValues = deleteSQL.getWhereConditions().getWhereValues();
+		}
+		
+		try {
+			doPrepareSql(conn, deleteSQL.generatePrepareSQLStatment(), whereValues);
+		} catch (Exception e) {
+			reportFailure(e);
+		}	
+		
 	}
 
 	/* (non-Javadoc)
 	 * @see store.db.sql.interfaces.ISQLRobot#CreateTable(store.db.sql.beans.definitions.CreateTableSQL)
 	 */
 	public void CreateTable(CreateTableSQL createSQL) {
-	}
-
-
 	
+		Connection conn = null;
+		conn = getConnectionFrmQueue();
+		
+		try {
+			if(false == createSQL instanceof MySqlCreateSQL) {
+				throw new Exception("SQL is Not MySqlCreateSQL !");
+			}
+			doPrepareSql(conn, ((MySqlCreateSQL)createSQL).generateCreateTableSQL(), null);
+		} catch (Exception e) {
+			reportFailure(e);
+		}	
+	}	
 
 }

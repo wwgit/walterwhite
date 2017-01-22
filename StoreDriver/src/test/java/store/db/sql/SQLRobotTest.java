@@ -1,5 +1,6 @@
 package store.db.sql;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,10 +15,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import store.db.sql.beans.MySQLRobot;
+import store.db.sql.beans.definitions.DeleteSQL;
 import store.db.sql.beans.definitions.InsertSQL;
+import store.db.sql.beans.definitions.MySqlCreateSQL;
 import store.db.sql.beans.definitions.SelectSQL;
 import store.db.sql.beans.definitions.UpdateSQL;
 import store.db.sql.beans.definitions.WhereDefinition;
+import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.ForeignKey;
+import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 /** 
  * @ClassName: SQLRobotTest 
@@ -33,7 +39,6 @@ public class SQLRobotTest extends TestCaseAbstract {
 	private String[] usedFields;
 	private WhereDefinition whereDefine;
 	private MySQLRobot robot;
-
 	
 	@Before
 	public void setUp() throws Exception {
@@ -44,7 +49,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		String[] whereFields = "id=".split(",");		
 		Object[] whereObjs = new Object[1];
-		whereObjs[0] = "4000002";
+		whereObjs[0] = 5;
 //		whereObjs[1] = "update";
 		
 		this.whereDefine = new WhereDefinition();
@@ -62,6 +67,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 		SelectSQL selectSQL = new SelectSQL();
 		selectSQL.setTableName(this.tableName);
+		selectSQL.setDbName(this.dbName);
 		
 		String[] where = "id=".split(",");		
 		Object[] whereObjects = new Object[1];
@@ -102,7 +108,7 @@ public class SQLRobotTest extends TestCaseAbstract {
 		
 	}
 	
-	@Test
+//	@Test
 	public void mySqlUpdate() {
 		
 		UpdateSQL updateSQL = new UpdateSQL();
@@ -128,6 +134,45 @@ public class SQLRobotTest extends TestCaseAbstract {
 		updateSQL.setSetFieldValues(dataTemplate);
 		
 		this.robot.Update(updateSQL);
+		
+	}
+	
+	@Test
+	public void mySqlDelete() {
+		
+		DeleteSQL deleteSQL = new DeleteSQL();
+		deleteSQL.setTableName(this.tableName);
+		deleteSQL.setDbName(this.dbName);
+		deleteSQL.setWhereConditions(this.whereDefine);
+		this.robot.Delete(deleteSQL);
+
+	}
+	
+	@Test
+	public void mySqlCreateTable() {
+		
+		MySqlCreateSQL mysqlCreateSql = new MySqlCreateSQL();
+		mysqlCreateSql.setTableName("testTable4");
+		mysqlCreateSql.setUsedFields(this.usedFields);
+		mysqlCreateSql.setFieldsTypes("INT(10),VARCHAR(255),VARCHAR(255),VARCHAR(255),VARCHAR(255)".split(","));
+		
+		ForeignKey fk = new ForeignKey();
+		fk.setConstrFields("id".split(","));
+		fk.setConstrName("user_fk");
+		fk.setRefTableName("testtable_pky_id");
+		fk.setRefTableFields("id".split(","));
+		
+		PrimaryKey pk = new PrimaryKey();
+		pk.setConstrFields("id".split(","));
+		pk.setConstrName("user_pk");
+		
+		List<Constraint> constr = new ArrayList<Constraint>();
+		constr.add(pk);
+		constr.add(fk);
+		
+		mysqlCreateSql.setConstraints(constr);
+		
+		this.robot.CreateTable(mysqlCreateSql);
 		
 	}
 

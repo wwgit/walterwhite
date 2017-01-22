@@ -63,8 +63,6 @@ public abstract class SQLRobot extends SqlKnowledge {
 		return conn;
 	}
 	
-	
-	
 	/* (non-Javadoc)
 	 * @see store.db.sql.interfaces.SqlKnowledge#reportFailure(java.lang.Exception)
 	 */
@@ -139,7 +137,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 		} 
 	}
 
-	public ArrayBlockingQueue<Connection> getPoolQueue() {
+	protected ArrayBlockingQueue<Connection> getPoolQueue() {
 		return poolQueue;
 	}
 
@@ -147,7 +145,7 @@ public abstract class SQLRobot extends SqlKnowledge {
 		this.poolQueue = poolQueue;
 	}
 
-	public LinkedBlockingQueue<Object> getReporterQueue() {
+	protected LinkedBlockingQueue<Object> getReporterQueue() {
 		return reporterQueue;
 	}
 
