@@ -167,12 +167,17 @@ public class ToolMain {
 		iv = (int) dv;
 		iv = (int) fv;
 		
+		Object[] objArr = new Object[10];
 		
+		Object objjj = objArr;
+		
+		System.out.print(objjj.getClass().getSimpleName() + "\n");
 		System.out.print(dv + "\n");
 		
 		Object obj = value;
 		System.out.println(obj.getClass().getSimpleName() + "	" + XmlBeanMapFacadeImpl[].class.getSimpleName());
-		System.out.println(int[].class.getSimpleName());
+		System.out.println(int[].class.getSimpleName().replaceAll("\\[\\]", ""));
+		System.out.println(int.class.getSimpleName());
 		Date date = new java.sql.Date(Long.parseLong("20010101"));
 		System.out.println(Date.valueOf("2001-01-01"));
 //		System.out.print(DateFormat.getDateInstance().parse("2001-01-02"));

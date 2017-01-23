@@ -321,76 +321,62 @@ public abstract class TypeHelper implements DataTypes {
 		return value;
 	}
 	
-	private static Object getRequiredArrValue(String orgValue, Class<?> requiredType) {
+	private static Object getRequiredArrValue(String orgValue, Class<?> requiredType) throws ParseException {
 		
 		Object arrValue = null;
 		String[] tmpArr = orgValue.split(",");
-		if(requiredType == String[].class) {
-			arrValue = tmpArr;
-		}
-		if(requiredType == int[].class) {
-			int[] tmp_i = new int[tmpArr.length];
+		
+		if(isJavaArray(requiredType)) {
+			
 			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = Integer.parseInt(tmpArr[i]);
+				convertToRequiredJavaBasic(tmpArr[i],tmpArr[i].getClass());
 			}
-			arrValue = tmp_i;
 		}
-		if(requiredType == double[].class) {
-			double[] tmp_i = new double[tmpArr.length];
-			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = Double.parseDouble(tmpArr[i]);
-			}
-			arrValue = tmp_i;
-		}
-		if(requiredType == float[].class) {
-			float[] tmp_i = new float[tmpArr.length];
-			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = Float.parseFloat(tmpArr[i]);
-			}
-			arrValue = tmp_i;
-		}
-		if(requiredType == long[].class) {
-			long[] tmp_i = new long[tmpArr.length];
-			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = Long.parseLong(tmpArr[i]);
-			}
-			arrValue = tmp_i;
-		}
-		if(requiredType == byte[].class) {
-			byte[] tmp_i = new byte[tmpArr.length];
-			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = Byte.parseByte(tmpArr[i]);
-			}
-			arrValue = tmp_i;
-		}
-		if(requiredType == char[].class) {
-			char[] tmp_i = new char[tmpArr.length];
-			for(int i = 0; i < tmpArr.length; i++) {
-				tmp_i[i] = tmpArr[i].charAt(0);
-			}
-			arrValue = tmp_i;
-		}	
 		
 		return arrValue;
 	}
 	
-	public static Object getRequiredValueForJavaBasic(Object orgValue, Class<?> requiredType) throws ParseException {
+	private static Object[] getRequiredValueForJavaArray(Object[] orgValue, Class<?> requiredType) throws ParseException {
 		
-		if(orgValue.getClass() == String.class) {
-			String tmp = (String) orgValue;
-			return convertStrToRequiredJavaBasic(tmp,requiredType);			
+		Object[] value = null;
+		value = new Object[orgValue.length];
+		
+		if(orgValue[0].getClass() == String.class) {
+			for(int i = 0; i < value.length; i++) {
+				if(isJavaBasicType(requiredType)) {
+					value[i] = convertToRequiredJavaBasic((String)orgValue[i], requiredType);
+				}
+				
+			}
 		}
 		
-		if(orgValue.getClass() == long.class) {
-			long tmp_l = (long)orgValue;			
-			return convertLongToRequiredJavaBasic(tmp_l,requiredType);
+		if(orgValue[0].getClass() == long.class) {
+			for(int i = 0; i < value.length; i++) {
+				if(isJavaBasicType(requiredType)) {
+					value[i] = convertToRequiredJavaBasic((long)orgValue[i], requiredType);
+				}
+				
+			}
+		}
+		if(orgValue[0].getClass() == int.class) {
+			for(int i = 0; i < value.length; i++) {
+				if(isJavaBasicType(requiredType)) {
+					value[i] = convertToRequiredJavaBasic((int)orgValue[i], requiredType);
+				}
+				
+			}
 		}
 		
+		return value;
+	}
+	
+	public static Object getRequiredJavaValue(Object orgValue, Class<?> requiredType) throws ParseException {
+			
 		return null;
 		
 	}
 	
-	private static Object convertStrToRequiredJavaBasic(String orgValue, Class<?> requiredType) throws ParseException {
+	private static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) throws ParseException {
 		
 		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
@@ -453,7 +439,7 @@ public abstract class TypeHelper implements DataTypes {
 	}
 
 	
-	private static Object convertLongToRequiredJavaBasic(long orgValue, Class<?> requiredType) {
+	private static Object convertToRequiredJavaBasic(long orgValue, Class<?> requiredType) {
 		
 		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
@@ -514,7 +500,7 @@ public abstract class TypeHelper implements DataTypes {
 		return null;
 	}
 	
-	private static Object convertIntToRequiredJavaBasic(int orgValue, Class<?> requiredType) {
+	private static Object convertToRequiredJavaBasic(int orgValue, Class<?> requiredType) {
 		
 		if(false == isJavaBasicType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
@@ -541,7 +527,7 @@ public abstract class TypeHelper implements DataTypes {
 		}
 
 		if(requiredType == Integer.class) {
-			return Integer.valueOf((int)orgValue);
+			return Integer.valueOf(orgValue);
 		}
 
 		if(requiredType == Double.class) {
@@ -563,6 +549,7 @@ public abstract class TypeHelper implements DataTypes {
 		return null;
 		
 	}
+	
 	
 	public static String getMysqlTypeDesc(Class<?> javaTypeClaz) throws Exception {
 		
