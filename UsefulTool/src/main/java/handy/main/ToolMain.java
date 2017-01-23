@@ -1,5 +1,7 @@
 package handy.main;
 
+import java.sql.Date;
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,10 +150,41 @@ public class ToolMain {
 		//ParseObjAnno.parseFieldAnnotation(refBeanChk3, AnnoFieldTest.class);
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("time" + (endTime - startTime) + "ms");	
+		System.out.println("time " + (endTime - startTime) + "ms");	
 		
+		Class<?> claz = int.class;
+		int[] i = new int[]{1,2,3,4};
+		String[] value = "f1,f2,f3".split(",");
+		String sv = "12345";
+		int ivi = Integer.parseInt(sv);
+		long lv = ivi;
+		double dv = lv;
+		float fv = (float) dv;
+		
+		
+		
+		int iv = (int) lv;
+		iv = (int) dv;
+		iv = (int) fv;
+		
+		
+		System.out.print(dv + "\n");
+		
+		Object obj = value;
+		System.out.println(obj.getClass().getSimpleName() + "	" + XmlBeanMapFacadeImpl[].class.getSimpleName());
+		System.out.println(int[].class.getSimpleName());
+		Date date = new java.sql.Date(Long.parseLong("20010101"));
+		System.out.println(Date.valueOf("2001-01-01"));
+//		System.out.print(DateFormat.getDateInstance().parse("2001-01-02"));
+		Object objdate = DateFormat.getDateInstance().parse("20010101");
+		
+		System.out.println(objdate.getClass());
+		
+		for(int t = 0; t < value.length; t++) {
+			System.out.println(((String[])obj)[t]);
+		}
+			
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
-		
 		
 	}
 

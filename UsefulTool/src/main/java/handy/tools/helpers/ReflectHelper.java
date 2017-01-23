@@ -31,7 +31,7 @@ public abstract class ReflectHelper extends FundationHelper {
 	/*type,value,type,value,type.value....
 	 * 
 	 * */
-	@MethodArgs
+//	@MethodArgs
 	public static void doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
 		
 		Class<?>[] typeClazzes = null;
@@ -49,6 +49,23 @@ public abstract class ReflectHelper extends FundationHelper {
 				typeClazzes[i] = TypeHelper.getRequireClass(paramPairs[i]);				
 				//flag = TypeHelper.parseType(paramPairs[i]);
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);
+			}
+			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
+			method.invoke(obj, values);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void doOneDeclareMethodCall(Object obj, String methodName, Object[] values) {
+		
+		Class<?>[] typeClazzes = new Class<?>[values.length];			
+		try {
+			
+			for(int i = 0,j = 0; i < values.length; i+=2,j++) {
+				typeClazzes[i] = values.getClass();
 			}
 			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
 			method.invoke(obj, values);
