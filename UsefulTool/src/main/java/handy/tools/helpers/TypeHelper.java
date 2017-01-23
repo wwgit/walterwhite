@@ -65,23 +65,42 @@ public abstract class TypeHelper implements DataTypes {
 		if(type.isPrimitive()) {
 			return true;
 		} else {
-			if(type.equals(int[].class)) {
-				return true;
-			} else if(type.equals(long[].class)) {
-				return true;
-			} else if(type.equals(double[].class)) {
-				return true;
-			} else if(type.equals(float[].class)) {
-				return true;
-			} else if(type.equals(byte[].class)) {
-				return true;
-			} else if(type.equals(char[].class)) {
-				return true;
-			} else {
-				return false;
-			}
+			return isJavaArray(type);
 		}
-
+	}
+	
+	public static boolean isJavaBasicType(Class<?> type) {
+		
+		if(type.isPrimitive()) return true;	
+		if(type == String.class) return true;
+		if(type == java.math.BigDecimal.class) return true;
+		if(type == Long.class) return true;
+		if(type == Double.class) return true;
+		if(type == Float.class) return true;
+		if(type == Integer.class) return true;
+		if(type == Short.class) return true;
+		if(type == Byte.class) return true;	
+		
+		return false;		
+	}
+	
+	public static boolean isJavaDateType(Class<?> type) {
+		
+		if(type == java.sql.Date.class) return true;
+		if(type == java.util.Date.class) return true;
+		if(type == java.sql.Time.class) return true;
+		if(type == java.sql.Timestamp.class) return true;
+		
+		return false;
+	}
+	
+	public static boolean isJavaArray(Class<?> type) {
+		
+		String simpleName = type.getSimpleName();
+		if(simpleName.endsWith("[]")) {
+			return true;
+		}		
+		return false;
 	}
 	
 //	@MethodArgs
@@ -357,100 +376,193 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static Object getRequiredValueForJavaBasic(Object orgValue, Class<?> requiredType) throws ParseException {
 		
-		Object value = null;
-		
 		if(orgValue.getClass() == String.class) {
 			String tmp = (String) orgValue;
 			return convertStrToRequiredJavaBasic(tmp,requiredType);			
 		}
 		
 		if(orgValue.getClass() == long.class) {
-			long tmp_l = (long)orgValue;
-			if(requiredType == long.class) {
-				value = orgValue;
-			}
-			if(requiredType == Long.class) {
-				value = Long.valueOf(tmp_l);
-			}
-			if(requiredType == String.class) {
-				value = String.valueOf(tmp_l);
-			}
-			if(requiredType == int.class) {
-				value = tmp_l;
-			}
-			if(requiredType == Integer.class) {
-				value = Integer.valueOf((int)tmp_l);
-			}
-			if(requiredType == double.class) {
-				value = tmp_l;
-			}
-			if(requiredType == Double.class) {
-				value = Double.valueOf(tmp_l);
-			}
-			
+			long tmp_l = (long)orgValue;			
+			return convertLongToRequiredJavaBasic(tmp_l,requiredType);
 		}
 		
-		return value;
+		return null;
+		
 	}
 	
 	private static Object convertStrToRequiredJavaBasic(String orgValue, Class<?> requiredType) throws ParseException {
 		
-		Object value = null;
+		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
+			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
 		
 		if(requiredType == int.class) {
-			value = Integer.parseInt(orgValue);
+			return Integer.parseInt(orgValue);
 		}
 		if(requiredType == double.class) {
-			value = Double.parseDouble(orgValue);
+			return Double.parseDouble(orgValue);
 		}
 		if(requiredType == float.class) {
-			value = Float.parseFloat(orgValue);
+			return Float.parseFloat(orgValue);
 		}
 		if(requiredType == long.class) {
-			value = Long.parseLong(orgValue);
+			return Long.parseLong(orgValue);
+		}
+		if(requiredType == short.class) {
+			return Short.parseShort(orgValue);
+		}
+		if(requiredType == Short.class) {
+			return Short.valueOf(orgValue);
 		}
 		if(requiredType == Integer.class) {
-			value = Integer.valueOf(orgValue);
+			return Integer.valueOf(orgValue);
 		}
 		if(requiredType == Long.class) {
-			value = Long.valueOf(orgValue);
+			return Long.valueOf(orgValue);
 		}
 		if(requiredType == Float.class) {
-			value = Float.valueOf(orgValue);
+			return Float.valueOf(orgValue);
 		}
 		if(requiredType == Double.class) {
-			value = Double.valueOf(orgValue);
+			return Double.valueOf(orgValue);
 		}
 		if(requiredType == Byte.class) {
-			value = Byte.valueOf(orgValue);
+			return Byte.valueOf(orgValue);
 		}
 		if(requiredType == java.math.BigDecimal.class) {
-			value = new BigDecimalStringConverter().fromString(orgValue);
+			return new BigDecimalStringConverter().fromString(orgValue);
 		}
 		if(requiredType == byte.class) {
-			value = Byte.parseByte(orgValue);
+			return Byte.parseByte(orgValue);
 		}
 		if(requiredType == char.class) {
-			value = orgValue.charAt(0);
+			return orgValue.charAt(0);
 		}
 		if(requiredType == java.sql.Date.class) {
-			value = java.sql.Date.valueOf(orgValue);
+			return java.sql.Date.valueOf(orgValue);
 		}
 		if(requiredType == java.util.Date.class) {
-			value = DateFormat.getDateInstance().parse(orgValue);
+			return DateFormat.getDateInstance().parse(orgValue);
 		}
 		if(requiredType == java.sql.Time.class) {
-			value = java.sql.Time.valueOf(orgValue);
+			return java.sql.Time.valueOf(orgValue);
 		}
 		if(requiredType == java.sql.Timestamp.class) {
-			value = java.sql.Timestamp.valueOf(orgValue);
-		} else {
+			return java.sql.Timestamp.valueOf(orgValue);
+		} 
+		return null;
+	}
+
+	
+	private static Object convertLongToRequiredJavaBasic(long orgValue, Class<?> requiredType) {
+		
+		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
+		
+		if(requiredType == byte.class) {
+			return Byte.parseByte(String.valueOf(orgValue));
+		}
+		if(requiredType == char.class) {
+			return String.valueOf(orgValue).charAt(0);
+		}
+		if(requiredType == short.class) {
+			return (short) orgValue;
+		}
+		if(requiredType == int.class) {
+			return (int) orgValue;
+		}
+//		double,float,long
+		if(requiredType.isPrimitive()) {
+			return orgValue;
+		}
+
+		if(requiredType == Long.class) {
+			return Long.valueOf(orgValue);
+		}
+		if(requiredType == String.class) {
+			return String.valueOf(orgValue);
+		}
+
+		if(requiredType == Integer.class) {
+			return Integer.valueOf((int)orgValue);
+		}
+
+		if(requiredType == Double.class) {
+			return Double.valueOf(orgValue);
+		}
+
+		if(requiredType == Float.class) {
+			return Float.valueOf(orgValue);
+		}
+
+		if(requiredType == Byte.class) {
+			return Byte.valueOf(String.valueOf(orgValue));
+		}
+
+		if(requiredType == java.math.BigDecimal.class) {
+			return new BigDecimal(orgValue);
+		}
+		if(requiredType == java.sql.Date.class) {
+			return new java.sql.Date(orgValue);
+		}
+		if(requiredType == java.util.Date.class) {
+			return new java.util.Date(orgValue);
+		}
+		if(requiredType == java.sql.Time.class) {
+			return new java.sql.Time(orgValue);
 		}
 		
-		return value;
+		return null;
 	}
 	
+	private static Object convertIntToRequiredJavaBasic(int orgValue, Class<?> requiredType) {
+		
+		if(false == isJavaBasicType(requiredType))
+			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
+		
+		if(requiredType == byte.class) {
+			return Byte.parseByte(String.valueOf(orgValue));
+		}
+		if(requiredType == char.class) {
+			return String.valueOf(orgValue).charAt(0);
+		}
+		if(requiredType == short.class) {
+			return (short) orgValue;
+		}
+		
+//		double,long,float,int
+		if(requiredType.isPrimitive()) {
+			return orgValue;
+		}
+		if(requiredType == Long.class) {
+			return Long.valueOf(orgValue);
+		}
+		if(requiredType == String.class) {
+			return String.valueOf(orgValue);
+		}
+
+		if(requiredType == Integer.class) {
+			return Integer.valueOf((int)orgValue);
+		}
+
+		if(requiredType == Double.class) {
+			return Double.valueOf(orgValue);
+		}
+
+		if(requiredType == Float.class) {
+			return Float.valueOf(orgValue);
+		}
+
+		if(requiredType == Byte.class) {
+			return Byte.valueOf(String.valueOf(orgValue));
+		}
+
+		if(requiredType == java.math.BigDecimal.class) {
+			return new BigDecimal(orgValue);
+		}
+		
+		return null;
+		
+	}
 	
 	public static String getMysqlTypeDesc(Class<?> javaTypeClaz) throws Exception {
 		
