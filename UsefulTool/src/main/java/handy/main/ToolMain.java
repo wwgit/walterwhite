@@ -167,11 +167,15 @@ public class ToolMain {
 		iv = (int) dv;
 		iv = (int) fv;
 		
-		Object[] objArr = new Object[10];
+		Object objArr = i;
+		Object[] objarr = new Object[]{1,2,3,4};
+		Object tmp = objarr;
+		int[] iii = (int[])tmp;
+		
 		
 		Object objjj = objArr;
 		
-		System.out.print(objjj.getClass().getSimpleName() + "\n");
+		System.out.print(iii.getClass().getSimpleName() + "\n");
 		System.out.print(dv + "\n");
 		
 		Object obj = value;

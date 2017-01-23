@@ -8,8 +8,11 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 import java.util.Map;
+
 
 import javafx.util.converter.BigDecimalStringConverter;
 
@@ -100,6 +103,13 @@ public abstract class TypeHelper implements DataTypes {
 		if(simpleName.endsWith("[]")) {
 			return true;
 		}		
+		return false;
+	}
+	
+	public static boolean isListOrMap(Class<?> type) {
+		
+		if(type == java.util.List.class) return true;
+		if(type == java.util.Map.class) return true;		
 		return false;
 	}
 	
@@ -321,62 +331,130 @@ public abstract class TypeHelper implements DataTypes {
 		return value;
 	}
 	
-	private static Object getRequiredArrValue(String orgValue, Class<?> requiredType) throws ParseException {
-		
-		Object arrValue = null;
-		String[] tmpArr = orgValue.split(",");
-		
-		if(isJavaArray(requiredType)) {
-			
-			for(int i = 0; i < tmpArr.length; i++) {
-				convertToRequiredJavaBasic(tmpArr[i],tmpArr[i].getClass());
-			}
-		}
-		
-		return arrValue;
-	}
 	
-	private static Object[] getRequiredValueForJavaArray(Object[] orgValue, Class<?> requiredType) throws ParseException {
+	private static Object getRequiredValueForJavaArray(String[] orgValue, Class<?> requiredType) 
+			throws ParseException, Exception {
 		
 		Object[] value = null;
 		value = new Object[orgValue.length];
 		
-		if(orgValue[0].getClass() == String.class) {
+//		string to java basic
+		if(isJavaBasicType(requiredType)) {
 			for(int i = 0; i < value.length; i++) {
-				if(isJavaBasicType(requiredType)) {
-					value[i] = convertToRequiredJavaBasic((String)orgValue[i], requiredType);
-				}
-				
+				value[i] = convertToRequiredJavaBasic((String)orgValue[i], requiredType);
 			}
+			return value;
+		}
+//		string to java date time
+		if(isJavaDateType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				value[i] = convertToRequiredJavaDateTime((String)orgValue[i], requiredType);
+			}
+			return value;
+		}
+//		java array to list
+		if(requiredType == java.util.List.class) {
+			return convertJavaArrToList(orgValue);
 		}
 		
-		if(orgValue[0].getClass() == long.class) {
-			for(int i = 0; i < value.length; i++) {
-				if(isJavaBasicType(requiredType)) {
-					value[i] = convertToRequiredJavaBasic((long)orgValue[i], requiredType);
-				}
-				
-			}
-		}
-		if(orgValue[0].getClass() == int.class) {
-			for(int i = 0; i < value.length; i++) {
-				if(isJavaBasicType(requiredType)) {
-					value[i] = convertToRequiredJavaBasic((int)orgValue[i], requiredType);
-				}
-				
-			}
-		}
-		
-		return value;
+		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
 	}
 	
-	public static Object getRequiredJavaValue(Object orgValue, Class<?> requiredType) throws ParseException {
-			
-		return null;
+	
+	
+	private static Object getRequiredValueForJavaArray(long[] orgValue, Class<?> requiredType) 
+			throws ParseException, Exception {
 		
+		Object[] value = null;
+		value = new Object[orgValue.length];
+
+//		long to java date time
+		if(isJavaDateType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				value[i] = convertToRequiredJavaDateTime(orgValue[i], requiredType);
+			}
+			return value;
+		}
+//		java basic type to java basic type
+		if(isJavaBasicType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				String tmp = String.valueOf(orgValue[0]);
+				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
+			}
+			return value;
+		}
+		
+		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
 	}
 	
-	private static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) throws ParseException {
+	private static Object[] getRequiredValueForJavaArray(int[] orgValue, Class<?> requiredType) 
+			throws ParseException, Exception {
+		
+		Object[] value = null;
+		value = new Object[orgValue.length];
+
+//		long to java date time
+		if(isJavaDateType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				value[i] = convertToRequiredJavaDateTime(orgValue[i], requiredType);
+			}
+			return value;
+		}
+//		java basic type to java basic type
+		if(isJavaBasicType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				String tmp = String.valueOf(orgValue[0]);
+				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
+			}
+			return value;
+		}
+		
+		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
+	}
+	
+	
+	private static Object getRequiredValueForJavaArray(Object[] orgValue, Class<?> requiredType) 
+														throws ParseException, Exception {
+		Object[] value = null;
+		value = new Object[orgValue.length];
+		
+//		java basic type to java basic type
+		if(isJavaBasicType(orgValue[0].getClass()) && isJavaBasicType(requiredType)) {
+			for(int i = 0; i < value.length; i++) {
+				String tmp = String.valueOf(orgValue[0]);
+				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
+			}
+			return value;
+		}
+		
+//		java array to list
+		if(requiredType == java.util.List.class) {
+			return convertJavaArrToList(orgValue);
+		}		
+		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
+	}
+	
+	private static List<Object> convertJavaArrToList(Object[] orgValue) {
+		
+		java.util.List<Object> list = new ArrayList<Object>();
+		for(int i = 0; i < orgValue.length; i++) {
+			list.add(orgValue[i]);
+		}
+		return list;
+	}
+	
+	private static Object[] convertJavaListToJavaArr(List<Object> list) {
+		
+		Object[] objs = new Object[list.size()];
+		for(int i = 0; i < list.size(); i++) {
+			objs[i] = list.get(i);
+		}
+		return objs;
+	}
+	
+	
+	private static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) 
+													throws ParseException, IllegalArgumentException {
 		
 		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
@@ -423,6 +501,12 @@ public abstract class TypeHelper implements DataTypes {
 		if(requiredType == char.class) {
 			return orgValue.charAt(0);
 		}
+		
+		throw new IllegalArgumentException("cannot convert java basic type " + requiredType.getSimpleName());
+	}
+	
+	private static Object convertToRequiredJavaDateTime(String orgValue, Class<?> requiredType) 
+														throws ParseException, IllegalArgumentException {
 		if(requiredType == java.sql.Date.class) {
 			return java.sql.Date.valueOf(orgValue);
 		}
@@ -435,58 +519,12 @@ public abstract class TypeHelper implements DataTypes {
 		if(requiredType == java.sql.Timestamp.class) {
 			return java.sql.Timestamp.valueOf(orgValue);
 		} 
-		return null;
+		throw new IllegalArgumentException("cannot convert to java date time " + requiredType.getSimpleName());
 	}
-
 	
-	private static Object convertToRequiredJavaBasic(long orgValue, Class<?> requiredType) {
+	private static Object convertToRequiredJavaDateTime(long orgValue, Class<?> requiredType) 
+			throws ParseException, IllegalArgumentException {
 		
-		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
-			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
-		
-		if(requiredType == byte.class) {
-			return Byte.parseByte(String.valueOf(orgValue));
-		}
-		if(requiredType == char.class) {
-			return String.valueOf(orgValue).charAt(0);
-		}
-		if(requiredType == short.class) {
-			return (short) orgValue;
-		}
-		if(requiredType == int.class) {
-			return (int) orgValue;
-		}
-//		double,float,long
-		if(requiredType.isPrimitive()) {
-			return orgValue;
-		}
-
-		if(requiredType == Long.class) {
-			return Long.valueOf(orgValue);
-		}
-		if(requiredType == String.class) {
-			return String.valueOf(orgValue);
-		}
-
-		if(requiredType == Integer.class) {
-			return Integer.valueOf((int)orgValue);
-		}
-
-		if(requiredType == Double.class) {
-			return Double.valueOf(orgValue);
-		}
-
-		if(requiredType == Float.class) {
-			return Float.valueOf(orgValue);
-		}
-
-		if(requiredType == Byte.class) {
-			return Byte.valueOf(String.valueOf(orgValue));
-		}
-
-		if(requiredType == java.math.BigDecimal.class) {
-			return new BigDecimal(orgValue);
-		}
 		if(requiredType == java.sql.Date.class) {
 			return new java.sql.Date(orgValue);
 		}
@@ -496,61 +534,12 @@ public abstract class TypeHelper implements DataTypes {
 		if(requiredType == java.sql.Time.class) {
 			return new java.sql.Time(orgValue);
 		}
-		
-		return null;
+		if(requiredType == java.sql.Timestamp.class) {
+			return new java.sql.Timestamp(orgValue);
+		} 
+		throw new IllegalArgumentException("cannot convert java date time " + requiredType.getSimpleName());
 	}
-	
-	private static Object convertToRequiredJavaBasic(int orgValue, Class<?> requiredType) {
-		
-		if(false == isJavaBasicType(requiredType))
-			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
-		
-		if(requiredType == byte.class) {
-			return Byte.parseByte(String.valueOf(orgValue));
-		}
-		if(requiredType == char.class) {
-			return String.valueOf(orgValue).charAt(0);
-		}
-		if(requiredType == short.class) {
-			return (short) orgValue;
-		}
-		
-//		double,long,float,int
-		if(requiredType.isPrimitive()) {
-			return orgValue;
-		}
-		if(requiredType == Long.class) {
-			return Long.valueOf(orgValue);
-		}
-		if(requiredType == String.class) {
-			return String.valueOf(orgValue);
-		}
 
-		if(requiredType == Integer.class) {
-			return Integer.valueOf(orgValue);
-		}
-
-		if(requiredType == Double.class) {
-			return Double.valueOf(orgValue);
-		}
-
-		if(requiredType == Float.class) {
-			return Float.valueOf(orgValue);
-		}
-
-		if(requiredType == Byte.class) {
-			return Byte.valueOf(String.valueOf(orgValue));
-		}
-
-		if(requiredType == java.math.BigDecimal.class) {
-			return new BigDecimal(orgValue);
-		}
-		
-		return null;
-		
-	}
-	
-	
 	public static String getMysqlTypeDesc(Class<?> javaTypeClaz) throws Exception {
 		
 		if(javaTypeClaz == String.class) {
