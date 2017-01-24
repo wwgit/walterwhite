@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ForeignKey {
 	
-	String keyName() default "";
+	public String keyName() default "";
 	
 	/** 
 	* @Title: foreignKeyFields 
@@ -37,7 +37,7 @@ public @interface ForeignKey {
 	* @return String   
 	* @throws 
 	*/
-	String foreignKeyFields();
+	public String foreignKeyFields();
 	
 	/** 
 	* @Title: refTableName 
@@ -46,7 +46,7 @@ public @interface ForeignKey {
 	* @return String   
 	* @throws 
 	*/
-	String refTableName();
+	public String refTableName();
 	
 	/** 
 	* @Title: refTableFields 
@@ -56,6 +56,6 @@ public @interface ForeignKey {
 	* @return String   
 	* @throws 
 	*/
-	String refTableFields();
+	public String refTableFields();
 
 }

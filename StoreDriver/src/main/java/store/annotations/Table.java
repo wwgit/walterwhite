@@ -26,13 +26,15 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Table {
 	
-	String tableName();
+	public String dbName() default "";
 	
-	String dbClazName() default "com.mysql.jdbc.Driver";
+	public String tableName();
 	
-	String charSet() default "uft8";
+	public String dbClazName() default "com.mysql.jdbc.Driver";
 	
-	int autoIncr() default 1;
+	public String charSet() default "uft8";
+	
+	public int autoIncr() default 1;
 	
 	/** 
 	* @Title: fields 
@@ -42,7 +44,7 @@ public @interface Table {
 	* @return String   
 	* @throws 
 	*/
-	String fields() default "";
+	public String fields() default "";
 	
 	/** 
 	* @Title: fieldsTypes 
@@ -52,7 +54,7 @@ public @interface Table {
 	* @return String   
 	* @throws 
 	*/
-	String fieldsTypes() default "";
+	public String fieldsTypes() default "";
 
 	/** 
 	* @Title: allowNull 
@@ -63,7 +65,7 @@ public @interface Table {
 	* @return String   
 	* @throws 
 	*/
-	String allowNull() default "";
+	public String allowNull() default "";
 	
 	/** 
 	* @Title: isAutoIncr 
@@ -74,7 +76,7 @@ public @interface Table {
 	* @return String   
 	* @throws 
 	*/
-	String isAutoIncr() default "";
+	public String isAutoIncr() default "";
 	
 	
 	/** 
@@ -84,6 +86,6 @@ public @interface Table {
 	* @return String   
 	* @throws 
 	*/
-	String uniqKeyFields() default "";
+	public String uniqKeyFields() default "";
 
 }

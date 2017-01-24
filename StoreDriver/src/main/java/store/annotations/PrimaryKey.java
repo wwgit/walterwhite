@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface PrimaryKey {
 	
-	String keyName() default "";
+	public String keyName() default "";
 	
 	/** 
 	* @Title: primaryKeyFields 
@@ -36,6 +36,6 @@ public @interface PrimaryKey {
 	* @return String   
 	* @throws 
 	*/
-	String primaryKeyFields();
+	public String primaryKeyFields();
 
 }

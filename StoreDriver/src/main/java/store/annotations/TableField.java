@@ -33,7 +33,7 @@ public @interface TableField {
 	* @return String   
 	* @throws 
 	*/
-	String fieldName();
+	public String fieldName();
 	
 	/** 
 	* @Title: fieldType 
@@ -42,7 +42,7 @@ public @interface TableField {
 	* @return Class<?>   
 	* @throws 
 	*/
-	Class<?> fieldType();
+	public Class<?> fieldType();
 	
 	/** 
 	* @Title: fieldLength 
@@ -51,10 +51,10 @@ public @interface TableField {
 	* @return int   
 	* @throws 
 	*/
-	int fieldLength() default 0;
+	public int fieldLength() default 0;
 	
-	boolean allowNull() default true;
+	public boolean allowNull() default true;
 	
-	boolean isAutoIncr() default false;
+	public boolean isAutoIncr() default false;
 
 }
