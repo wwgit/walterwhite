@@ -81,6 +81,7 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 		System.out.println(propertyClazz.getName());
 		if(false == (value.getClass() == propertyClazz)) {
 				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
+				
 		}
 		Map<Object, Class<?>> value_type = new HashMap<Object, Class<?>>();
 		value_type.put(value, propertyClazz);
@@ -100,6 +101,17 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 	public String loadBeanUniqCode(String beanFilePath) {
 	    String hashCode = String.valueOf(beanFilePath.hashCode()); 
 		return hashCode;
+	}
+	
+	
+	private Object parsePropertyValue(Object orgValue, Class<?> propertyClaz) {
+		
+		Object finalValue = null;
+		
+		
+		
+		return finalValue;
+		
 	}
 	
 	

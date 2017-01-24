@@ -10,6 +10,7 @@ import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.JavassistHelper;
 import handy.tools.helpers.PathHelper;
 import handy.tools.helpers.ReflectHelper;
+import handy.tools.helpers.TypeHelper;
 
 /** 
 * @ClassName: ToolMain 
@@ -154,7 +155,7 @@ public class ToolMain {
 		
 		Class<?> claz = int.class;
 		int[] i = new int[]{1,2,3,4};
-		String[] value = "f1,f2,f3".split(",");
+		String[] value = "1,2,3".split(",");
 		String sv = "12345";
 		int ivi = Integer.parseInt(sv);
 		long lv = ivi;
@@ -167,17 +168,13 @@ public class ToolMain {
 		
 		Object objArr = i;
 		Object[] objarr = new Object[]{1,2,3,4};
-		Object tmp = objarr;
+		Object tmp = TypeHelper.convertToRequiredJavaBasic("123", int.class);
+		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int.class);
 		int[] iii = i;
 		
-		
-		Object objjj = iii;
-		
-		if(objjj instanceof java.lang.String) 
-			System.out.println(objjj.getClass());
-			
-		if(objjj.getClass().isPrimitive()) 
-			System.out.println(objjj.getClass());
+		System.out.println(TypeHelper.getRequireClass("int[]").getSimpleName());
+//		Class<?> clazz = Class.forName("int");
+
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
 	}

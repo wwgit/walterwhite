@@ -9,9 +9,12 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Map;
+
+
 
 
 import javafx.util.converter.BigDecimalStringConverter;
@@ -74,17 +77,29 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static boolean isJavaBasicType(Class<?> type) {
 		
-		if(type.isPrimitive()) return true;	
-		if(type == String.class) return true;
-		if(type == java.math.BigDecimal.class) return true;
+		if(type == byte.class) return true;	
+		if(type == char.class) return true;
+		if(type == String.class) return true;		
+		if(type == Byte.class) return true;	
+		
+		return isJavaNumeric(type);		
+	}
+	
+	public static boolean isJavaNumeric(Class<?> type) {
+		
+		if(type == int.class) return true;
+		if(type == long.class) return true;
+		if(type == float.class) return true;
+		if(type == double.class) return true;
+		if(type == short.class) return true;
 		if(type == Long.class) return true;
 		if(type == Double.class) return true;
 		if(type == Float.class) return true;
 		if(type == Integer.class) return true;
 		if(type == Short.class) return true;
-		if(type == Byte.class) return true;	
+		if(type == java.math.BigDecimal.class) return true;
 		
-		return false;		
+		return false;
 	}
 	
 	public static boolean isJavaDateType(Class<?> type) {
@@ -257,71 +272,157 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
 		
+		if(origin_value.getClass().isArray()) {
+			
+		}
+		
+		
 		String str = String.valueOf(origin_value);
 		
 		Object value = getRequiredValue(str, requiredType);		
 		return value;
 	}
 	
-	
-	
 //	@MethodArgs
 	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
 		
-		Class<?> requiredClz = null;
-		int dataType = parseType(type);
-		
-		switch(dataType) {
-		case DataTypes.JAVA_BASIC_INT:
-			requiredClz = int.class;
-			break;
-		case DataTypes.JAVA_BASIC_DOUBLE:
-			requiredClz = double.class;
-			break;
-		case DataTypes.JAVA_BASIC_LONG:
-			requiredClz = long.class;
-			break;
-		case DataTypes.JAVA_LANG_INTEGER:
-			requiredClz = Integer.class;
-			break;
-		case DataTypes.JAVA_LANG_DOUBLE:
-			requiredClz = Double.class;
-			break;
-		case DataTypes.JAVA_LANG_LONG:
-			requiredClz = Long.class;
-			break;	
-		case DataTypes.JAVA_LANG_STRING:
-			requiredClz = String.class;
-			break;	
-		default:
-			requiredClz = Class.forName(type);
-			break;
+		if(byte.class.getSimpleName().equalsIgnoreCase(type)) {
+			return byte.class;
 		}
-//		System.out.println("checkpoint before return !");
-		return requiredClz;
+		if(byte[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return byte[].class;
+		}
+		if(char.class.getSimpleName().equalsIgnoreCase(type)) {
+			return char.class;
+		}
+		if(char[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return char[].class;
+		}
+		if(int.class.getSimpleName().equalsIgnoreCase(type)) {
+			return int.class;
+		}
+		if(int[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return int[].class;
+		}
+		if(long.class.getSimpleName().equalsIgnoreCase(type)) {
+			return long.class;
+		}
+		if(long[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return long[].class;
+		}
+		if(double.class.getSimpleName().equalsIgnoreCase(type)) {
+			return double.class;
+		}
+		if(double[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return double[].class;
+		}
+		if(float.class.getSimpleName().equalsIgnoreCase(type)) {
+			return float.class;
+		}
+		if(float[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return float[].class;
+		}
+		if(short.class.getSimpleName().equalsIgnoreCase(type)) {
+			return short.class;
+		}
+		if(short[].class.getSimpleName().equalsIgnoreCase(type)) {
+			return short[].class;
+		}
+		return Class.forName(type);
+
+	}
+	
+	public static Object convertStrArrToBasicArr(String[] orgStrArr, Class<?> requiredType) throws IllegalArgumentException, ParseException {
+		
+		if(requiredType == int.class) {
+			int[] i_tmpArr = new int[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				i_tmpArr[i] = Integer.parseInt(orgStrArr[i]);
+			return i_tmpArr;
+		}
+		if(requiredType == long.class) {
+			long[] l_tmpArr = new long[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				l_tmpArr[i] = Long.parseLong(orgStrArr[i]);
+			return l_tmpArr;
+		}
+		if(requiredType == double.class) {
+			double[] d_tmpArr = new double[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				d_tmpArr[i] = Double.parseDouble(orgStrArr[i]);
+			return d_tmpArr;
+		}
+		if(requiredType == float.class) {
+			float[] f_tmpArr = new float[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				f_tmpArr[i] = Float.parseFloat(orgStrArr[i]);
+			return f_tmpArr;
+		}
+		if(requiredType == short.class) {
+			short[] sh_tmpArr = new short[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				sh_tmpArr[i] = Short.parseShort(orgStrArr[i]);
+			return sh_tmpArr;
+		}
+		if(requiredType == byte.class) {
+			byte[] b_tmpArr = new byte[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				b_tmpArr[i] = Byte.parseByte(orgStrArr[i]);
+			return b_tmpArr;
+		}
+		if(requiredType == char.class) {
+			char[] c_tmpArr = new char[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				c_tmpArr[i] = orgStrArr[i].charAt(0);
+			return c_tmpArr;
+		}
+		if(requiredType == Integer.class) {
+			Integer[] i_tmpArr = new Integer[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				i_tmpArr[i] = Integer.valueOf(orgStrArr[i]);
+			return i_tmpArr;
+		}
+		if(requiredType == Long.class) {
+			Long[] l_tmpArr = new Long[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				l_tmpArr[i] = Long.valueOf(orgStrArr[i]);
+			return l_tmpArr;
+		}
+		if(requiredType == Double.class) {
+			Double[] d_tmpArr = new Double[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				d_tmpArr[i] = Double.valueOf(orgStrArr[i]);
+			return d_tmpArr;
+		}
+		if(requiredType == Float.class) {
+			Float[] f_tmpArr = new Float[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				f_tmpArr[i] = Float.valueOf(orgStrArr[i]);
+			return f_tmpArr;
+		}
+		if(requiredType == Short.class) {
+			Short[] sh_tmpArr = new Short[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				sh_tmpArr[i] = Short.valueOf(orgStrArr[i]);
+			return sh_tmpArr;
+		}
+		if(requiredType == Byte.class) {
+			Byte[] b_tmpArr = new Byte[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				b_tmpArr[i] = Byte.valueOf(orgStrArr[i]);
+			return b_tmpArr;
+		}
+		if(requiredType == java.math.BigDecimal.class) {
+			java.math.BigDecimal[] b_tmpArr = new java.math.BigDecimal[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				b_tmpArr[i] = new BigDecimalStringConverter().fromString(orgStrArr[i]);
+			return b_tmpArr;
+		}
+		throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
 	}
 	
 	
-	private static List<Object> convertJavaArrToList(Object[] orgValue) {
-		
-		java.util.List<Object> list = new ArrayList<Object>();
-		for(int i = 0; i < orgValue.length; i++) {
-			list.add(orgValue[i]);
-		}
-		return list;
-	}
-	
-	private static Object[] convertJavaListToJavaArr(List<Object> list) {
-		
-		Object[] objs = new Object[list.size()];
-		for(int i = 0; i < list.size(); i++) {
-			objs[i] = list.get(i);
-		}
-		return objs;
-	}
-	
-	
-	private static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) 
+	public static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) 
 													throws ParseException, IllegalArgumentException {
 		
 		if(false == isJavaBasicType(requiredType))
