@@ -18,6 +18,8 @@ import java.util.Map;
 
 
 
+
+
 import javafx.util.converter.BigDecimalStringConverter;
 
 public abstract class TypeHelper implements DataTypes {
@@ -246,12 +248,7 @@ public abstract class TypeHelper implements DataTypes {
 	}
 	
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
-		
-		if(origin_value.getClass().isArray()) {
-			
-		}
-		
-		
+				
 		String str = String.valueOf(origin_value);
 		
 		Object value = getRequiredValue(str, requiredType);		
@@ -261,8 +258,42 @@ public abstract class TypeHelper implements DataTypes {
 	public static Object getRequiredValue(Object orgValue, Class<?> requiredType) {
 		
 		Object value = null;
-		
-		
+		try {
+			if(false == orgValue.getClass().isArray()) {
+//				supports java String to any java basic type
+				if(orgValue.getClass() == String.class 
+						&& isJavaBasicType(requiredType)) {
+					return convertToRequiredJavaBasic((String)orgValue, requiredType);
+				}
+//				supports java String to any java date type
+				if(orgValue.getClass() == String.class 
+						&& isJavaDateType(requiredType)) {
+					return convertToRequiredJavaDateTime((String)orgValue, requiredType);
+				}
+//				supports java long to any java date type
+				if(orgValue.getClass() == long.class 
+						&& isJavaDateType(requiredType)) {
+					return convertToRequiredJavaDateTime((long)orgValue, requiredType);
+				}
+//				supports java Long to any java date type
+				if(orgValue.getClass() == Long.class 
+						&& isJavaDateType(requiredType)) {
+					return convertToRequiredJavaDateTime(((Long)orgValue).longValue(), requiredType);
+				}
+//				supports any java basic type to any java basic type
+				if(isJavaBasicType(orgValue.getClass()) 
+						&& isJavaBasicType(requiredType)) {
+					String str = String.valueOf(orgValue);
+					return convertToRequiredJavaBasic(str, requiredType);
+				}
+				
+			} else {
+				
+			}
+			
+		} catch (IllegalArgumentException | ParseException e) {
+			e.printStackTrace();
+		}	
 		
 		return value;
 	}
