@@ -172,7 +172,7 @@ public class ToolMain {
 		Object objArr = i;
 		Object[] objarr = new Object[]{1,2,3,4};
 		Object tmp = TypeHelper.convertToRequiredJavaBasic("123", int.class);
-		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int.class);
+		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int[].class);
 		int[] iii = i;
 		
 		System.out.println(TypeHelper.getRequiredClass("int[]").getSimpleName());

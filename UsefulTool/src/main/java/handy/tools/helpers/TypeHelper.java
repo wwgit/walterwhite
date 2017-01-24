@@ -20,6 +20,7 @@ import java.util.Map;
 
 
 
+
 import javafx.util.converter.BigDecimalStringConverter;
 
 public abstract class TypeHelper implements DataTypes {
@@ -269,11 +270,15 @@ public abstract class TypeHelper implements DataTypes {
 	}
 	
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
-				
-		String str = String.valueOf(origin_value);
+		Class<?> theType = null;
 		
-		Object value = getRequiredValue(str, requiredType);		
-		return value;
+		try {
+			theType = getRequiredClass(requiredType);
+			return tryGetRequiredValue(origin_value, theType);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@MethodArgs
