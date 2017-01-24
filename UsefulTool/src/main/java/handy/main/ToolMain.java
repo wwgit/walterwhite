@@ -155,35 +155,6 @@ public class ToolMain {
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("time " + (endTime - startTime) + "ms");	
-		
-		Class<?> claz = int.class;
-		int[] i = new int[]{1,2,3,4};
-		String[] value = "1,2,3".split(",");
-		String sv = "12345";
-		int ivi = Integer.parseInt(sv);
-		long lv = ivi;
-		double dv = lv;
-		float fv = (float) dv;
-		
-		Object num = sv;
-		int numi = Integer.parseInt((String)sv);
-		System.out.println(numi);
-		int iv = (int) lv;
-		iv = (int) dv;
-		iv = (int) fv;
-		
-		Object objArr = i;
-		Object[] objarr = value;
-		Object tmp = TypeHelper.convertToRequiredJavaBasic("123", int.class);
-		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int[].class);
-		int[] iii = i;
-		
-		System.out.println(TypeHelper.getRequiredClass("int[]").getSimpleName());
-//		Class<?> clazz = Class.forName("int");
-		
-		if(objArr.getClass() == Object.class) {
-			System.out.println(objArr.getClass().getSimpleName());
-		}
 
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
