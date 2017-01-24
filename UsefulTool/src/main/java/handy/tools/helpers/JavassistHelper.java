@@ -133,7 +133,8 @@ public abstract class JavassistHelper {
     	}
 		for(CtClass paramType : paramTypes) {
 //			System.out.println("printing param types:" + paramType.getName());
-			if(TypeHelper.isBasicOrBasicArray(paramType.getName())) return;			
+			if(TypeHelper.isJavaBasicType(paramType.getName())) return;
+			if(paramType.isArray()) return;
 		}
 		method.insertBefore(aspect);
 		System.out.println("save the modification !");

@@ -172,7 +172,7 @@ public class ToolMain {
 		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int.class);
 		int[] iii = i;
 		
-		System.out.println(TypeHelper.getRequireClass("int[]").getSimpleName());
+		System.out.println(TypeHelper.getRequiredClass("int[]").getSimpleName());
 //		Class<?> clazz = Class.forName("int");
 
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));

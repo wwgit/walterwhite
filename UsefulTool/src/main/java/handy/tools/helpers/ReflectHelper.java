@@ -56,7 +56,7 @@ public abstract class ReflectHelper extends FundationHelper {
 			
 			for(int i = 0,j = 0; i < paramPairs.length; i+=2,j++) {
 				
-				typeClazzes[i] = TypeHelper.getRequireClass(paramPairs[i]);				
+				typeClazzes[i] = TypeHelper.getRequiredClass(paramPairs[i]);				
 				//flag = TypeHelper.parseType(paramPairs[i]);
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);
 			}

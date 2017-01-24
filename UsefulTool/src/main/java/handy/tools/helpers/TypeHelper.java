@@ -17,6 +17,7 @@ import java.util.Map;
 
 
 
+
 import javafx.util.converter.BigDecimalStringConverter;
 
 public abstract class TypeHelper implements DataTypes {
@@ -30,7 +31,6 @@ public abstract class TypeHelper implements DataTypes {
 		for(it = data.values().iterator(); it.hasNext();) {
 			types[i++] = parseType(it.next());
 		}
-		
 		return types;
 	}
 	
@@ -42,37 +42,13 @@ public abstract class TypeHelper implements DataTypes {
 		for(int i = 0; i < data.length; i++) {
 			types[i] = parseType(data[i]);
 		}
-		
 		return types;
 	}
 	
-	public static boolean isBasicOrBasicArray(String type) {
+	public static boolean isJavaBasicType(String type) throws ClassNotFoundException {
 		
-		if(type.equals("int")||type.equals("int[]")) {
-			return true;
-		} else if(type.equals("long")||type.equals("long[]")) {
-			return true;
-		} else if(type.equals("double")||type.equals("double[]")) {
-			return true;
-		} else if(type.equals("float")||type.equals("float[]")) {
-			return true;
-		} else if(type.equals("char")||type.equals("char[]")) {
-			return true;
-		} else if(type.equals("byte")||type.equals("byte[]")) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
-	
-	public static boolean isBasicOrBasicArray(Class<?> type) {
-		
-		if(type.isPrimitive()) {
-			return true;
-		} else {
-			return type.isArray();
-		}
+		Class<?> theType = getRequiredClass(type);
+		return isJavaBasicType(theType);
 	}
 	
 	public static boolean isJavaBasicType(Class<?> type) {
@@ -111,7 +87,6 @@ public abstract class TypeHelper implements DataTypes {
 		
 		return false;
 	}
-	
 	
 //	@MethodArgs
 	public static int parseComplex(int flag) {
@@ -283,8 +258,17 @@ public abstract class TypeHelper implements DataTypes {
 		return value;
 	}
 	
+	public static Object getRequiredValue(Object orgValue, Class<?> requiredType) {
+		
+		Object value = null;
+		
+		
+		
+		return value;
+	}
+	
 //	@MethodArgs
-	public static Class<?> getRequireClass(String type) throws ClassNotFoundException {
+	public static Class<?> getRequiredClass(String type) throws ClassNotFoundException {
 		
 		if(byte.class.getSimpleName().equalsIgnoreCase(type)) {
 			return byte.class;
