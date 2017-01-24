@@ -90,6 +90,27 @@ public abstract class TypeHelper implements DataTypes {
 		return false;
 	}
 	
+	public static boolean isJavaBasicArray(Class<?> type) {
+		
+		if(type == int[].class) return true;
+		if(type == long[].class) return true;
+		if(type == float[].class) return true;
+		if(type == double[].class) return true;
+		if(type == short[].class) return true;
+		if(type == Long[].class) return true;
+		if(type == Double[].class) return true;
+		if(type == Float[].class) return true;
+		if(type == Integer[].class) return true;
+		if(type == Short[].class) return true;
+		if(type == java.math.BigDecimal[].class) return true;
+		if(type == byte[].class) return true;	
+		if(type == char[].class) return true;
+		if(type == String[].class) return true;		
+		if(type == Byte[].class) return true;
+		
+		return false;
+	}
+	
 //	@MethodArgs
 	public static int parseComplex(int flag) {
 		
@@ -255,15 +276,31 @@ public abstract class TypeHelper implements DataTypes {
 		return value;
 	}
 	
-	public static Object getRequiredValue(Object orgValue, Class<?> requiredType) {
+	@MethodArgs
+	public static Object tryGetRequiredValue(Object orgValue, Class<?> requiredType) {
 		
-		Object value = null;
+		if(orgValue.getClass() == requiredType) {
+			return orgValue;
+		}
+		
 		try {
+//			not a Java Array
 			if(false == orgValue.getClass().isArray()) {
 //				supports java String to any java basic type
 				if(orgValue.getClass() == String.class 
 						&& isJavaBasicType(requiredType)) {
 					return convertToRequiredJavaBasic((String)orgValue, requiredType);
+				}
+//				supports java String with comma seperator to any java basic array
+				if(orgValue.getClass() == String.class
+						&& isJavaBasicArray(requiredType)) {
+					String[] strArr = ((String)orgValue).split(",");
+					return convertStrArrToBasicArr(strArr,requiredType);
+				}
+//				supports java.util.List to Object[] array
+				if(orgValue.getClass() == java.util.List.class
+						&& requiredType == Object[].class) {
+					return ((List<?>)orgValue).toArray();
 				}
 //				supports java String to any java date type
 				if(orgValue.getClass() == String.class 
@@ -286,16 +323,34 @@ public abstract class TypeHelper implements DataTypes {
 					String str = String.valueOf(orgValue);
 					return convertToRequiredJavaBasic(str, requiredType);
 				}
+//				supports any java date type to any String, long or Long
+				if(isJavaDateType(orgValue.getClass()) ) {
+					if(requiredType == String.class) return convertJavaDateTimeToStr(orgValue);
+					if(requiredType == long.class) return convertJavaDateTimeToStr(orgValue);
+					if(requiredType == Long.class) 
+						return Long.valueOf(convertJavaDateTimeToStr(orgValue));			
+				}
+				throw new IllegalArgumentException("cannot parse type " + requiredType.getSimpleName());
 				
 			} else {
-				
+//				Is a Java Array situation
+//				supports java String[] array to any java basic array
+				if(orgValue.getClass() == String[].class
+						&& isJavaBasicArray(requiredType)) {
+					return convertStrArrToBasicArr((String[])orgValue,requiredType);
+				}
+//				supports java Object[] array to any java.util.List
+				if(orgValue.getClass() == Object[].class
+						&& requiredType == java.util.List.class) {
+					return Arrays.asList((Object[])orgValue);
+				}
+				throw new IllegalArgumentException("cannot parse type " + requiredType.getSimpleName());
 			}
 			
 		} catch (IllegalArgumentException | ParseException e) {
 			e.printStackTrace();
 		}	
-		
-		return value;
+		return null;
 	}
 	
 //	@MethodArgs
@@ -349,85 +404,85 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static Object convertStrArrToBasicArr(String[] orgStrArr, Class<?> requiredType) throws IllegalArgumentException, ParseException {
 		
-		if(requiredType == int.class) {
+		if(requiredType == int[].class) {
 			int[] i_tmpArr = new int[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				i_tmpArr[i] = Integer.parseInt(orgStrArr[i]);
 			return i_tmpArr;
 		}
-		if(requiredType == long.class) {
+		if(requiredType == long[].class) {
 			long[] l_tmpArr = new long[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				l_tmpArr[i] = Long.parseLong(orgStrArr[i]);
 			return l_tmpArr;
 		}
-		if(requiredType == double.class) {
+		if(requiredType == double[].class) {
 			double[] d_tmpArr = new double[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				d_tmpArr[i] = Double.parseDouble(orgStrArr[i]);
 			return d_tmpArr;
 		}
-		if(requiredType == float.class) {
+		if(requiredType == float[].class) {
 			float[] f_tmpArr = new float[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				f_tmpArr[i] = Float.parseFloat(orgStrArr[i]);
 			return f_tmpArr;
 		}
-		if(requiredType == short.class) {
+		if(requiredType == short[].class) {
 			short[] sh_tmpArr = new short[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				sh_tmpArr[i] = Short.parseShort(orgStrArr[i]);
 			return sh_tmpArr;
 		}
-		if(requiredType == byte.class) {
+		if(requiredType == byte[].class) {
 			byte[] b_tmpArr = new byte[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				b_tmpArr[i] = Byte.parseByte(orgStrArr[i]);
 			return b_tmpArr;
 		}
-		if(requiredType == char.class) {
+		if(requiredType == char[].class) {
 			char[] c_tmpArr = new char[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				c_tmpArr[i] = orgStrArr[i].charAt(0);
 			return c_tmpArr;
 		}
-		if(requiredType == Integer.class) {
+		if(requiredType == Integer[].class) {
 			Integer[] i_tmpArr = new Integer[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				i_tmpArr[i] = Integer.valueOf(orgStrArr[i]);
 			return i_tmpArr;
 		}
-		if(requiredType == Long.class) {
+		if(requiredType == Long[].class) {
 			Long[] l_tmpArr = new Long[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				l_tmpArr[i] = Long.valueOf(orgStrArr[i]);
 			return l_tmpArr;
 		}
-		if(requiredType == Double.class) {
+		if(requiredType == Double[].class) {
 			Double[] d_tmpArr = new Double[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				d_tmpArr[i] = Double.valueOf(orgStrArr[i]);
 			return d_tmpArr;
 		}
-		if(requiredType == Float.class) {
+		if(requiredType == Float[].class) {
 			Float[] f_tmpArr = new Float[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				f_tmpArr[i] = Float.valueOf(orgStrArr[i]);
 			return f_tmpArr;
 		}
-		if(requiredType == Short.class) {
+		if(requiredType == Short[].class) {
 			Short[] sh_tmpArr = new Short[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				sh_tmpArr[i] = Short.valueOf(orgStrArr[i]);
 			return sh_tmpArr;
 		}
-		if(requiredType == Byte.class) {
+		if(requiredType == Byte[].class) {
 			Byte[] b_tmpArr = new Byte[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				b_tmpArr[i] = Byte.valueOf(orgStrArr[i]);
 			return b_tmpArr;
 		}
-		if(requiredType == java.math.BigDecimal.class) {
+		if(requiredType == java.math.BigDecimal[].class) {
 			java.math.BigDecimal[] b_tmpArr = new java.math.BigDecimal[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
 				b_tmpArr[i] = new BigDecimalStringConverter().fromString(orgStrArr[i]);
@@ -506,7 +561,52 @@ public abstract class TypeHelper implements DataTypes {
 		throw new IllegalArgumentException("cannot convert to java date time " + requiredType.getSimpleName());
 	}
 	
-	private static Object convertToRequiredJavaDateTime(long orgValue, Class<?> requiredType) 
+	public static String convertJavaDateTimeToStr(Object dateValue) {
+		
+		if(dateValue.getClass() == java.sql.Date.class) {
+			java.sql.Date date = (java.sql.Date)dateValue;
+			return date.toString();
+		}
+		if(dateValue.getClass() == java.sql.Time.class) {
+			java.sql.Time time = (java.sql.Time)dateValue;
+			return time.toString();
+		}
+		if(dateValue.getClass() == java.sql.Timestamp.class) {
+			java.sql.Timestamp timestamp = (java.sql.Timestamp)dateValue;
+			return timestamp.toString();
+		}
+		if(dateValue.getClass() == java.util.Date.class) {
+			java.util.Date date = (java.util.Date)dateValue;
+			return date.toString();
+		}
+		
+		throw new IllegalArgumentException("cannot convert date time to string " 
+						+ dateValue.getClass().getSimpleName());
+	}
+	
+	public static long convertJavaDateTimeToLong(Object dateValue) {
+		
+		if(dateValue.getClass() == java.sql.Date.class) {
+			java.sql.Date date = (java.sql.Date)dateValue;
+			return date.getTime();
+		}
+		if(dateValue.getClass() == java.sql.Time.class) {
+			java.sql.Time time = (java.sql.Time)dateValue;
+			return time.getTime();
+		}
+		if(dateValue.getClass() == java.sql.Timestamp.class) {
+			java.sql.Timestamp timestamp = (java.sql.Timestamp)dateValue;
+			return timestamp.getTime();
+		}		
+		if(dateValue.getClass() == java.util.Date.class) {
+			java.util.Date date = (java.util.Date)dateValue;
+			return date.getTime();
+		}
+		throw new IllegalArgumentException("cannot convert date time to long " 
+				+ dateValue.getClass().getSimpleName());
+	}
+	
+	public static Object convertToRequiredJavaDateTime(long orgValue, Class<?> requiredType) 
 			throws ParseException, IllegalArgumentException {
 		
 		if(requiredType == java.sql.Date.class) {
