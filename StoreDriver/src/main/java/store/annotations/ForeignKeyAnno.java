@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ForeignKeyAnno {
 	
-	public String keyName() default "";
+	public String keyName();
 	
 	/** 
 	* @Title: foreignKeyFields 

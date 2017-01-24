@@ -17,6 +17,7 @@ import java.util.List;
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.MySqlCreateSQL;
 import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.ForeignKey;
 import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 /** 
@@ -68,10 +69,39 @@ public abstract class SQLDefineHelper {
 			constrs.add(pk);
 		}
 		
-		String[] tableFields = tableAnno.fields().split(",");
-		String[] fieldsTypes = tableAnno.fieldsTypes().split(",");
-		String[] allowNull = tableAnno.allowNull().split(",");
-		String[] isAutoIncr = tableAnno.isAutoIncr().split(",");
+		ForeignKeyAnno fka = null;
+		if(tableBean.getClass().isAnnotationPresent(ForeignKeyAnno.class)) {
+			fka = tableBean.getClass().getDeclaredAnnotation(ForeignKeyAnno.class);
+			ForeignKey fk = new ForeignKey();
+			fk.setConstrName(fka.keyName());
+			fk.setConstrFields(fka.foreignKeyFields().split(","));
+			fk.setRefTableName(fka.refTableName());
+			fk.setRefTableFields(fka.refTableFields().split(","));
+			constrs.add(fk);
+		}
+		
+		createSql.setConstraints(constrs);
+		
+		String[] tableFields = null;
+		if(false == tableAnno.fields().equals("")) {
+			tableFields = tableAnno.fields().split(",");
+		}
+		
+		String[] fieldsTypes = null;
+		if(false == tableAnno.fieldsTypes().equals("")) {
+			fieldsTypes = tableAnno.fieldsTypes().split(",");
+		}
+		
+		String[] allowNull = null;
+		if(false == tableAnno.allowNull().equals("")) {
+			allowNull = tableAnno.allowNull().split(",");
+		}
+		
+		String[] isAutoIncr = null;
+		if(false == tableAnno.isAutoIncr().equals("")) {
+			isAutoIncr = tableAnno.isAutoIncr().split(",");
+		}
+		
 		if(null != tableFields) {
 			if(null == fieldsTypes) throw new Exception("fields types are null !");
 			if(null != allowNull) {

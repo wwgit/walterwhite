@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import store.annotations.SQLDefineHelper;
 import store.db.sql.beans.definitions.MySqlCreateSQL;
 import store.db.sql.beans.definitions.SQLDefinition;
 import store.db.sql.beans.definitions.CreateTableSQL;
@@ -33,7 +34,7 @@ import store.db.sql.beans.definitions.constraints.PrimaryKey;
  * @date 2017年1月18日 下午4:53:42 
  *  
  */
-public class SqlDefinitionTest {
+public class SqlDefinitionTest extends TestCaseAbstract {
 	
 //	@Before
 	public void setUp() throws Exception {
@@ -187,6 +188,8 @@ public class SqlDefinitionTest {
 		System.out.println(createSql.generateCreateTableSQL());
 		
 	}
+	
+
 	
 	
 }

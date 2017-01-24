@@ -14,7 +14,9 @@ import org.junit.Before;
  */
 import org.junit.Test;
 
+import store.annotations.SQLDefineHelper;
 import store.db.sql.beans.MySQLRobot;
+import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.DeleteSQL;
 import store.db.sql.beans.definitions.InsertSQL;
 import store.db.sql.beans.definitions.MySqlCreateSQL;
@@ -191,7 +193,14 @@ public class SQLRobotTest extends TestCaseAbstract {
 		this.robot.CreateTable(mysqlCreateSql);
 		
 	}
-
+	
+	@Test
+	public void CreateTableSQLAnnoTest() throws Exception {
+		
+		CreateTableSQL sql = SQLDefineHelper.getCreateTableSQL(this.getConfig());
+		this.robot.CreateTable(sql);
+		
+	}
 
 	public String getTableName() {
 		return tableName;

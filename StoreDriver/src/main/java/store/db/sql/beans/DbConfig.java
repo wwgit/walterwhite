@@ -1,14 +1,27 @@
 package store.db.sql.beans;
 
+import store.annotations.ForeignKeyAnno;
 import store.annotations.Table;
+import store.annotations.TableField;
 
-@Table(tableName = "db_config")
+@Table(tableName = "db_config",dbName="testperf")
+@ForeignKeyAnno(foreignKeyFields = "pool_size", refTableFields = "testtable_pky_id",
+				refTableName = "testTable", keyName = "testTable_fk")
 public class DbConfig {
 
+	@TableField(fieldName = "url", fieldType = String.class)
 	private String url;
+	
+	@TableField(fieldName = "db_driver", fieldType = String.class)
 	private String dbDriver;
+	
+	@TableField(fieldName = "user_name", fieldType = String.class)
 	private String userName;
+	
+	@TableField(fieldName = "password", fieldType = String.class, fieldLength = 255)
 	private String password;
+	
+	@TableField(fieldName = "pool_size", fieldType = int.class, fieldLength = 10)
 	private int poolSize;
 	
 	public String getUrl() {

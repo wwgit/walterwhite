@@ -51,7 +51,7 @@ public @interface TableField {
 	* @return int   
 	* @throws 
 	*/
-	public int fieldLength() default 0;
+	public int fieldLength() default 255;
 	
 	public boolean allowNull() default true;
 	

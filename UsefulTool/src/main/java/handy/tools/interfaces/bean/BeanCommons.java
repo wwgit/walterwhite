@@ -95,7 +95,7 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 	protected void initBeanProperty(Object beanObj, String propertyName, 
 			Class<?> propertyClazz, Object org_value) {
 		Object value = org_value;
-		System.out.println(propertyClazz.getName());
+//		System.out.println(propertyClazz.getName());
 		if(false == (value.getClass() == propertyClazz)) {
 //			    if type does Not match, try to handle it in getRequiredValue 
 				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
