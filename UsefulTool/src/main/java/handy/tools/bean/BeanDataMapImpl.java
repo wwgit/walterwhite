@@ -73,10 +73,12 @@ public class BeanDataMapImpl extends BeanDataMap {
 			}
 		
 			beanObj = beanClazz.newInstance();
-			for(Iterator key_it = propertyValues.keySet().iterator(); key_it.hasNext();) {
+			for(Iterator<?> key_it = propertyValues.keySet().iterator(); key_it.hasNext();) {
 		
 				propertyName = (String) key_it.next();
 				propertyClazz = propertyTypes.get(propertyName);
+				if(null == propertyClazz) throw new Exception("property type is null for " + propertyName);
+					
 				value = propertyValues.get(propertyName);
 				
 				if(isRefBean(value)) {

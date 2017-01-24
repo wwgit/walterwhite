@@ -98,13 +98,12 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 //		System.out.println(propertyClazz.getName());
 		if(false == (value.getClass() == propertyClazz)) {
 //			    if type does Not match, try to handle it in getRequiredValue 
-				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
-				
+//				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
+				value = TypeHelper.tryGetRequiredValue(org_value, propertyClazz);
 		}
 		Map<Object, Class<?>> value_type = new HashMap<Object, Class<?>>();
 		value_type.put(value, propertyClazz);
 		ReflectHelper.callSetter(beanObj, propertyName, value_type);
-
 	}
 	
 	

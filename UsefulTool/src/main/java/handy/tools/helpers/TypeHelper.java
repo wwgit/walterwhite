@@ -108,6 +108,7 @@ public abstract class TypeHelper implements DataTypes {
 		if(type == char[].class) return true;
 		if(type == String[].class) return true;		
 		if(type == Byte[].class) return true;
+		if(type == Object[].class) return true;	
 		
 		return false;
 	}
@@ -407,88 +408,97 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static Object convertStrArrToBasicArr(String[] orgStrArr, Class<?> requiredType) throws IllegalArgumentException, ParseException {
 	
+		if(requiredType == String[].class) {
+			return orgStrArr;
+		}
+		if(requiredType == Object[].class) {
+			Object[] o_tmpArr = new Object[orgStrArr.length];
+			for(int i = 0; i < orgStrArr.length; i++) 
+				o_tmpArr[i] = orgStrArr[i];
+			return o_tmpArr;
+		}
 		if(requiredType == int[].class) {
 			int[] i_tmpArr = new int[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				i_tmpArr[i] = Integer.parseInt(orgStrArr[i]);
+				i_tmpArr[i] = Integer.parseInt(orgStrArr[i].trim());
 			return i_tmpArr;
 		}
 		if(requiredType == long[].class) {
 			long[] l_tmpArr = new long[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				l_tmpArr[i] = Long.parseLong(orgStrArr[i]);
+				l_tmpArr[i] = Long.parseLong(orgStrArr[i].trim());
 			return l_tmpArr;
 		}
 		if(requiredType == double[].class) {
 			double[] d_tmpArr = new double[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				d_tmpArr[i] = Double.parseDouble(orgStrArr[i]);
+				d_tmpArr[i] = Double.parseDouble(orgStrArr[i].trim());
 			return d_tmpArr;
 		}
 		if(requiredType == float[].class) {
 			float[] f_tmpArr = new float[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				f_tmpArr[i] = Float.parseFloat(orgStrArr[i]);
+				f_tmpArr[i] = Float.parseFloat(orgStrArr[i].trim());
 			return f_tmpArr;
 		}
 		if(requiredType == short[].class) {
 			short[] sh_tmpArr = new short[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				sh_tmpArr[i] = Short.parseShort(orgStrArr[i]);
+				sh_tmpArr[i] = Short.parseShort(orgStrArr[i].trim());
 			return sh_tmpArr;
 		}
 		if(requiredType == byte[].class) {
 			byte[] b_tmpArr = new byte[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				b_tmpArr[i] = Byte.parseByte(orgStrArr[i]);
+				b_tmpArr[i] = Byte.parseByte(orgStrArr[i].trim());
 			return b_tmpArr;
 		}
 		if(requiredType == char[].class) {
 			char[] c_tmpArr = new char[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				c_tmpArr[i] = orgStrArr[i].charAt(0);
+				c_tmpArr[i] = orgStrArr[i].trim().charAt(0);
 			return c_tmpArr;
 		}
 		if(requiredType == Integer[].class) {
 			Integer[] i_tmpArr = new Integer[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				i_tmpArr[i] = Integer.valueOf(orgStrArr[i]);
+				i_tmpArr[i] = Integer.valueOf(orgStrArr[i].trim());
 			return i_tmpArr;
 		}
 		if(requiredType == Long[].class) {
 			Long[] l_tmpArr = new Long[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				l_tmpArr[i] = Long.valueOf(orgStrArr[i]);
+				l_tmpArr[i] = Long.valueOf(orgStrArr[i].trim());
 			return l_tmpArr;
 		}
 		if(requiredType == Double[].class) {
 			Double[] d_tmpArr = new Double[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				d_tmpArr[i] = Double.valueOf(orgStrArr[i]);
+				d_tmpArr[i] = Double.valueOf(orgStrArr[i].trim());
 			return d_tmpArr;
 		}
 		if(requiredType == Float[].class) {
 			Float[] f_tmpArr = new Float[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				f_tmpArr[i] = Float.valueOf(orgStrArr[i]);
+				f_tmpArr[i] = Float.valueOf(orgStrArr[i].trim());
 			return f_tmpArr;
 		}
 		if(requiredType == Short[].class) {
 			Short[] sh_tmpArr = new Short[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				sh_tmpArr[i] = Short.valueOf(orgStrArr[i]);
+				sh_tmpArr[i] = Short.valueOf(orgStrArr[i].trim());
 			return sh_tmpArr;
 		}
 		if(requiredType == Byte[].class) {
 			Byte[] b_tmpArr = new Byte[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				b_tmpArr[i] = Byte.valueOf(orgStrArr[i]);
+				b_tmpArr[i] = Byte.valueOf(orgStrArr[i].trim());
 			return b_tmpArr;
 		}
 		if(requiredType == java.math.BigDecimal[].class) {
 			java.math.BigDecimal[] b_tmpArr = new java.math.BigDecimal[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
-				b_tmpArr[i] = new BigDecimalStringConverter().fromString(orgStrArr[i]);
+				b_tmpArr[i] = new BigDecimalStringConverter().fromString(orgStrArr[i].trim());
 			return b_tmpArr;
 		}
 		throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
@@ -502,46 +512,46 @@ public abstract class TypeHelper implements DataTypes {
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
 		
 		if(requiredType == int.class) {
-			return Integer.parseInt(orgValue);
+			return Integer.parseInt(orgValue.trim());
 		}
 		if(requiredType == double.class) {
-			return Double.parseDouble(orgValue);
+			return Double.parseDouble(orgValue.trim());
 		}
 		if(requiredType == float.class) {
-			return Float.parseFloat(orgValue);
+			return Float.parseFloat(orgValue.trim());
 		}
 		if(requiredType == long.class) {
-			return Long.parseLong(orgValue);
+			return Long.parseLong(orgValue.trim());
 		}
 		if(requiredType == short.class) {
-			return Short.parseShort(orgValue);
+			return Short.parseShort(orgValue.trim());
 		}
 		if(requiredType == Short.class) {
-			return Short.valueOf(orgValue);
+			return Short.valueOf(orgValue.trim());
 		}
 		if(requiredType == Integer.class) {
-			return Integer.valueOf(orgValue);
+			return Integer.valueOf(orgValue.trim());
 		}
 		if(requiredType == Long.class) {
-			return Long.valueOf(orgValue);
+			return Long.valueOf(orgValue.trim());
 		}
 		if(requiredType == Float.class) {
-			return Float.valueOf(orgValue);
+			return Float.valueOf(orgValue.trim());
 		}
 		if(requiredType == Double.class) {
-			return Double.valueOf(orgValue);
+			return Double.valueOf(orgValue.trim());
 		}
 		if(requiredType == Byte.class) {
-			return Byte.valueOf(orgValue);
+			return Byte.valueOf(orgValue.trim());
 		}
 		if(requiredType == java.math.BigDecimal.class) {
-			return new BigDecimalStringConverter().fromString(orgValue);
+			return new BigDecimalStringConverter().fromString(orgValue.trim());
 		}
 		if(requiredType == byte.class) {
-			return Byte.parseByte(orgValue);
+			return Byte.parseByte(orgValue.trim());
 		}
 		if(requiredType == char.class) {
-			return orgValue.charAt(0);
+			return orgValue.trim().charAt(0);
 		}
 		
 		throw new IllegalArgumentException("cannot convert java basic type " + requiredType.getSimpleName());
@@ -550,16 +560,16 @@ public abstract class TypeHelper implements DataTypes {
 	private static Object convertToRequiredJavaDateTime(String orgValue, Class<?> requiredType) 
 														throws ParseException, IllegalArgumentException {
 		if(requiredType == java.sql.Date.class) {
-			return java.sql.Date.valueOf(orgValue);
+			return java.sql.Date.valueOf(orgValue.trim());
 		}
 		if(requiredType == java.util.Date.class) {
-			return DateFormat.getDateInstance().parse(orgValue);
+			return DateFormat.getDateInstance().parse(orgValue.trim());
 		}
 		if(requiredType == java.sql.Time.class) {
-			return java.sql.Time.valueOf(orgValue);
+			return java.sql.Time.valueOf(orgValue.trim());
 		}
 		if(requiredType == java.sql.Timestamp.class) {
-			return java.sql.Timestamp.valueOf(orgValue);
+			return java.sql.Timestamp.valueOf(orgValue.trim());
 		} 
 		throw new IllegalArgumentException("cannot convert to java date time " + requiredType.getSimpleName());
 	}
