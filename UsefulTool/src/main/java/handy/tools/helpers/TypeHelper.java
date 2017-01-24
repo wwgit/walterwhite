@@ -68,7 +68,7 @@ public abstract class TypeHelper implements DataTypes {
 		if(type.isPrimitive()) {
 			return true;
 		} else {
-			return isJavaArray(type);
+			return type.isArray();
 		}
 	}
 	
@@ -97,21 +97,6 @@ public abstract class TypeHelper implements DataTypes {
 		return false;
 	}
 	
-	public static boolean isJavaArray(Class<?> type) {
-		
-		String simpleName = type.getSimpleName();
-		if(simpleName.endsWith("[]")) {
-			return true;
-		}		
-		return false;
-	}
-	
-	public static boolean isListOrMap(Class<?> type) {
-		
-		if(type == java.util.List.class) return true;
-		if(type == java.util.Map.class) return true;		
-		return false;
-	}
 	
 //	@MethodArgs
 	public static int parseComplex(int flag) {
@@ -316,123 +301,6 @@ public abstract class TypeHelper implements DataTypes {
 		return requiredClz;
 	}
 	
-	public static Object getRequiredValue(Object orgValue, Class<?> requiredType) {
-		
-		Object value = null;
-		
-		if(requiredType == orgValue.getClass())
-			return orgValue;
-		
-		if(requiredType == int[].class) {
-//			if()
-		}
-		
-		
-		return value;
-	}
-	
-	
-	private static Object getRequiredValueForJavaArray(String[] orgValue, Class<?> requiredType) 
-			throws ParseException, Exception {
-		
-		Object[] value = null;
-		value = new Object[orgValue.length];
-		
-//		string to java basic
-		if(isJavaBasicType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				value[i] = convertToRequiredJavaBasic((String)orgValue[i], requiredType);
-			}
-			return value;
-		}
-//		string to java date time
-		if(isJavaDateType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				value[i] = convertToRequiredJavaDateTime((String)orgValue[i], requiredType);
-			}
-			return value;
-		}
-//		java array to list
-		if(requiredType == java.util.List.class) {
-			return convertJavaArrToList(orgValue);
-		}
-		
-		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
-	}
-	
-	
-	
-	private static Object getRequiredValueForJavaArray(long[] orgValue, Class<?> requiredType) 
-			throws ParseException, Exception {
-		
-		Object[] value = null;
-		value = new Object[orgValue.length];
-
-//		long to java date time
-		if(isJavaDateType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				value[i] = convertToRequiredJavaDateTime(orgValue[i], requiredType);
-			}
-			return value;
-		}
-//		java basic type to java basic type
-		if(isJavaBasicType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				String tmp = String.valueOf(orgValue[0]);
-				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
-			}
-			return value;
-		}
-		
-		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
-	}
-	
-	private static Object[] getRequiredValueForJavaArray(int[] orgValue, Class<?> requiredType) 
-			throws ParseException, Exception {
-		
-		Object[] value = null;
-		value = new Object[orgValue.length];
-
-//		long to java date time
-		if(isJavaDateType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				value[i] = convertToRequiredJavaDateTime(orgValue[i], requiredType);
-			}
-			return value;
-		}
-//		java basic type to java basic type
-		if(isJavaBasicType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				String tmp = String.valueOf(orgValue[0]);
-				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
-			}
-			return value;
-		}
-		
-		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
-	}
-	
-	
-	private static Object getRequiredValueForJavaArray(Object[] orgValue, Class<?> requiredType) 
-														throws ParseException, Exception {
-		Object[] value = null;
-		value = new Object[orgValue.length];
-		
-//		java basic type to java basic type
-		if(isJavaBasicType(orgValue[0].getClass()) && isJavaBasicType(requiredType)) {
-			for(int i = 0; i < value.length; i++) {
-				String tmp = String.valueOf(orgValue[0]);
-				value[i] = convertToRequiredJavaBasic(tmp, requiredType);
-			}
-			return value;
-		}
-		
-//		java array to list
-		if(requiredType == java.util.List.class) {
-			return convertJavaArrToList(orgValue);
-		}		
-		throw new IllegalArgumentException("cannot convert java array " + requiredType.getSimpleName());
-	}
 	
 	private static List<Object> convertJavaArrToList(Object[] orgValue) {
 		
@@ -456,7 +324,7 @@ public abstract class TypeHelper implements DataTypes {
 	private static Object convertToRequiredJavaBasic(String orgValue, Class<?> requiredType) 
 													throws ParseException, IllegalArgumentException {
 		
-		if(false == isJavaBasicType(requiredType) || false == isJavaDateType(requiredType))
+		if(false == isJavaBasicType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
 		
 		if(requiredType == int.class) {

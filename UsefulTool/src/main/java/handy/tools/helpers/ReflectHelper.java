@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ReflectHelper extends FundationHelper {
+		
 	
 	@MethodArgs
 	public static void callSetter(Object beanObj, String propertyName, String requiredType, String propertyValue) {
@@ -21,10 +22,18 @@ public abstract class ReflectHelper extends FundationHelper {
 	public static void callSetter(Object beanObj, String propertyName, Map<Object, Class<?>> values) {
 		
 		String setterName = "set" + UpperCaseFirstChar(propertyName);
-		//Map<Object, String> values = new HashMap<Object, String>();
 		//System.out.println("calling setter: " + setterName + " for " + beanObj.getClass().getName());
 		//System.out.println("value: " + values.toString());
 		doOneDeclareMethodCall(beanObj, setterName, values);
+		
+	}
+	
+	public static Object callGetter(Object beanObj, String propertyName, Map<Object, Class<?>> values) {
+		
+		String getterName = "get" + UpperCaseFirstChar(propertyName);
+		//System.out.println("calling setter: " + setterName + " for " + beanObj.getClass().getName());
+		//System.out.println("value: " + values.toString());
+		return doOneDeclareMethodCall(beanObj, getterName, values);
 		
 	}
 	
@@ -32,10 +41,11 @@ public abstract class ReflectHelper extends FundationHelper {
 	 * 
 	 * */
 //	@MethodArgs
-	public static void doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
+	public static Object doOneDeclareMethodCall(Object obj, String methodName, String ... paramPairs) {
 		
 		Class<?>[] typeClazzes = null;
 		Object[] values = null;
+		Object returnObj = null;
 		
 		if(paramPairs.length > 0 && paramPairs.length%2==0 ) {
 			typeClazzes = new Class<?>[paramPairs.length/2];
@@ -51,37 +61,23 @@ public abstract class ReflectHelper extends FundationHelper {
 				values[j] = TypeHelper.getRequiredValue(paramPairs[i+1], paramPairs[i]);
 			}
 			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
-			method.invoke(obj, values);
+			returnObj = method.invoke(obj, values);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		return returnObj;
 	}
 	
-	public static void doOneDeclareMethodCall(Object obj, String methodName, Object[] values) {
-		
-		Class<?>[] typeClazzes = new Class<?>[values.length];			
-		try {
-			
-			for(int i = 0,j = 0; i < values.length; i+=2,j++) {
-				typeClazzes[i] = values.getClass();
-			}
-			Method method = obj.getClass().getDeclaredMethod(methodName, typeClazzes);
-			method.invoke(obj, values);
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 	
-	public static void doOneDeclareMethodCall(Object obj, String methodName, Map<Object, Class<?>> values_clazz) {
+	public static Object doOneDeclareMethodCall(Object obj, String methodName, Map<Object, Class<?>> values_clazz) {
 		
 		Class<?>[] paramClazzes = null;
 		Object[] paramValues = null;
+		Object returnObj = null;
+		
 		if(values_clazz.keySet().isEmpty()) {
-			return;
+			return null;
 		}
 		
 		paramClazzes = new Class<?>[values_clazz.size()];
@@ -96,14 +92,14 @@ public abstract class ReflectHelper extends FundationHelper {
 		try {
 						
 			Method method = obj.getClass().getDeclaredMethod(methodName, paramClazzes);
-			method.invoke(obj, paramValues);
+			returnObj = method.invoke(obj, paramValues);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		return returnObj;
 		
 	}
-	
 	
 	/*map structure of one bean property: key-value = property name(key) - property type(value)
 	 * 
@@ -120,5 +116,7 @@ public abstract class ReflectHelper extends FundationHelper {
 		
 		return properties;
 	}
+	
+	
 	
 }

@@ -161,8 +161,6 @@ public class ToolMain {
 		double dv = lv;
 		float fv = (float) dv;
 		
-		
-		
 		int iv = (int) lv;
 		iv = (int) dv;
 		iv = (int) fv;
@@ -170,29 +168,16 @@ public class ToolMain {
 		Object objArr = i;
 		Object[] objarr = new Object[]{1,2,3,4};
 		Object tmp = objarr;
-		int[] iii = (int[])tmp;
+		int[] iii = i;
 		
 		
-		Object objjj = objArr;
+		Object objjj = iii;
 		
-		System.out.print(iii.getClass().getSimpleName() + "\n");
-		System.out.print(dv + "\n");
-		
-		Object obj = value;
-		System.out.println(obj.getClass().getSimpleName() + "	" + XmlBeanMapFacadeImpl[].class.getSimpleName());
-		System.out.println(int[].class.getSimpleName().replaceAll("\\[\\]", ""));
-		System.out.println(int.class.getSimpleName());
-		Date date = new java.sql.Date(Long.parseLong("20010101"));
-		System.out.println(Date.valueOf("2001-01-01"));
-//		System.out.print(DateFormat.getDateInstance().parse("2001-01-02"));
-		Object objdate = DateFormat.getDateInstance().parse("20010101");
-		
-		System.out.println(objdate.getClass());
-		
-		for(int t = 0; t < value.length; t++) {
-			System.out.println(((String[])obj)[t]);
-		}
+		if(objjj instanceof java.lang.String) 
+			System.out.println(objjj.getClass());
 			
+		if(objjj.getClass().isPrimitive()) 
+			System.out.println(objjj.getClass());
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
 	}
