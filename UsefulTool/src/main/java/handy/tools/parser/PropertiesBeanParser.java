@@ -71,7 +71,7 @@ public class PropertiesBeanParser extends FileHelper implements IBeanInfoMapPars
 					: null;
 			if(null != beanId) { 
 				try {
-					beanClazzes.put(beanId, TypeHelper.getRequireClass((String) property.getValue()));
+					beanClazzes.put(beanId, TypeHelper.getRequiredClass((String) property.getValue()));
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

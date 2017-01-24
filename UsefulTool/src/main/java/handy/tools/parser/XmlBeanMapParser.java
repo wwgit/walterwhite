@@ -207,7 +207,7 @@ public class XmlBeanMapParser extends XmlParser implements Bean,
 			for(int i = 0; i < myBeanElements.size(); i++) {
 				Element e = myBeanElements.get(i);
 				beansClazzes.put(createUniqBeanIdWithAttri(e,uniqueStr),
-								TypeHelper.getRequireClass(e.attributeValue(
+								TypeHelper.getRequiredClass(e.attributeValue(
 														  this.getXmlAttriBeanClazzTab())));
 			}
 		} catch(Exception e) {

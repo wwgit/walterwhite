@@ -174,6 +174,10 @@ public class ToolMain {
 		
 		System.out.println(TypeHelper.getRequiredClass("int[]").getSimpleName());
 //		Class<?> clazz = Class.forName("int");
+		
+		if(objArr.getClass() == Object.class) {
+			System.out.println(objArr.getClass().getSimpleName());
+		}
 
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
