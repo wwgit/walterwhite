@@ -20,7 +20,7 @@ public abstract class PathHelper extends FileHelper {
 			path = GetAbsoluteFilePath(relativePath);
 		}
 		
-		System.out.println("path: " + path);
+//		System.out.println("path: " + path);
 		return path;
 		
 	}

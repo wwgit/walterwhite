@@ -20,11 +20,12 @@ public class StoreMain {
 		//xmlBeanCreator.loadBeans("example8.xml");
 //		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();
-//		xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
+		xmlBeanCreator.lazyLoadBeans("example8.xml","example7.xml");
 		
 		for(int i = 0; i < 10000; i++) {
 			//System.out.println(i);
 			//System.out.println(xmlBeanCreator.getBean("TestBean","example8.xml"));
+//			DbConfig refBeanChk3 = (DbConfig) xmlBeanCreator.getBean("DbConfig","example7.xml");
 			DbConfig refBeanChk3 = (DbConfig) xmlBeanCreator.getBean("DbConfig");
 			//DbConfig propChk2 = (DbConfig) propBeanCreator.getBean("dbConfig1");
 			//System.out.println("propChk:" + propChk2.getPassword());

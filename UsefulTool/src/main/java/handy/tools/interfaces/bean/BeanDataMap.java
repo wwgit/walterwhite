@@ -123,7 +123,7 @@ public abstract class BeanDataMap extends BeanCommons implements IBeanDataMap, B
 	 */
 	public synchronized Object getBean(String beanId, String filePath) {	
 		setCurrentFilePath(filePath);
-		String realBeanId = beanId + loadBeanUniqCode(filePath);
+		String realBeanId = beanId + loadBeanUniqCode(getCurrentFilePath());
 	//	System.out.println("in getBean(beanId,configPath): unique code:" +
 	//						realBeanId);
 		return getRealBean(realBeanId);
