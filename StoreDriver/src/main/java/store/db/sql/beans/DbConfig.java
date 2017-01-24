@@ -1,5 +1,8 @@
 package store.db.sql.beans;
 
+import store.annotations.Table;
+
+@Table(tableName = "db_config")
 public class DbConfig {
 
 	private String url;

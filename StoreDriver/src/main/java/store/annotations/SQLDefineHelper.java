@@ -11,9 +11,13 @@ package store.annotations;
 import handy.tools.helpers.TypeHelper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import store.db.sql.beans.definitions.CreateTableSQL;
 import store.db.sql.beans.definitions.MySqlCreateSQL;
+import store.db.sql.beans.definitions.constraints.Constraint;
+import store.db.sql.beans.definitions.constraints.PrimaryKey;
 
 /** 
  * @ClassName: AnnoParser 
@@ -29,12 +33,10 @@ public abstract class SQLDefineHelper {
 		
 		Table tableAnno = null;
 		if(tableBean.getClass().isAnnotationPresent(Table.class)) {
-			tableAnno = tableBean.getClass().getAnnotation(Table.class);
+			tableAnno = tableBean.getClass().getDeclaredAnnotation(Table.class);
 		} else {
 			throw new Exception("No Table Annotation found !");
 		}
-		
-		
 		
 		CreateTableSQL createSql = null;
 		String dbClazName = tableAnno.dbClazName();
@@ -55,6 +57,16 @@ public abstract class SQLDefineHelper {
 		} else {
 			createSql.setTableName(tableName);
 		}	
+		
+		PrimaryKeyAnno pka = null;
+		List<Constraint> constrs = new ArrayList<Constraint>();
+		if(tableBean.getClass().isAnnotationPresent(PrimaryKeyAnno.class)) {
+			pka = tableBean.getClass().getDeclaredAnnotation(PrimaryKeyAnno.class);
+			PrimaryKey pk = new PrimaryKey();
+			pk.setConstrName(pka.keyName());
+			pk.setConstrFields(pka.primaryKeyFields().split(","));
+			constrs.add(pk);
+		}
 		
 		String[] tableFields = tableAnno.fields().split(",");
 		String[] fieldsTypes = tableAnno.fieldsTypes().split(",");

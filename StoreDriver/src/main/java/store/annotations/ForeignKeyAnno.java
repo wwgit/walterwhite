@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ForeignKey {
+public @interface ForeignKeyAnno {
 	
 	public String keyName() default "";
 	
