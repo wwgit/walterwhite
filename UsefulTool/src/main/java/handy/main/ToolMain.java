@@ -165,12 +165,15 @@ public class ToolMain {
 		double dv = lv;
 		float fv = (float) dv;
 		
+		Object num = sv;
+		int numi = Integer.parseInt((String)sv);
+		System.out.println(numi);
 		int iv = (int) lv;
 		iv = (int) dv;
 		iv = (int) fv;
 		
 		Object objArr = i;
-		Object[] objarr = new Object[]{1,2,3,4};
+		Object[] objarr = value;
 		Object tmp = TypeHelper.convertToRequiredJavaBasic("123", int.class);
 		Object tmp2 = TypeHelper.convertStrArrToBasicArr(value, int[].class);
 		int[] iii = i;

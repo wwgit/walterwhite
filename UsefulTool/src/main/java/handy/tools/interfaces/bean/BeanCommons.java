@@ -75,11 +75,29 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 		return false;
 	}
 	
+	/** 
+	* @Title: initBeanProperty 
+	* @Description: TODO(what to do)
+	* will try convert related value to wanted based on property type
+	* if value is String like "str1,str2,str3",
+	* and property type is java basic array, 
+	* it will try to converted to wanted array based on property type
+	* 
+	* those are handled in getRequiredValue
+	*  
+	* @param @param beanObj
+	* @param @param propertyName
+	* @param @param propertyClazz
+	* @param @param org_value  
+	* @return void   
+	* @throws 
+	*/
 	protected void initBeanProperty(Object beanObj, String propertyName, 
 			Class<?> propertyClazz, Object org_value) {
 		Object value = org_value;
 		System.out.println(propertyClazz.getName());
 		if(false == (value.getClass() == propertyClazz)) {
+//			    if type does Not match, try to handle it in getRequiredValue 
 				value = TypeHelper.getRequiredValue(org_value, propertyClazz.getName());
 				
 		}
@@ -102,17 +120,6 @@ public abstract class BeanCommons extends PathHelper implements Bean {
 	    String hashCode = String.valueOf(beanFilePath.hashCode()); 
 		return hashCode;
 	}
-	
-	
-	private Object parsePropertyValue(Object orgValue, Class<?> propertyClaz) {
 		
-		Object finalValue = null;
-		
-		
-		
-		return finalValue;
-		
-	}
-	
 	
 }

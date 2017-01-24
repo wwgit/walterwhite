@@ -270,11 +270,9 @@ public abstract class TypeHelper implements DataTypes {
 	}
 	
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
-		Class<?> theType = null;
 		
 		try {
-			theType = getRequiredClass(requiredType);
-			return tryGetRequiredValue(origin_value, theType);
+			return tryGetRequiredValue(origin_value, getRequiredClass(requiredType));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -408,7 +406,7 @@ public abstract class TypeHelper implements DataTypes {
 	}
 	
 	public static Object convertStrArrToBasicArr(String[] orgStrArr, Class<?> requiredType) throws IllegalArgumentException, ParseException {
-		
+	
 		if(requiredType == int[].class) {
 			int[] i_tmpArr = new int[orgStrArr.length];
 			for(int i = 0; i < orgStrArr.length; i++) 
