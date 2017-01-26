@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans>
+  <bean id="DbConfig" class="store.db.sql.beans.DbConfig">
+  
+	<property name="url" value="value from example8"></property>
+	<!--<property name="poolSize">
+		<value>5</value>
+	</property>-->
+  </bean>
+  <bean id="TestBean" class="store.db.sql.beans.TestBean">
+		<property name="config"><ref local="DbConfig" /></property>
+		<property name="id" >
+			<value>1</value>
+		</property>
+		<property name="doubleId" >
+			<value>1024</value>
+		</property>
+		<property name="objArray" >
+			<value>str1,str2,str3,str4,str5,str6,str1,str2,str1,str2,str3,str4,str5,str6,str1,str2,
+			str3,str4,str5,str6,str1,str2,str3,str4,str5,str6,str1,str2,str3,str4,str5,str6,str1,str2,
+			str1,str2,str3,str4,str5,str6str1,str2,str3,str4,str5,str6,str1,str2
+			</value>
+		</property>
+		<property name="intArray" >
+			<value>
+			1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,
+			1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,
+			1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0
+			</value>
+		</property>
+  </bean>
+  <bean id="SMSConfig" class="store.db.sql.beans.DbConfig">
+  
+	  <property name="url" >
+		<value>value from element</value>
+	  </property>
+  </bean>
+  <bean id="SMSConfig2" class="store.db.sql.beans.DbConfig">
+  
+	  <property name="url">
+		<value>value from element</value>
+	  </property>
+	  <property name="poolSize">
+		<value>500</value>
+	  </property>
+	  <property name="password">
+		<value>password</value>
+	  </property>
+  </bean>
+</beans>
