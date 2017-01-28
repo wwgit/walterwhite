@@ -314,7 +314,7 @@ public abstract class TypeHelper implements DataTypes {
 //				supports java long to any java date type
 				if(orgValue.getClass() == long.class 
 						&& isJavaDateType(requiredType)) {
-					return convertToRequiredJavaDateTime((long)orgValue, requiredType);
+					return convertToRequiredJavaDateTime(String.valueOf(orgValue), requiredType);
 				}
 //				supports java Long to any java date type
 				if(orgValue.getClass() == Long.class 
@@ -351,7 +351,10 @@ public abstract class TypeHelper implements DataTypes {
 				throw new IllegalArgumentException("cannot parse type " + requiredType.getSimpleName());
 			}
 			
-		} catch (IllegalArgumentException | ParseException e) {
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		return null;
