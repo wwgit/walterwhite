@@ -8,6 +8,9 @@
 */
 package agents;
 
+import com.sun.tools.attach.VirtualMachine;
+
+
 /** 
  * @ClassName: AgentsMain 
  * @Description: TODO(what to do) 
@@ -26,7 +29,16 @@ public class AgentsMain {
 	 */
 	public static void main(String[] args) {
 		
+		String path = System.getProperty("java.class.path");
+		System.out.println(path);
 		
+		VirtualMachine vm;
+		try {
+			vm = VirtualMachine.attach(args[0]);
+			vm.loadAgent("D:\\360sych\\360sych\\git_repos\\java_repos\\walterwhite\\ClassesAgents\\target\\ClassesAgents-0.0.1-SNAPSHOT.jar");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

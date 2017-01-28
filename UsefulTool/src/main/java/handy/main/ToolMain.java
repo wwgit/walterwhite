@@ -1,19 +1,12 @@
 package handy.main;
 
-import java.sql.Date;
-import java.text.DateFormat;
+import handy.tools.bean.XmlBeanMapFacadeImpl;
+import handy.tools.helpers.FundationHelper;
+import handy.tools.helpers.PathHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-import handy.tools.bean.XmlBeanMapFacadeImpl;
-import handy.tools.factorties.PropertiesBeanFactory;
-import handy.tools.factorties.XmlBeanFactory;
-import handy.tools.helpers.FundationHelper;
-import handy.tools.helpers.JavassistHelper;
-import handy.tools.helpers.PathHelper;
-import handy.tools.helpers.ReflectHelper;
-import handy.tools.helpers.TypeHelper;
-import handy.tools.interfaces.bean.BeanFactory;
+
 
 /** 
 * @ClassName: ToolMain 
@@ -32,12 +25,7 @@ public class ToolMain {
 		 * example of using javassist - aop programing
 		 * 
 		 * */
-		FundationHelper.UpperCaseFirstChar("helloWorld !");
-//		TestBean bean = new TestBean();
-//		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
-		PathHelper.resolveAbsolutePath("configs/db_config.properties");
-		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
-		
+
 //		bean.setTestAnno("test aop");
 //		bean.getFileSuffix("abc.xml");
 		//System.out.println(bean.getTestAnno());
@@ -108,11 +96,11 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
+//		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
 		//xmlBeanCreator.loadBeans("example8.xml");
-		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
+//		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();
-		xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
+//		xmlBeanCreator.lazyLoadBeans("example7.xml","example8.xml");
 		
 		//Testing propChk = (Testing) propBeanCreator.getBean("dbConfig1");
 		//System.out.println("propChk:" + propChk.getPassword());
@@ -155,6 +143,16 @@ public class ToolMain {
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("time " + (endTime - startTime) + "ms");	
+		
+	    while(true){
+            Thread.sleep(1000);
+    		FundationHelper.UpperCaseFirstChar("helloWorld !");
+//    		TestBean bean = new TestBean();
+//    		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
+    		PathHelper.resolveAbsolutePath("configs/db_config.properties");
+//    		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
+//    		xmlBean.loadBeans("example7.xml");
+        }
 
 		//ExcelHelper.readXlsWorkSheet(ExcelHelper.getXlsWorkBook("test.xls"));
 		
