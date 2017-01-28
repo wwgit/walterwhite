@@ -46,17 +46,19 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 		byte[] tranformed = null;
 		
 		try {
-
+			System.out.println("making class of javassist !");
 			theCtClazz = JavassistHelper.getClassPool().makeClass(new java.io.ByteArrayInputStream(  
 			        classfileBuffer));
+			System.out.println("ready to modify class Name: " + theCtClazz.getName());
 			if(theCtClazz.getName().startsWith("java")) {
 				return classfileBuffer;
 			}
 			if(theCtClazz.getName().startsWith("sun")) {
 				return classfileBuffer;
 			}
+			
 			if(theCtClazz.isInterface() == false) {
-				System.out.println("ready to modify class Name: " + theCtClazz.getName());
+//				System.out.println("ready to modify class Name: " + theCtClazz.getName());
 				if(theCtClazz.getName().startsWith("handy")) {
 					JavassistHelper.classMethodAddBefore(theCtClazz,
 							"{handy.tools.aop.AspectsHandler.argCheck($$);}");
@@ -76,7 +78,7 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		
+		System.out.println("return of transform method in Transformer !");
 		return tranformed;
 	}
 	

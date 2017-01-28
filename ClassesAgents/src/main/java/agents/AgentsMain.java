@@ -34,7 +34,7 @@ public class AgentsMain {
 		
 		VirtualMachine vm;
 		try {
-			vm = VirtualMachine.attach("10740");
+			vm = VirtualMachine.attach("5540");
 			vm.loadAgent("D:\\360sych\\360sych\\git_repos\\java_repos\\walterwhite\\ClassesAgents\\target\\ClassesAgents-0.0.1-SNAPSHOT.jar");
 		} catch (Exception e) {
 			e.printStackTrace();
