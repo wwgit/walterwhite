@@ -35,10 +35,12 @@
           	        <!-- Configuration of the archiver -->
           	        <archive>
           	            <manifestEntries>
-          	                <Premain-Class>agents.ClassModifyAgent</Premain-Class>
+          	               <!--  <Premain-Class>agents.ClassModifyAgent</Premain-Class>-->
           	                <Agent-Class>agents.ClassAgentMain</Agent-Class>
-          	                <Main-Class>agents.AgentsMain</Main-Class> 
+          	                <!--<Boot-Class-Path>${project.build.outputDirectory}</Boot-Class-Path> -->
+          	               <!--<Main-Class>agents.AgentsMain</Main-Class> -->
           	                 <Can-Redefine-Classes>true</Can-Redefine-Classes>
+          	                 <Can-Retransform-Classes>true</Can-Retransform-Classes>
           	            </manifestEntries>
           	        </archive>
           	    </configuration>

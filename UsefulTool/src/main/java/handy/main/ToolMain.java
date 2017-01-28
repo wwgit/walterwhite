@@ -1,8 +1,10 @@
 package handy.main;
 
-import handy.tools.bean.XmlBeanMapFacadeImpl;
+import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.PathHelper;
+import handy.tools.interfaces.bean.BeanFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +98,7 @@ public class ToolMain {
 		data.put("good4", "value4");
 		//data.put("element3", "value3");
 		
-//		BeanFactory xmlBeanCreator = new XmlBeanFactory("example8.xml");
+		BeanFactory xmlBeanCreator = new XmlBeanFactory();
 		//xmlBeanCreator.loadBeans("example8.xml");
 //		BeanFactory propBeanCreator = new PropertiesBeanFactory("configs/db_config.properties");
 		long startTime = System.currentTimeMillis();

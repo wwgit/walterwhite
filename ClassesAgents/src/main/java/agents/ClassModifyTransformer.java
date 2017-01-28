@@ -27,12 +27,19 @@ import javassist.CtClass;
  */
 public class ClassModifyTransformer implements ClassFileTransformer {
 
+	
+	public ClassModifyTransformer() {
+		System.out.println("ClassModifyTransform initializing !");
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.instrument.ClassFileTransformer#transform(java.lang.ClassLoader, java.lang.String, java.lang.Class, java.security.ProtectionDomain, byte[])
 	 */
 	public byte[] transform(ClassLoader loader, String className,
 			Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
 			byte[] classfileBuffer) throws IllegalClassFormatException {
+		System.out.println("calling transform method in Transformer !");
 		
 		JavassistHelper.InitNonDefPool();
 		CtClass theCtClazz = null;
@@ -49,7 +56,7 @@ public class ClassModifyTransformer implements ClassFileTransformer {
 				return classfileBuffer;
 			}
 			if(theCtClazz.isInterface() == false) {
-//				System.out.println("ready to modify class Name: " + theCtClazz.getName());
+				System.out.println("ready to modify class Name: " + theCtClazz.getName());
 				if(theCtClazz.getName().startsWith("handy")) {
 					JavassistHelper.classMethodAddBefore(theCtClazz,
 							"{handy.tools.aop.AspectsHandler.argCheck($$);}");

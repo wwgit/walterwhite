@@ -26,8 +26,20 @@ public class ClassAgentMain {
 		// Initialize the static variables we use to track information.  
 		Instrumentation inst = _inst;
 		ClassFileTransformer trans = new ClassModifyTransformer();
+//		System.out.println(trans.getClass().getSimpleName());
+
+		System.out.println("redefine supported ? " + inst.isRedefineClassesSupported());
+		System.out.println("retransform supported ? " + inst.isRetransformClassesSupported());
+//		inst.
+		Class<?>[] classes = inst.getAllLoadedClasses();
+	    for(Class<?> cls :classes){
+	        	if(cls.getName().startsWith("handy")) {
+	        		System.out.println(cls.getName());
+	        	}
+	    }
 		System.out.println("Adding a ClassModifyTransformer instance to the JVM.");
 		inst.addTransformer(trans);
+	    
 	}
 
 }
