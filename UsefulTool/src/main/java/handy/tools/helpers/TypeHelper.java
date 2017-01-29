@@ -25,7 +25,7 @@ import javafx.util.converter.BigDecimalStringConverter;
 
 public abstract class TypeHelper implements DataTypes {
 	
-//	@MethodArgs
+	@MethodArgs
 	public static int[] getDataTypes(Map<?,?> data) {
 		
 		int[] types = new int[data.size()];
@@ -37,7 +37,7 @@ public abstract class TypeHelper implements DataTypes {
 		return types;
 	}
 	
-//	@MethodArgs
+	@MethodArgs
 	public static int[] getDataTypes(Object[] data) {
 		
 		int[] types = new int[data.length];
@@ -93,23 +93,22 @@ public abstract class TypeHelper implements DataTypes {
 	
 	public static boolean isJavaBasicArray(Class<?> type) {
 		
+		if(type == Object[].class) return true;	
+		if(type == String[].class) return true;
+		if(type == byte[].class) return true;
+		if(type == char[].class) return true;
 		if(type == int[].class) return true;
 		if(type == long[].class) return true;
 		if(type == float[].class) return true;
 		if(type == double[].class) return true;
 		if(type == short[].class) return true;
+		if(type == Byte[].class) return true;
 		if(type == Long[].class) return true;
 		if(type == Double[].class) return true;
 		if(type == Float[].class) return true;
 		if(type == Integer[].class) return true;
 		if(type == Short[].class) return true;
 		if(type == java.math.BigDecimal[].class) return true;
-		if(type == byte[].class) return true;	
-		if(type == char[].class) return true;
-		if(type == String[].class) return true;		
-		if(type == Byte[].class) return true;
-		if(type == Object[].class) return true;	
-		
 		return false;
 	}
 	
@@ -125,6 +124,7 @@ public abstract class TypeHelper implements DataTypes {
 		}
 	}
 	
+//	@MethodArgs
 	public static int parseType(Object value) {
 		
 		String type = value.getClass().getName();
@@ -140,7 +140,7 @@ public abstract class TypeHelper implements DataTypes {
 		return ret;
 	}
 	
-	
+//	@MethodArgs
 	public static int parseType(String type) {
 		
 		if(type.equals("java.lang.String")) {
@@ -189,7 +189,7 @@ public abstract class TypeHelper implements DataTypes {
 		}
 	}
 	
-	public static Object getRequiredValue(String origin_value, String requiredType) {
+	/*public static Object getRequiredValue(String origin_value, String requiredType) {
 		int require_flag = parseType(requiredType);
 		Object value = origin_value;
 		
@@ -227,10 +227,10 @@ public abstract class TypeHelper implements DataTypes {
 		}
 		
 		return value;
-	}
+	}*/
 	
 //	@MethodArgs
-	public static Object getRequiredValue(int origin_value, String requiredType) {
+	/*public static Object getRequiredValue(int origin_value, String requiredType) {
 		int require_flag = parseType(requiredType);
 		Object value = null;
 		
@@ -268,10 +268,11 @@ public abstract class TypeHelper implements DataTypes {
 		}
 		
 		return value;
-	}
+	}*/
 	
+	@MethodArgs
 	public static Object getRequiredValue(Object origin_value, String requiredType) {
-		
+		System.out.println("calling getRequiredValue !");
 		try {
 			return tryGetRequiredValue(origin_value, getRequiredClass(requiredType));
 		} catch (ClassNotFoundException e) {
@@ -280,7 +281,7 @@ public abstract class TypeHelper implements DataTypes {
 		return null;
 	}
 	
-	@MethodArgs
+//	@MethodArgs
 	public static Object tryGetRequiredValue(Object orgValue, Class<?> requiredType) {
 		
 		if(orgValue.getClass() == requiredType) {
@@ -354,7 +355,6 @@ public abstract class TypeHelper implements DataTypes {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		return null;
@@ -514,6 +514,9 @@ public abstract class TypeHelper implements DataTypes {
 		if(false == isJavaBasicType(requiredType))
 			throw new IllegalArgumentException("cannot convert " + requiredType.getSimpleName());
 		
+		if(requiredType == String.class) {
+			return orgValue;
+		}
 		if(requiredType == int.class) {
 			return Integer.parseInt(orgValue.trim());
 		}

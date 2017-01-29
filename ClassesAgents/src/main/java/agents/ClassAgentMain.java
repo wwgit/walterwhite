@@ -48,13 +48,15 @@ public class ClassAgentMain {
 	    int n = 0;
 	    for(int m = 0; m < classes.length; m++){
         	if(classes[m].getName().startsWith("handy")) {
-        		System.out.println(classes[m].getName());
-        		System.out.println("can be modified: ?" + inst.isModifiableClass(classes[m]));
+//        		System.out.println(classes[m].getName());
+//        		System.out.println("can be modified: ?" + inst.isModifiableClass(classes[m]));
         		mClasses[n] = classes[m];
         		n++;
         	}
 	    }
+	    System.out.println("Retransforming classes start...");
 	    inst.retransformClasses(mClasses);
+	    System.out.println("Retransforming classes end...");
 	}
 
 }

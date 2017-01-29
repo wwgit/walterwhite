@@ -17,54 +17,7 @@ package handy.tools.aop;
 *  
 */
 public abstract class AspectsHandler {
-	
-	public static void argCheck(Object args) throws Exception {
-		
-		System.out.println("checking Object arguments !");
-		if(args == null) {
-			throw new Exception("args are null");
-		}
-		/*for(Object arg : args) {
-			if(null == arg) throw new Exception("one of inputted arg is null");
-		}*/
-		
-		
-	}
-	public static void argCheck(int args) throws Exception {
-		
-		System.out.println("checking int arguments !");
-		/*for(Object arg : args) {
-			if(null == arg) throw new Exception("one of inputted arg is null");
-		}*/
-		
-		
-	}
 
-	public static void argCheck(Object ...args) throws Exception {
-		
-		System.out.println("checking int arguments !");
-		for(Object arg : args) {
-			if(null == arg) throw new Exception("one of inputted arg is null");
-		}
-		
-		
-	}
-	public static void argCheck(Object args, Object args2) throws Exception {
-		
-		System.out.println("checking int arguments !");
-		/*if(args == null || args2 == null) {
-			throw new Exception("args are null");
-		}*/
-			
-	}
-	public static void argCheck(int args, Object args2) throws Exception {
-		
-		System.out.println("checking int arguments !");
-		if(args2 == null) {
-			throw new Exception("args are null");
-		}
-			
-	}
 	
 
 }

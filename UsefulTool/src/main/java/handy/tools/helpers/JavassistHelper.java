@@ -102,7 +102,7 @@ public abstract class JavassistHelper {
 			Object anno = method.getAnnotation(MethodArgs.class);
 			if(anno instanceof MethodArgs) {
 				System.out.println("anno MethodArgs found, calling methodInsert:" + method.getName());
-				methodInsert(method,
+				methodInsertBefore(method,
 						aspect);
 			}
 		}
@@ -111,31 +111,26 @@ public abstract class JavassistHelper {
 	
 	public static void classMethodAddBefore(CtClass ctClazz, String aspect) throws Exception {
 		
+		if(ctClazz.isFrozen()) ctClazz.defrost();
 		CtMethod[] methods = ctClazz.getDeclaredMethods();
 		for(CtMethod method : methods) {
 			Object anno = method.getAnnotation(MethodArgs.class);
 			if(anno instanceof MethodArgs) {
 				System.out.println("anno MethodArgs found, calling methodInsert:" + method.getName());
-				methodInsert(method,
+				methodInsertBefore(method,
 						aspect);
 			}
 		}
-		
 	}
 	
-	public static void methodInsert(CtMethod method, String aspect) throws Exception {
-		
+	public static void methodInsertBefore(CtMethod method, String aspect) throws Exception {
+//		System.out.println("start the method.insertBefore !");
 		CtClass[] paramTypes = method.getParameterTypes();
       	
 		if(paramTypes.length < 1) {
     		throw new Exception("For method argument check, "
     				+ "it must at least contained one argument !");
     	}
-		for(CtClass paramType : paramTypes) {
-//			System.out.println("printing param types:" + paramType.getName());
-			if(TypeHelper.isJavaBasicType(paramType.getName())) return;
-			if(paramType.isArray()) return;
-		}
 		method.insertBefore(aspect);
 		System.out.println("save the modification !");
 	}

@@ -3,6 +3,7 @@ package handy.main;
 import handy.tools.factorties.XmlBeanFactory;
 import handy.tools.helpers.FundationHelper;
 import handy.tools.helpers.PathHelper;
+import handy.tools.helpers.TypeHelper;
 import handy.tools.interfaces.bean.BeanFactory;
 
 import java.util.HashMap;
@@ -50,8 +51,7 @@ public class ToolMain {
 		//TRY TEST AFTER INSERT
 		//BasicHelper.getRequireClass("handy.tools.helpers.TypeHelper");
 		
-		//TypeHelper.getRequiredValue(1, "java.lang.String");
-		//TypeHelper.parseType("asdf");
+
 		
 		//GenInstance maker = new InstGenerator();
 		
@@ -75,8 +75,6 @@ public class ToolMain {
 		
 		//char[] cBuf = NioHelper.byteArrToCharArr(buf,"utf-8");
 		//char[] charArr = new char[buf.length];
-		
-		
 		
 		//charArr = NioHelper.byteArrToCharArr(buf,"utf-8");
 		//String str = FileHelper.readAllFrmDirectMem("D:\\test5.json", "utf-8", 20480);
@@ -147,11 +145,13 @@ public class ToolMain {
 		System.out.println("time " + (endTime - startTime) + "ms");	
 		
 	    while(true){
-            Thread.sleep(1000);
-    		FundationHelper.UpperCaseFirstChar("helloWorld !");
+            Thread.sleep(3000);
+//    		FundationHelper.UpperCaseFirstChar("helloWorld !");
 //    		TestBean bean = new TestBean();
 //    		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());
-    		PathHelper.resolveAbsolutePath("configs/db_config.properties");
+//    		PathHelper.resolveAbsolutePath("configs/db_config.properties");
+    		TypeHelper.getRequiredValue(1, "java.lang.String");
+//    		TypeHelper.parseType("asdf");
 //    		XmlBeanMapFacadeImpl xmlBean = new XmlBeanMapFacadeImpl();
 //    		xmlBean.loadBeans("example7.xml");
         }
