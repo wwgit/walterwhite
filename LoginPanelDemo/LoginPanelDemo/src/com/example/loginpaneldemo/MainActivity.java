@@ -2,6 +2,7 @@ package com.example.loginpaneldemo;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if(v.getId() == R.id.subBtn) {
 			EditText acct = (EditText) findViewById(R.id.accountEt);
 			Toast message = Toast.makeText(this, "login account:" + acct.getText(), Toast.LENGTH_SHORT);
+			Log.d(this.getClass().getSimpleName(), acct.getText().toString());
 			message.show();
 		}
 	}

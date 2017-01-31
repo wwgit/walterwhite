@@ -8,12 +8,15 @@
 */
 package com.example.loginpaneldemo.test;
 
+import com.example.aidlclient.Client;
 import com.example.loginpaneldemo.MainActivity;
 import com.example.loginpaneldemo.R;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.Button;
 
 /** 
@@ -28,10 +31,8 @@ public class AndroidActivityTest extends ActivityInstrumentationTestCase2<MainAc
 	private Activity testTarget;
 	private Instrumentation mInst;
 	
-	
 	public AndroidActivityTest() throws ClassNotFoundException {
 		super(MainActivity.class);
-		
 	}
 	
 	@Override
@@ -39,19 +40,43 @@ public class AndroidActivityTest extends ActivityInstrumentationTestCase2<MainAc
 		super.setUp();
 		
 	    mInst = getInstrumentation();
+	    
 //	         关闭待测应用的触控模式，以便向下拉框发送按键消息  
 //	          这个操作必须在getActivity()之前调用
 		setActivityInitialTouchMode(false);
-		this.testTarget = getActivity();
-		
+		testTarget = getActivity();
 	}
 	public void testMain() {  
 //	     assertTrue(true);
-		Button btn = (Button) this.testTarget.findViewById(R.id.subBtn);
-		mInst.runOnMainSync(new ButtonClick(btn));  
+		System.out.println("testing main");
+		Log.v("instrumentTest:", "testMain");
+		Button btn = (Button)testTarget.findViewById(R.id.subBtn);
+		mInst.runOnMainSync(new ButtonClick(btn)); 
+//		CallRemoteService remoteCall = new CallRemoteService(testTarget);
+//		mInst.runOnMainSync(remoteCall);
 	                
 	}
 	
+	private class CallRemoteService implements Runnable {
+		
+		private Client client;
+		private Activity target;
+		
+		public CallRemoteService(Activity testTarget) {
+			target = testTarget;
+			client = new Client();
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {		
+			target.bindService(client.intent, this.client, Context.BIND_AUTO_CREATE);
+		}
+		
+	}
+
 	private class ButtonClick implements Runnable {
 
 		Button button;
@@ -64,10 +89,19 @@ public class AndroidActivityTest extends ActivityInstrumentationTestCase2<MainAc
 			button = b;
 		}
 		
-		
 		@Override
 		public void run() {
-			button.performClick();
+//			Log.d("Instrument Test:", "performing button click");
+			for(int i = 0; i < 1000; i++) {
+				Log.d(this.getClass().getSimpleName(), "performing button click");
+				button.performClick();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 		
 	}
