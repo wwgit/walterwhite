@@ -1,7 +1,10 @@
 package com.example.loginpaneldemo;
 
+import com.example.servicedemo.ServiceDemo;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -18,6 +21,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.login);
 		Button submit = (Button) findViewById(R.id.subBtn);
 		submit.setOnClickListener(this);
+		Intent serIntent = new Intent();
+		serIntent.setClassName("com.example.servicedemo", ServiceDemo.class.getName());
+		serIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		this.startService(serIntent);
 	}
 
 	/* (non-Javadoc)
