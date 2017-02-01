@@ -30,14 +30,6 @@
 		               <!--   <category android:name="android.intent.category.DEFAULT" />android:process=":remote" > -->
 		        </intent-filter> 
 		</service>
-		<service android:name="com.example.servicedemo.MyServiceDemo"
-		         android:enabled="true" android:exported="true">
-		         
-		        <intent-filter> 
-		                <action android:name="com.example.servicedemo.MyServiceDemo" /> 
-		               <!--   <category android:name="android.intent.category.DEFAULT" />android:process=":remote" > -->
-		        </intent-filter> 
-		</service>
     </application>
 
 </manifest>

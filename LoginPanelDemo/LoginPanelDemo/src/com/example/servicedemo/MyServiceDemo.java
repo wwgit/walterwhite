@@ -39,7 +39,8 @@ public class MyServiceDemo extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.i("ServiceDemo", "service is binding !");
-		return (IBinder)new MyInnerAidlImpl();
+//		return (IBinder)new MyInnerAidlImpl();
+		return (IBinder) mFirstAidlDemo;
 	}
 	
 	@Override

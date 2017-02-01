@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			demo = AidlDemo.Stub.asInterface(service);
 			try {
 				Log.i("RidlDemo", "on Service Connected");
-				demo.basicTypes(1, true, 1, 1, "");
+				demo.basicTypes(1, true, 1, 1, "called from MainActivity");
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -66,13 +66,15 @@ public class MainActivity extends Activity implements OnClickListener {
 			Log.i("ServiceDemo", "clicking buttong to start service");
 			message.show();
 //			Intent serIntent = new Intent(this, MyServiceDemo.class);
-			Intent aidlIntent = new Intent(this, MyServiceDemo.class);
-			aidlIntent.setAction("com.example.servicedemo.MyServiceDemo");
+			Intent intent = new Intent();
+			intent.setPackage("com.example.loginpaneldemo");
+//			intent.setClassName("com.example.servicedemo", "MyServiceDemo");
+			intent.setAction("com.example.servicedemo.MyServiceDemo");
 //			serIntent.setClassName();
 //			serIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //			startService(serIntent);
 //			stopService(serIntent);
-//			bindService(aidlIntent, conn, BIND_AUTO_CREATE);
+			bindService(intent, conn, BIND_AUTO_CREATE);
 //			unbindService(conn);
 			
 		}
