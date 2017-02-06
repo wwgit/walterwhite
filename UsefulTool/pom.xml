@@ -8,6 +8,19 @@
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <distributionManagement>
+      <repository>
+             <id>personal_releases</id>
+     		 <name>Personal Release Storage</name>
+      		<url>http://192.168.1.6:8081/nexus/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+                  <id>personal_snapshot</id>
+	     		 <name>personal Snapshot Storage</name>
+	      		<url>http://192.168.1.6:8081/nexus/content/repositories/personal_snapshot/</url>
+      </snapshotRepository>
+  </distributionManagement>
+  
   <build>
      <resources>
             <!-- 控制资源文件的拷贝 -->
