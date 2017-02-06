@@ -34,6 +34,10 @@
                     <source>1.6</source>
                     <target>1.6</target>
                     <encoding>UTF-8</encoding>
+                     <compilerArguments>
+                         <bootclasspath>${java.home}\lib\rt.jar;${java.home}\lib\tools.jar</bootclasspath> 
+                         <!--<extdirs>${java.home}\lib</extdirs>-->                       
+                     </compilerArguments>
                 </configuration>
             </plugin>
             <!-- The configuration of maven-jar-plugin -->
