@@ -35,7 +35,9 @@
                     <target>1.6</target>
                     <encoding>UTF-8</encoding>
                      <compilerArguments>
-                         <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/tools.jar</bootclasspath> 
+                         <bootclasspath>
+                             ${java.home}/lib/rt.jar;${java.home}/lib/tools.jar;${java.home}/lib/jce.jar
+                         </bootclasspath> 
                          <!--<extdirs>${java.home}\lib</extdirs>-->                       
                      </compilerArguments>
                 </configuration>
