@@ -145,7 +145,7 @@ public class ToolMain {
 		System.out.println("time " + (endTime - startTime) + "ms");	
 		
 	    while(true){
-            Thread.sleep(3000);
+            Thread.sleep(300);
 //    		FundationHelper.UpperCaseFirstChar("helloWorld !");
 //    		TestBean bean = new TestBean();
 //    		ReflectHelper.retrieveBeanPropertyTypes(bean.getClass());

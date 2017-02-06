@@ -3,6 +3,18 @@
   <groupId>handy</groupId>
   <artifactId>StoreDriver</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <distributionManagement>
+      <repository>
+             <id>personal_releases</id>
+     		 <name>Personal Release Storage</name>
+      		<url>http://192.168.1.6:8081/nexus/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+                  <id>personal_snapshot</id>
+	     		 <name>personal Snapshot Storage</name>
+	      		<url>http://192.168.1.6:8081/nexus/content/repositories/personal_snapshot/</url>
+      </snapshotRepository>
+  </distributionManagement>
   <dependencies>
 	  <dependency>
 			<groupId>junit</groupId>
